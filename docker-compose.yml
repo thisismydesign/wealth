@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+      target: dev
+    command: bin/rails server --binding 0.0.0.0
+    entrypoint: bin/docker-web-entrypoint.sh
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - bundle_cache:/usr/local/bundle
+      - .:/app
+    environment:
+      REDIS_URL: redis://redis
+
+  db:
+    image: postgres:16.1-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+
+  redis:
+    image: redis:7.2.3-alpine
+
+volumes:
+    bundle_cache:
