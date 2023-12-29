@@ -4,7 +4,7 @@ services:
   web:
     build:
       context: .
-      target: dev
+      target: ${DOCKER_STAGE_TARGET:-dev}
     command: bin/rails server --binding 0.0.0.0
     entrypoint: bin/docker-web-entrypoint.sh
     ports:
