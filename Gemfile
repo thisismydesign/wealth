@@ -1,19 +1,28 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
 
-ruby "3.2.2"
+source 'https://rubygems.org'
+
+ruby '3.2.2'
 
 # Defaults
-gem "rails", "~> 7.1.2"
-gem "pg", "~> 1.1"
-gem "puma", ">= 5.0"
-gem "tzinfo-data", platforms: %i[ windows jruby ]
-gem "bootsnap", require: false
+gem 'bootsnap', require: false
+gem 'pg', '~> 1.1'
+gem 'puma', '>= 5.0'
+gem 'rails', '~> 7.1.2'
+gem 'tzinfo-data', platforms: %i[windows jruby]
 
 gem 'activeadmin'
-gem 'sprockets' # Needed for ActiveAdmin
 gem 'sass-rails' # Needed for ActiveAdmin
+gem 'sprockets' # Needed for ActiveAdmin
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ]
+  gem 'debug', platforms: %i[mri windows]
+end
+
+group :development do
+  gem 'rubocop', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
 end
