@@ -35,7 +35,7 @@ jobs:
     needs: [build-docker-image]
     env:
       OMJ_IMAGE: ${{ needs.build-docker-image.outputs.docker-tag }}
-      DOCKER_STAGE_TARGET: test
+      DOCKER_STAGE_TARGET: deps
 
     steps:
     - uses: actions/checkout@v3
@@ -47,7 +47,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         load: true
-        target: test
+        target: deps
         tags: ${{ needs.build-docker-image.outputs.docker-tag }}
         cache-from: type=gha
         cache-to: type=gha
