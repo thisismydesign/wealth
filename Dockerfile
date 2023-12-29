@@ -10,7 +10,9 @@ RUN apk --update add --no-cache \
   # Required for PostgreSQL
   postgresql-client \
   # Required by the app
-  nodejs
+  nodejs \
+  # Required for Apple Silicon
+  gcompat
 
 
 FROM base AS dev
