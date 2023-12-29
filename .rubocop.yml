@@ -12,3 +12,7 @@ AllCops:
 # Documentation not enforced
 Style/Documentation:
   Enabled: false
+
+Lint/EmptyBlock:
+  Exclude:
+    - 'app/admin/**/*.rb'
