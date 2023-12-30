@@ -9,5 +9,5 @@ ActiveAdmin.register AssetType do
     actions
   end
 
-  config.filters = false
+  filter :name
 end

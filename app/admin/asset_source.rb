@@ -9,5 +9,5 @@ ActiveAdmin.register AssetSource do
     actions
   end
 
-  config.filters = false
+  filter :name
 end

@@ -8,10 +8,6 @@ class Asset < ApplicationRecord
   belongs_to :asset_type
   belongs_to :asset_source
 
-  def self.ransackable_associations(_auth_object = nil)
-    %w[asset_source asset_type buy_trades sell_trades]
-  end
-
   def self.ransackable_attributes(_auth_object = nil)
     %w[name ticker description]
   end
