@@ -9,6 +9,10 @@ ActiveAdmin.register Trade do
     end
 
     column :date
+    column :from_amount
+    column :from
+    column :to_amount
+    column :to
 
     actions
   end
