@@ -10,4 +10,6 @@ ActiveAdmin.register AssetType do
   end
 
   filter :name
+
+  permit_params :name
 end

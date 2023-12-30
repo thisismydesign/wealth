@@ -18,4 +18,6 @@ ActiveAdmin.register Deposit do
   end
 
   filter :amount
+
+  permit_params :date, :amount, :asset_id
 end

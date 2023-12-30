@@ -21,4 +21,6 @@ ActiveAdmin.register Asset do
   filter :name
   filter :ticker
   filter :description
+
+  permit_params :name, :ticker, :description, :asset_type_id, :asset_source_id
 end

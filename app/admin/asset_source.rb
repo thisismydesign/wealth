@@ -10,4 +10,6 @@ ActiveAdmin.register AssetSource do
   end
 
   filter :name
+
+  permit_params :name
 end

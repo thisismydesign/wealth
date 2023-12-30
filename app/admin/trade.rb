@@ -2,7 +2,7 @@
 
 ActiveAdmin.register Trade do
   index do
-    column :ticker do |resource|
+    column :name do |resource|
       link_to(
         resource.humanized, admin_trade_path(resource)
       )
@@ -28,4 +28,6 @@ ActiveAdmin.register Trade do
   filter :date
   filter :from_amount
   filter :to_amount
+
+  permit_params :date, :from_amount, :from_id, :to_amount, :to_id
 end

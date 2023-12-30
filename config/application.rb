@@ -45,5 +45,6 @@ module App
 
     # Needed for ActiveAdmin
     config.middleware.use ActionDispatch::Flash
+    config.middleware.use Rack::MethodOverride
   end
 end

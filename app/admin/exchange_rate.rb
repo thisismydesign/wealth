@@ -23,4 +23,6 @@ ActiveAdmin.register ExchangeRate do
   action_item :imports_exchange_rates_from_mnb, only: :index do
     link_to 'Import exchange rates from MNB', imports_exchange_rates_from_mnb_path
   end
+
+  permit_params :date, :rate, :from_id, :to_id
 end
