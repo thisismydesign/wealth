@@ -15,6 +15,8 @@ class RoundService < ApplicationService
     end
   end
 
+  private
+
   def leading_zeros
     decimal.exponent.abs
   end

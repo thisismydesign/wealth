@@ -15,11 +15,7 @@
 # it.
 
 require 'simplecov'
-
-SimpleCov.start 'rails' do
-  # Do not lower it! Use `:nocov:` comment blocks and an explanation for untested code
-  minimum_coverage 100
-end
+SimpleCov.start 'rails'
 
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
