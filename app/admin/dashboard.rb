@@ -26,34 +26,35 @@ ActiveAdmin.register_page 'Dashboard' do
           end
         end
 
-        panel 'Balance 2023' do
-          asset_balances = TotalBalancesService.call(year: 2023)
+        (Rails.application.config.x.start_year..Time.zone.today.year).to_a.reverse_each do |year|
+          panel "Balance #{year}" do
+            panel 'Year-end balance' do
+              asset_balances = TotalBalancesService.call(year:)
 
-          table_for asset_balances do
-            column :name do |asset_balance|
-              link_to asset_balance[:asset].name, admin_asset_path(asset_balance[:asset])
+              table_for asset_balances do
+                column :name do |asset_balance|
+                  link_to asset_balance[:asset].name, admin_asset_path(asset_balance[:asset])
+                end
+                column :ticker do |asset_balance|
+                  asset_balance[:asset].ticker
+                end
+                column :current_balance do |asset_balance|
+                  asset_balance[:balance]
+                end
+              end
             end
-            column :ticker do |asset_balance|
-              asset_balance[:asset].ticker
-            end
-            column :current_balance do |asset_balance|
-              asset_balance[:balance]
-            end
-          end
-        end
 
-        panel 'Balance 2022' do
-          asset_balances = TotalBalancesService.call(year: 2022)
+            panel 'Funding' do
+              fundings = TotalDepositsService.call(year:)
 
-          table_for asset_balances do
-            column :name do |asset_balance|
-              link_to asset_balance[:asset].name, admin_asset_path(asset_balance[:asset])
-            end
-            column :ticker do |asset_balance|
-              asset_balance[:asset].ticker
-            end
-            column :current_balance do |asset_balance|
-              asset_balance[:balance]
+              table_for fundings do
+                column :ticker do |funding|
+                  funding[:ticker]
+                end
+                column :funding do |funding|
+                  funding[:funding]
+                end
+              end
             end
           end
         end

@@ -46,5 +46,8 @@ module App
     # Needed for ActiveAdmin
     config.middleware.use ActionDispatch::Flash
     config.middleware.use Rack::MethodOverride
+
+    # Custom config
+    config.x.start_year = 2022
   end
 end

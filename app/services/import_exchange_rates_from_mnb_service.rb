@@ -32,7 +32,7 @@ class ImportExchangeRatesFromMnbService < ApplicationService
   end
 
   def url(ticker)
-    "https://www.mnb.hu/en/arfolyam-tablazat?deviza=rbCurrencySelect&devizaSelected=#{ticker}&datefrom=2023.01.01.&datetill=#{Time.zone.today.strftime('%Y.%m.%d.')}"
+    "https://www.mnb.hu/en/arfolyam-tablazat?deviza=rbCurrencySelect&devizaSelected=#{ticker}&datefrom=#{Rails.application.config.x.start_year}.01.01.&datetill=#{Time.zone.today.strftime('%Y.%m.%d.')}"
   end
 
   def import(rows, ticker)
