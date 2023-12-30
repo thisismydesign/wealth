@@ -16,8 +16,40 @@ ActiveAdmin.register_page 'Dashboard' do
           end
         end
 
-        panel 'Balance' do
+        panel 'Current balance' do
           asset_balances = TotalBalancesService.call
+
+          table_for asset_balances do
+            column :name do |asset_balance|
+              link_to asset_balance[:asset].name, admin_asset_path(asset_balance[:asset])
+            end
+            column :ticker do |asset_balance|
+              asset_balance[:asset].ticker
+            end
+            column :current_balance do |asset_balance|
+              asset_balance[:balance]
+            end
+          end
+        end
+
+        panel 'Balance 2023' do
+          asset_balances = TotalBalancesService.call(year: 2023)
+
+          table_for asset_balances do
+            column :name do |asset_balance|
+              link_to asset_balance[:asset].name, admin_asset_path(asset_balance[:asset])
+            end
+            column :ticker do |asset_balance|
+              asset_balance[:asset].ticker
+            end
+            column :current_balance do |asset_balance|
+              asset_balance[:balance]
+            end
+          end
+        end
+
+        panel 'Balance 2022' do
+          asset_balances = TotalBalancesService.call(year: 2022)
 
           table_for asset_balances do
             column :name do |asset_balance|
