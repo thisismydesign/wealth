@@ -17,7 +17,7 @@
   Asset.where(currency).first_or_create!
 end
 
-Trade.create!(date: 1.week.ago, from_amount: 40_000, from: Asset.find_by(ticker: 'EUR'), to_amount: 1,
+Trade.create!(date: 1.week.ago, from_amount: 40_000, from: Asset.find_by(ticker: 'EUR'), to_amount: 1.258,
               to: Asset.find_by(ticker: 'BTC'))
 Trade.create!(date: 1.day.ago, from_amount: 1, from: Asset.find_by(ticker: 'BTC'), to_amount: 45_000,
               to: Asset.find_by(ticker: 'EUR'))

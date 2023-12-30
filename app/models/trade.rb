@@ -9,6 +9,14 @@ class Trade < ApplicationRecord
   end
 
   def humanized
-    "#{from_amount} #{from.ticker_or_name} -> #{to_amount} #{to.ticker_or_name}"
+    "#{from_humanized} -> #{to_humanized}"
+  end
+
+  def from_humanized
+    "#{RoundService.call(decimal: from_amount)} #{from.ticker_or_name}"
+  end
+
+  def to_humanized
+    "#{RoundService.call(decimal: to_amount)} #{to.ticker_or_name}"
   end
 end
