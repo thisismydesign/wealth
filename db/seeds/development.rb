@@ -37,13 +37,3 @@ etf = AssetType.find_by(name: 'ETF')
 ].each do |asset|
   Asset.where(asset).first_or_create!
 end
-
-# Test data
-ExchangeRate.create!(date: 1.month.ago, from: Asset.find_by(ticker: 'EUR'), to: Asset.find_by(ticker: 'USD'), rate: 1.2)
-
-Deposit.create!(date: 1.month.ago, amount: 100_000, asset: Asset.find_by(ticker: 'EUR'))
-
-Trade.create!(date: 1.week.ago, from_amount: 40_000, from: Asset.find_by(ticker: 'EUR'), to_amount: 1.258,
-              to: Asset.find_by(ticker: 'BTC'))
-Trade.create!(date: 1.day.ago, from_amount: 1, from: Asset.find_by(ticker: 'BTC'), to_amount: 45_000,
-              to: Asset.find_by(ticker: 'EUR'))
