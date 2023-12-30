@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ImportController < ApplicationController
+class ImportsController < ApplicationController
   def exchange_rates_from_mnb
     ImportExchangeRatesFromMnbService.call
 
