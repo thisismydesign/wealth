@@ -12,6 +12,7 @@ gem 'rails', '~> 7.1.2'
 gem 'tzinfo-data', platforms: %i[windows jruby]
 
 gem 'activeadmin'
+gem 'nokogiri' # Parse MNB exchange rates from HTML
 gem 'sass-rails' # Needed for ActiveAdmin
 gem 'sprockets' # Needed for ActiveAdmin
 
