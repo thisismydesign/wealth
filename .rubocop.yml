@@ -17,3 +17,7 @@ Style/Documentation:
 Lint/EmptyBlock:
   Exclude:
     - 'app/admin/**/*.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'app/admin/**/*.rb'

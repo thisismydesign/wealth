@@ -10,6 +10,12 @@ ActiveAdmin.register_page 'Dashboard' do
   content title: proc { I18n.t('active_admin.dashboard') } do
     columns do
       column do
+        panel 'Actions' do
+          panel 'Import activity from IBKR' do
+            render 'admin/shared/csv_import_form'
+          end
+        end
+
         panel 'Balance' do
           asset_balances = TotalBalancesService.call
 
