@@ -6,13 +6,9 @@ class ImportActivityFromIbkrService < ApplicationService
   def call
     CSV.foreach(csv_file.path, headers: false, liberal_parsing: true) do |row|
       if trade?(row)
-        from = Asset.find_by(ticker: row[4])
-        to = Asset.find_by(ticker: row[5])
-
-        Rails.logger.warn("Asset not found: #{row[4]}") unless from
-        Rails.logger.warn("Asset not found: #{row[5]}") unless to
-
-        import_trade(row, from, to) if from && to
+        import_trade(row)
+      elsif deposit?(row)
+        import_deposit(row)
       end
     end
   end
@@ -23,13 +19,44 @@ class ImportActivityFromIbkrService < ApplicationService
     row[0] == 'Trades' && row[1] == 'Data' && row[2] == 'Order'
   end
 
-  def import_trade(row, _from, _to)
+  def import_trade(row)
+    from = ensure_asset(row[4])
+    to = ensure_asset(row[5])
+
+    return unless from && to
+
     Trade.where(
-      from: Asset.find_by(ticker: row[4]),
-      to: Asset.find_by(ticker: row[5]),
+      from:,
+      to:,
       date: row[6],
       to_amount: row[7],
       from_amount: row[12]
     ).first_or_create!
+  end
+
+  def deposit?(row)
+    row[0] == 'Deposits & Withdrawals' && row[1] == 'Data'
+  end
+
+  def import_deposit(row)
+    asset = ensure_asset(row[2])
+
+    return unless asset
+
+    Deposit.where(
+      asset:,
+      date: row[3],
+      amount: row[5]
+    ).first_or_create!
+  end
+
+  def ensure_asset(ticker)
+    asset = Asset.find_by(ticker:)
+    unless asset
+      Rails.logger.warn("Asset not found: #{ticker}")
+      return false
+    end
+
+    asset
   end
 end
