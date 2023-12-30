@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_30_161228) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_30_172725) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -41,6 +41,15 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_30_161228) do
     t.index ["name", "asset_type_id", "asset_source_id"], name: "index_assets_on_name_and_type_and_source", unique: true
   end
 
+  create_table "deposits", force: :cascade do |t|
+    t.datetime "date", null: false
+    t.decimal "amount", null: false
+    t.bigint "asset_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["asset_id"], name: "index_deposits_on_asset_id"
+  end
+
   create_table "trades", force: :cascade do |t|
     t.datetime "date", null: false
     t.decimal "from_amount", null: false
@@ -55,6 +64,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_30_161228) do
 
   add_foreign_key "assets", "asset_sources"
   add_foreign_key "assets", "asset_types"
+  add_foreign_key "deposits", "assets"
   add_foreign_key "trades", "assets", column: "from_id"
   add_foreign_key "trades", "assets", column: "to_id"
 end
