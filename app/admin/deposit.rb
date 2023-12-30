@@ -9,5 +9,11 @@ ActiveAdmin.register Deposit do
     actions
   end
 
+  controller do
+    def scoped_collection
+      super.includes(:asset)
+    end
+  end
+
   filter :amount
 end

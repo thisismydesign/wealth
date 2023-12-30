@@ -12,6 +12,12 @@ ActiveAdmin.register ExchangeRate do
 
   filter :amount
 
+  controller do
+    def scoped_collection
+      super.includes(:from, :to)
+    end
+  end
+
   collection_action :import_from_mnb, method: :get do
     ImportExchangeRatesFromMnbService.call
 

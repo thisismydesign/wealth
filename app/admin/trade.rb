@@ -17,6 +17,12 @@ ActiveAdmin.register Trade do
     actions
   end
 
+  controller do
+    def scoped_collection
+      super.includes(:from, :to)
+    end
+  end
+
   filter :date
   filter :from_amount
   filter :to_amount
