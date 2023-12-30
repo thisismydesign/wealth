@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-['EUR', 'USD', 'HUF'].each do |currency|
+%w[EUR USD HUF].each do |currency|
   Currency.where(name: currency).first_or_create!
 end
 
