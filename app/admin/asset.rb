@@ -2,10 +2,15 @@
 
 ActiveAdmin.register Asset do
   index do
-    column :name do |resource|
-      link_to(resource.name, admin_asset_path(resource))
+    column :ticker do |resource|
+      link_to(resource.ticker, admin_asset_path(resource))
     end
+    column :name
 
     actions
   end
+
+  filter :name
+  filter :ticker
+  filter :description
 end

@@ -10,20 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_29_231115) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_30_120543) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "assets", force: :cascade do |t|
     t.string "name", null: false
+    t.string "ticker"
+    t.string "description"
+    t.boolean "is_currency", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "currencies", force: :cascade do |t|
-    t.string "name", null: false
+  create_table "trades", force: :cascade do |t|
+    t.datetime "date", null: false
+    t.decimal "from_amount", null: false
+    t.decimal "to_amount", null: false
+    t.bigint "from_id", null: false
+    t.bigint "to_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["from_id"], name: "index_trades_on_from_id"
+    t.index ["to_id"], name: "index_trades_on_to_id"
   end
 
+  add_foreign_key "trades", "assets", column: "from_id"
+  add_foreign_key "trades", "assets", column: "to_id"
 end
