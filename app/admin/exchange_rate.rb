@@ -10,6 +10,8 @@ ActiveAdmin.register ExchangeRate do
     actions
   end
 
+  config.sort_order = 'date_desc'
+
   filter :amount
 
   controller do

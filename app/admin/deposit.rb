@@ -9,6 +9,8 @@ ActiveAdmin.register Deposit do
     actions
   end
 
+  config.sort_order = 'date_desc'
+
   controller do
     def scoped_collection
       super.includes(:asset)
