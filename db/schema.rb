@@ -10,17 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_30_120543) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_30_150110) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "asset_sources", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "asset_types", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "assets", force: :cascade do |t|
     t.string "name", null: false
     t.string "ticker"
     t.string "description"
-    t.boolean "is_currency", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "asset_type_id", null: false
+    t.bigint "asset_source_id", null: false
+    t.index ["asset_source_id"], name: "index_assets_on_asset_source_id"
+    t.index ["asset_type_id"], name: "index_assets_on_asset_type_id"
   end
 
   create_table "trades", force: :cascade do |t|
@@ -35,6 +50,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_30_120543) do
     t.index ["to_id"], name: "index_trades_on_to_id"
   end
 
+  add_foreign_key "assets", "asset_sources"
+  add_foreign_key "assets", "asset_types"
   add_foreign_key "trades", "assets", column: "from_id"
   add_foreign_key "trades", "assets", column: "to_id"
 end

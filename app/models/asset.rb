@@ -5,9 +5,15 @@ class Asset < ApplicationRecord
                          dependent: :restrict_with_exception
 
   has_many :buy_trades, inverse_of: :to, foreign_key: 'to_id', class_name: 'Trade', dependent: :restrict_with_exception
+  belongs_to :asset_type
+  belongs_to :asset_source
+
+  def self.ransackable_associations(_auth_object = nil)
+    %w[asset_source asset_type buy_trades sell_trades]
+  end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[name ticker is_currency description]
+    %w[name ticker description]
   end
 
   def ticker_or_name
