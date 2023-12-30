@@ -37,6 +37,8 @@ etf = AssetType.find_by(name: 'ETF')
   Asset.where(asset).first_or_create!
 end
 
+ExchangeRate.create!(date: 1.month.ago, from: Asset.find_by(ticker: 'EUR'), to: Asset.find_by(ticker: 'USD'), rate: 1.2)
+
 Deposit.create!(date: 1.month.ago, amount: 100_000, asset: Asset.find_by(ticker: 'EUR'))
 
 Trade.create!(date: 1.week.ago, from_amount: 40_000, from: Asset.find_by(ticker: 'EUR'), to_amount: 1.258,

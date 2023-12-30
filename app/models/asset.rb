@@ -9,6 +9,10 @@ class Asset < ApplicationRecord
   belongs_to :asset_type
   belongs_to :asset_source
 
+  validates :name,
+            uniqueness: { scope: %i[asset_type_id asset_source_id],
+                          message: I18n.t('models.asset.validations.uniqueness') }
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[name ticker description]
   end
