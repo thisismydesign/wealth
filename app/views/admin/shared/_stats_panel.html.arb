@@ -1,0 +1,32 @@
+# frozen_string_literal: true
+
+panel year || 'All-time stats' do
+  panel 'Year-end balance' do
+    asset_balances = TotalBalancesService.call(year:)
+
+    table_for asset_balances do
+      column :name do |asset_balance|
+        link_to asset_balance[:asset].name, admin_asset_path(asset_balance[:asset])
+      end
+      column :ticker do |asset_balance|
+        asset_balance[:asset].ticker
+      end
+      column :current_balance do |asset_balance|
+        asset_balance[:balance]
+      end
+    end
+  end
+
+  panel 'Funding' do
+    fundings = TotalDepositsService.call(year:)
+
+    table_for fundings do
+      column :ticker do |funding|
+        funding[:ticker]
+      end
+      column :funding do |funding|
+        funding[:funding]
+      end
+    end
+  end
+end
