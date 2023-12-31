@@ -25,13 +25,18 @@ class ImportActivityFromIbkrService < ApplicationService
 
     return unless from && to
 
-    Trade.where(
-      from:,
-      to:,
-      date: row[6],
-      to_amount: row[7],
-      from_amount: row[12]
-    ).first_or_create!
+    Trade.where(row_to_trade(row, from, to)).first_or_create!
+  end
+
+  def row_to_trade(row, from, to)
+    to_amount = row[7].to_d
+    from_amount = row[12].to_d
+
+    if to_amount.positive?
+      { from:, to:, date: row[6], to_amount:, from_amount: }
+    else
+      { from: to, to: from, date: row[6], to_amount: from_amount.abs, from_amount: to_amount.abs }
+    end
   end
 
   def deposit?(row)

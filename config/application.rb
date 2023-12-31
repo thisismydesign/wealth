@@ -49,5 +49,7 @@ module App
 
     # Custom config
     config.x.start_year = 2022
+    config.x.trade_base_currency = 'EUR'
+    config.x.tax_base_currency = 'HUF'
   end
 end
