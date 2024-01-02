@@ -5,6 +5,6 @@ FactoryBot.define do
     rate { Faker::Number.decimal }
     to { association(:asset) }
     from { association(:asset) }
-    date { DateTime.now }
+    date { Time.zone.today }
   end
 end
