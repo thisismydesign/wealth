@@ -22,5 +22,13 @@ ActiveAdmin.register TradePair do
     actions
   end
 
+  controller do
+    def scoped_collection
+      super.includes(open_trade: %i[from to], close_trade: %i[from to])
+    end
+  end
+
+  config.per_page = 100
+
   filter :amount
 end
