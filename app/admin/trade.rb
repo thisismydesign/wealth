@@ -13,14 +13,8 @@ ActiveAdmin.register Trade do
     column :from
     column :to_amount
     column :to
-    column 'Type' do |resource|
-      if resource.to.asset_type.name == 'Currency'
-        'Close'
-      elsif resource.from.asset_type.name == 'Currency'
-        'Open'
-      else
-        'Inter'
-      end
+    column :type do |resource|
+      status_tag(resource.type)
     end
 
     actions

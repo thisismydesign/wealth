@@ -28,4 +28,14 @@ class Trade < ApplicationRecord
   def to_price_in(currency)
     @to_price_in ||= CurrencyConverterService.call(from: to, to: currency, date:, amount: to_amount)
   end
+
+  def type
+    if to.asset_type.name == 'Currency'
+      'Close'
+    elsif from.asset_type.name == 'Currency'
+      'Open'
+    else
+      'Inter'
+    end
+  end
 end
