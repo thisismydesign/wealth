@@ -3,10 +3,8 @@
 ActiveAdmin.register_page 'Tax' do
   content title: 'Tax Information' do
     panel 'General Tax Overview' do
-      div do
-        'Summary of general tax information...'
-        # You can add more HTML elements or Ruby code to display data
-      end
+      h3 "Tax rate: #{Rails.application.config.x.tax_rate * 100}%"
+      h3 "Tax base currency: #{Rails.application.config.x.tax_base_currency}"
     end
 
     (Rails.application.config.x.start_year..Time.zone.today.year).to_a.reverse_each do |year|
