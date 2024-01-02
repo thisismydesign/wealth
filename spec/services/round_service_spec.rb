@@ -5,6 +5,14 @@ require 'rails_helper'
 RSpec.describe RoundService do
   subject(:call) { described_class.call(decimal: decimal.to_d) }
 
+  context 'when decimal is zero' do
+    let(:decimal) { 0 }
+
+    it 'returns zero' do
+      expect(call).to eq(0)
+    end
+  end
+
   context 'when decimal is at least 2 digits' do
     let(:decimal) { 12.5 }
 

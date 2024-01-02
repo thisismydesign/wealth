@@ -4,8 +4,15 @@ class RoundService < ApplicationService
   attr_accessor :decimal
 
   def call
-    raise 'only BigDecimal is accepted' unless decimal.is_a?(BigDecimal)
+    return 0 if decimal.zero?
+    raise "only BigDecimal is accepted (given: #{decimal} which is #{decimal.class})" unless decimal.is_a?(BigDecimal)
 
+    round
+  end
+
+  private
+
+  def round
     if large_number_or_whole?
       decimal.round
     elsif decimal >= 1
@@ -14,8 +21,6 @@ class RoundService < ApplicationService
       decimal.round(leading_zeros + 2)
     end
   end
-
-  private
 
   def leading_zeros
     decimal.exponent.abs
