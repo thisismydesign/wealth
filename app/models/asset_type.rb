@@ -9,4 +9,8 @@ class AssetType < ApplicationRecord
   def self.ransackable_attributes(_auth_object = nil)
     %w[name]
   end
+
+  def self.currency
+    where(name: 'Currency').first_or_create!
+  end
 end
