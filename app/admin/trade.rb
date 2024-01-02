@@ -16,6 +16,7 @@ ActiveAdmin.register Trade do
     column :type do |resource|
       status_tag(resource.type)
     end
+    column :closed
 
     actions
   end

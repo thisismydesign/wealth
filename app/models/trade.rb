@@ -38,4 +38,18 @@ class Trade < ApplicationRecord
       'Inter'
     end
   end
+
+  def closed
+    return '' if close_trade_pairs.empty?
+
+    closed_amount = close_trade_pairs.sum(&:amount)
+
+    if closed_amount.zero?
+      'No'
+    elsif closed_amount == to_amount
+      'Yes'
+    else
+      'Partially'
+    end
+  end
 end
