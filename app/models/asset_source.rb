@@ -9,4 +9,8 @@ class AssetSource < ApplicationRecord
   def self.ransackable_attributes(_auth_object = nil)
     %w[name]
   end
+
+  def self.bank
+    where(name: 'Bank').first_or_create!
+  end
 end

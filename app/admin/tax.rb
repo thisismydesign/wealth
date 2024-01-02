@@ -10,8 +10,7 @@ ActiveAdmin.register_page 'Tax' do
     (Rails.application.config.x.start_year..Time.zone.today.year).to_a.reverse_each do |year|
       panel "#{year} closed positions" do
         trades = ClosedPositionsService.call(year:)
-        tax_currency = Asset.find_by(ticker: Rails.application.config.x.tax_base_currency,
-                                     asset_type: AssetType.currency)
+        tax_currency = TaxCurrencyService.call
         total_close = trades.sum { |trade| trade.to_price_in(tax_currency) }
 
         div do

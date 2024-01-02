@@ -14,7 +14,6 @@ class TotalProfitsService < ApplicationService
   end
 
   def tax_currency
-    @tax_currency ||= Asset.find_by(ticker: Rails.application.config.x.tax_base_currency,
-                                    asset_type: AssetType.currency)
+    @tax_currency ||= TaxCurrencyService.call
   end
 end
