@@ -24,4 +24,8 @@ class Trade < ApplicationRecord
   def to_humanized
     "#{RoundService.call(decimal: to_amount)} #{to.ticker_or_name}"
   end
+
+  def to_price_in(currency)
+    @to_price_in ||= CurrencyConverterService.call(from: to, to: currency, date:, amount: to_amount)
+  end
 end

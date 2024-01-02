@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TotalTaxesService < ApplicationService
+class TotalProfitsService < ApplicationService
   attr_accessor :close_trades
 
   def call
@@ -9,7 +9,7 @@ class TotalTaxesService < ApplicationService
 
   def trades_sum
     close_trades.sum do |trade|
-      CurrencyConverterService.call(from: trade.to, to: tax_currency, date: trade.date, amount: trade.to_amount)
+      CalculateProfitService.call(close_trade: trade, currency: tax_currency)
     end
   end
 

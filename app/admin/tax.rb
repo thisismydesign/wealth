@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register_page 'Tax' do
-  content title: 'Tax Information' do
+  content title: 'Tax' do
     panel 'General Tax Overview' do
       h3 "Tax rate: #{Rails.application.config.x.tax_rate * 100}%"
       h3 "Tax base currency: #{Rails.application.config.x.tax_base_currency}"
@@ -12,10 +12,15 @@ ActiveAdmin.register_page 'Tax' do
         trades = ClosedPositionsService.call(year:)
         tax_currency = Asset.find_by(ticker: Rails.application.config.x.tax_base_currency,
                                      asset_type: AssetType.currency)
+        total_close = trades.sum { |trade| trade.to_price_in(tax_currency) }
 
-        div class: 'total-tax-amount' do
-          tax = TotalTaxesService.call(close_trades: trades)
-          h3 "Total Tax Amount: #{formatted_currency(tax)} #{tax_currency.ticker_or_name}"
+        div do
+          profits = TotalProfitsService.call(close_trades: trades)
+          tax = profits * Rails.application.config.x.tax_rate.to_d
+
+          h3 "Total close: #{formatted_currency(total_close)} #{tax_currency.ticker_or_name}"
+          h3 "Total profit: #{formatted_currency(profits)} #{tax_currency.ticker_or_name}"
+          h3 "Total tax: #{formatted_currency(tax)} #{tax_currency.ticker_or_name}"
         end
 
         table_for trades do
@@ -32,10 +37,13 @@ ActiveAdmin.register_page 'Tax' do
           column :from
           column :to_amount
           column :to
-          column :tax_base_close_price do |trade|
-            converted_amount = CurrencyConverterService.call(from: trade.to, to: tax_currency, date: trade.date,
-                                                             amount: trade.to_amount)
-            "#{formatted_currency(converted_amount)} #{tax_currency.ticker_or_name}"
+          column 'Tax base close price' do |trade|
+            price = trade.to_price_in(tax_currency)
+            "#{formatted_currency(price)} #{tax_currency.ticker_or_name}"
+          end
+          column 'Tax base profit' do |trade|
+            profit = CalculateProfitService.call(close_trade: trade, currency: tax_currency)
+            "#{formatted_currency(profit)} #{tax_currency.ticker_or_name}"
           end
         end
       end
