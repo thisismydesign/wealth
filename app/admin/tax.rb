@@ -25,7 +25,9 @@ ActiveAdmin.register_page 'Tax' do
             )
           end
 
-          column :date
+          column :date do |trade|
+            trade.date.strftime('%Y.%m.%d')
+          end
           column :from_amount
           column :from
           column :to_amount

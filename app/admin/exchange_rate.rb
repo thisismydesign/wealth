@@ -2,7 +2,9 @@
 
 ActiveAdmin.register ExchangeRate do
   index do
-    column :date
+    column :date do |exchange_rate|
+      exchange_rate.date.strftime('%Y.%m.%d')
+    end
     column :rate
     column :from
     column :to
