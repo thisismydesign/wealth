@@ -13,6 +13,13 @@ ActiveAdmin.register Trade do
     column :from
     column :to_amount
     column :to
+    column 'Open trades' do |resource|
+      resource.open_trade_pairs.map do |open_trade_pair|
+        link_to(
+          open_trade_pair.open_trade.humanized, admin_trade_path(open_trade_pair.open_trade)
+        )
+      end
+    end
 
     actions
   end

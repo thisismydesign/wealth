@@ -13,4 +13,8 @@ class AssetType < ApplicationRecord
   def self.currency
     where(name: 'Currency').first_or_create!
   end
+
+  def self.crypto
+    where(name: 'Crypto').first_or_create!
+  end
 end
