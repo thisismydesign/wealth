@@ -21,11 +21,27 @@ RSpec.describe RoundService do
     end
   end
 
+  context 'when decimal is negative and at least 2 digits' do
+    let(:decimal) { -12.5 }
+
+    it 'rounds the decimal' do
+      expect(call).to eq(-13)
+    end
+  end
+
   context 'when decimal is less than 2 digits' do
     let(:decimal) { 1.2356 }
 
     it 'rounds the decimal to 2 non-zero digits' do
       expect(call).to eq(1.24)
+    end
+  end
+
+  context 'when decimal is negative and less than 2 digits' do
+    let(:decimal) { -1.2356 }
+
+    it 'rounds the decimal to 2 non-zero digits' do
+      expect(call).to eq(-1.24)
     end
   end
 

@@ -15,7 +15,7 @@ class RoundService < ApplicationService
   def round
     if large_number_or_whole?
       decimal.round
-    elsif decimal >= 1
+    elsif decimal.abs >= 1
       decimal.round(leading_zeros + 1)
     else
       decimal.round(leading_zeros + 2)
@@ -27,6 +27,6 @@ class RoundService < ApplicationService
   end
 
   def large_number_or_whole?
-    decimal >= 10 || decimal.frac.zero?
+    decimal.abs >= 10 || decimal.frac.zero?
   end
 end
