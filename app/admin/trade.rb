@@ -59,4 +59,16 @@ ActiveAdmin.register Trade do
       end
     end
   end
+
+  form do |f|
+    inputs do
+      f.input :from
+      f.input :to
+      f.input :from_amount
+      f.input :to_amount
+      f.input :date, as: :date_time_picker
+    end
+
+    actions
+  end
 end

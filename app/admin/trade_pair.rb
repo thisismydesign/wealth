@@ -39,7 +39,7 @@ ActiveAdmin.register TradePair do
       f.input :open_trade, collection: trade_collection
       f.input :close_trade, collection: trade_collection
 
-      input :amount
+      f.input :amount
     end
 
     actions

@@ -20,4 +20,14 @@ ActiveAdmin.register Deposit do
   filter :amount
 
   permit_params :date, :amount, :asset_id
+
+  form do |f|
+    inputs do
+      f.input :asset
+      f.input :amount
+      f.input :date, as: :date_time_picker
+    end
+
+    actions
+  end
 end
