@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :income_type do
-    name { %w[Dividend Rental Mining Staking].sample }
+    name { %w[Dividend Rental Mining Staking Interest Other].sample }
   end
 end

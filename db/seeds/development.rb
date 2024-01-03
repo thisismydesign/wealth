@@ -38,6 +38,6 @@ etf = AssetType.find_by(name: 'ETF')
   Asset.where(asset).first_or_create!
 end
 
-%w[Dividend Rental Mining Staking Other].each do |name|
+%w[Dividend Rental Mining Staking Interest Other].each do |name|
   IncomeType.where(name:).first_or_create!
 end

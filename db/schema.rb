@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_03_010137) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_03_102842) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -69,6 +69,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_03_010137) do
     t.index ["name"], name: "index_income_types_on_name", unique: true
   end
 
+  create_table "incomes", force: :cascade do |t|
+    t.datetime "date", null: false
+    t.bigint "income_type_id", null: false
+    t.decimal "amount", null: false
+    t.bigint "asset_id", null: false
+    t.bigint "source_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["asset_id"], name: "index_incomes_on_asset_id"
+    t.index ["income_type_id"], name: "index_incomes_on_income_type_id"
+    t.index ["source_id"], name: "index_incomes_on_source_id"
+  end
+
   create_table "trade_pairs", force: :cascade do |t|
     t.bigint "open_trade_id", null: false
     t.bigint "close_trade_id", null: false
@@ -96,6 +109,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_03_010137) do
   add_foreign_key "deposits", "assets"
   add_foreign_key "exchange_rates", "assets", column: "from_id"
   add_foreign_key "exchange_rates", "assets", column: "to_id"
+  add_foreign_key "incomes", "assets"
+  add_foreign_key "incomes", "assets", column: "source_id"
+  add_foreign_key "incomes", "income_types"
   add_foreign_key "trade_pairs", "trades", column: "close_trade_id"
   add_foreign_key "trade_pairs", "trades", column: "open_trade_id"
   add_foreign_key "trades", "assets", column: "from_id"
