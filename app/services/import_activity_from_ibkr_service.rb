@@ -9,6 +9,8 @@ class ImportActivityFromIbkrService < ApplicationService
         import_trade(row)
       elsif deposit?(row)
         import_deposit(row)
+      elsif dividend?(row)
+        import_dividend(row)
       end
     end
   end
@@ -63,5 +65,24 @@ class ImportActivityFromIbkrService < ApplicationService
     end
 
     asset
+  end
+
+  def dividend?(row)
+    row[0] == 'Dividends' && row[1] == 'Data'
+  end
+
+  def import_dividend(row)
+    return if row[3].blank?
+
+    asset = ensure_asset(row[2])
+    source = ensure_asset(row[4].split('(').first.strip)
+
+    return if !asset || !source
+
+    Income.where(
+      asset:, date: row[3], amount: row[5],
+      income_type: IncomeType.dividend,
+      source:
+    ).first_or_create!
   end
 end

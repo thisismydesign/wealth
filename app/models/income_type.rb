@@ -8,4 +8,8 @@ class IncomeType < ApplicationRecord
   def self.ransackable_attributes(_auth_object = nil)
     %w[name]
   end
+
+  def self.dividend
+    where(name: 'Dividend').first_or_create!
+  end
 end
