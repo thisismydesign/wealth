@@ -28,7 +28,22 @@ ActiveAdmin.register TradePair do
     end
   end
 
-  config.per_page = 100
-
   filter :amount
+
+  form do |f|
+    inputs do
+      trade_collection = Trade.all.map do |trade|
+        ["##{trade.id} - #{trade.humanized}", trade.id]
+      end
+
+      f.input :open_trade, collection: trade_collection
+      f.input :close_trade, collection: trade_collection
+
+      input :amount
+    end
+
+    actions
+  end
+
+  permit_params :amount, :open_trade_id, :close_trade_id
 end
