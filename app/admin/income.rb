@@ -20,6 +20,12 @@ ActiveAdmin.register Income do
   filter :amount
   filter :date
 
+  controller do
+    def scoped_collection
+      super.includes(:income_type, :asset, :source)
+    end
+  end
+
   permit_params :amount, :date, :income_type_id, :asset_id, :source_id
 
   form do |f|
