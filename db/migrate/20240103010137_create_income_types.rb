@@ -3,7 +3,7 @@
 class CreateIncomeTypes < ActiveRecord::Migration[7.1]
   def change
     create_table :income_types do |t|
-      t.string :name
+      t.string :name, null: false
 
       t.timestamps
     end

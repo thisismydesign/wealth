@@ -63,7 +63,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_03_010137) do
   end
 
   create_table "income_types", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_income_types_on_name", unique: true
