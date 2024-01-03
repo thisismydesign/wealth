@@ -25,7 +25,7 @@ ActiveAdmin.register Trade do
 
   controller do
     def scoped_collection
-      super.includes(:from, :to)
+      super.includes(:from, :to, :close_trade_pairs)
     end
   end
 
