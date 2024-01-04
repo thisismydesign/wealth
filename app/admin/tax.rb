@@ -15,10 +15,12 @@ ActiveAdmin.register_page 'Tax' do
 
         div do
           profits = TotalProfitsService.call(close_trades: trades)
-          tax = profits * Rails.application.config.x.tax_rate.to_d
+          income = TotalIncomeService.call(year:)
+          tax = (income + profits) * Rails.application.config.x.tax_rate.to_d
 
           h3 "Total close: #{formatted_currency(total_close)} #{tax_currency.ticker_or_name}"
           h3 "Total profit: #{formatted_currency(profits)} #{tax_currency.ticker_or_name}"
+          h3 "Total income: #{formatted_currency(income)} #{tax_currency.ticker_or_name}"
           h3 "Total tax: #{formatted_currency(tax)} #{tax_currency.ticker_or_name}"
         end
 
