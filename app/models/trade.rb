@@ -46,12 +46,16 @@ class Trade < ApplicationRecord
   def closed
     return '' if type == 'Close'
 
-    if open_amount.zero?
+    if closed?
       'Yes'
     elsif open_amount == to_amount
       'No'
     else
       'Partially'
     end
+  end
+
+  def closed?
+    open_amount.zero?
   end
 end
