@@ -56,6 +56,6 @@ class Trade < ApplicationRecord
   end
 
   def closed?
-    open_amount.zero?
+    open_amount <= 0
   end
 end
