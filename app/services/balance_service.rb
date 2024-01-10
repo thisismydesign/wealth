@@ -16,14 +16,14 @@ class BalanceService < ApplicationService
 
   def total_from_trades
     scope = Trade.where(from_id: asset_id)
-    scope = scope.where('extract(year from date) = ?', year) if year.present?
+    scope = scope.where('extract(year from date) <= ?', year) if year.present?
 
     scope.sum(:from_amount)
   end
 
   def total_to_trades
     scope = Trade.where(to_id: asset_id)
-    scope = scope.where('extract(year from date) = ?', year) if year.present?
+    scope = scope.where('extract(year from date) <= ?', year) if year.present?
 
     scope.sum(:to_amount)
   end
