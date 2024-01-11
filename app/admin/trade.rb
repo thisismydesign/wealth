@@ -12,7 +12,9 @@ ActiveAdmin.register Trade do
       )
     end
 
-    column :date
+    column :date do |income|
+      income.date.strftime('%Y.%m.%d')
+    end
     column :from_amount
     column :from
     column :to_amount
