@@ -75,7 +75,7 @@ class ImportActivityFromKrakenService < ApplicationService
 
   def new_from_trade(row)
     total_cost = -row['amount'].to_d + row['fee'].to_d
-    Trade.new(from_amount: total_cost, from: asset(row['asset']), date: row['time'])
+    Trade.where(from_amount: total_cost, from: asset(row['asset']), date: row['time']).first_or_initialize
   end
 
   def add_to_portion(trade, row)
@@ -84,11 +84,12 @@ class ImportActivityFromKrakenService < ApplicationService
   end
 
   def asset(asset_name)
+    ticker = ASSET_MAPPING[asset_name] || asset_name
+
     Asset.where(
-      name: ASSET_MAPPING[asset_name] || asset_name,
-      ticker: ASSET_MAPPING[asset_name] || asset_name,
+      ticker:,
       asset_source: AssetSource.kraken,
       asset_type: AssetType.crypto
-    ).first_or_create!
+    ).first_or_create!(name: ticker)
   end
 end
