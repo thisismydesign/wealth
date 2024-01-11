@@ -48,4 +48,14 @@ RSpec.describe ImportActivityFromKrakenService do
     end
     # rubocop:enable RSpec/ExampleLength
   end
+
+  context 'when trade already exists' do
+    let(:csv_file) { fixture_file_upload(Rails.root.join('spec/fixtures/kraken_spend_receive_pair.csv'), 'text/csv') }
+
+    it 'does not create new trade' do
+      call
+
+      expect { call }.not_to change(Trade, :count)
+    end
+  end
 end
