@@ -16,6 +16,7 @@ gem 'activeadmin_addons'
 gem 'nokogiri' # Parse MNB exchange rates from HTML
 gem 'sass-rails' # Needed for ActiveAdmin
 gem 'sprockets' # Needed for ActiveAdmin
+gem "chartkick"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
