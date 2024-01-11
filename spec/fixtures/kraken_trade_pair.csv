@@ -1,0 +1,4 @@
+"txid","refid","time","type","subtype","aclass","asset","amount","fee","balance"
+"LGEI3T-VXSW3-OH2WUG","TWH3M5-43FTN-ZV6G67","2023-02-08 20:29:08","trade","","currency","ZEUR",-1000.0000,0,9225.5127
+"L7AJSG-NMNYH-MYEEG3","TWH3M5-43FTN-ZV6G67","2023-02-08 20:29:08","trade","","currency","XXBT",0.0468384100,0,0.0988384200
+"LFQ7TZ-224AN-K56H27","TWH3M5-43FTN-ZV6G67","2023-02-08 20:29:08","trade","","currency","KFEE",0.00,278.63,3775.34

@@ -11,4 +11,5 @@ Rails.application.routes.draw do
 
   get 'imports/exchange_rates_from_mnb', to: 'imports#exchange_rates_from_mnb'
   post 'imports/activity_from_ibkr', to: 'imports#activity_from_ibkr'
+  post 'imports/activity_from_kraken', to: 'imports#activity_from_kraken'
 end
