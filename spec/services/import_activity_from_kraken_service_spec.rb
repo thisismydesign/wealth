@@ -17,7 +17,7 @@ RSpec.describe ImportActivityFromKrakenService do
       call
 
       expect(Trade.last).to have_attributes(
-        from_amount: BigDecimal('4.9300'),
+        from_amount: BigDecimal('5'),
         from: Asset.find_by(ticker: 'EUR'),
         to_amount: BigDecimal('64.64'),
         to: Asset.find_by(ticker: 'DOGE'),

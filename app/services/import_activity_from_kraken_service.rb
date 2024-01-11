@@ -74,7 +74,8 @@ class ImportActivityFromKrakenService < ApplicationService
   end
 
   def new_from_trade(row)
-    Trade.new(from_amount: -row['amount'].to_d, from: asset(row['asset']), date: row['time'])
+    total_cost = -row['amount'].to_d + row['fee'].to_d
+    Trade.new(from_amount: total_cost, from: asset(row['asset']), date: row['time'])
   end
 
   def add_to_portion(trade, row)
