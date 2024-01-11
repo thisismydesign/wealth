@@ -38,17 +38,17 @@ class ImportActivityFromKrakenService < ApplicationService
     # On trades, fees are handled in a separate row
     return if row['fee'] != '0'
 
-    time = row['time']
+    id = row['refid']
 
-    trade = trades[time]
+    trade = trades[id]
 
     if trade.nil?
-      trades[time] = new_from_trade(row)
+      trades[id] = new_from_trade(row)
     else
       add_to_portion(trade, row)
       trade.save!
 
-      trades.delete(time)
+      trades.delete(id)
     end
   end
 
@@ -57,19 +57,19 @@ class ImportActivityFromKrakenService < ApplicationService
   end
 
   def import_spend_and_receive(row)
-    time = row['time']
+    id = row['refid']
 
     if row['type'] == 'spend'
-      trades[time] = new_from_trade(row)
+      trades[id] = new_from_trade(row)
     elsif row['type'] == 'receive'
-      trade = trades[time]
+      trade = trades[id]
 
       Rails.logger.warn("No spend for receive: #{row}") && return if trade.nil?
 
       add_to_portion(trade, row)
       trade.save!
 
-      trades.delete(time)
+      trades.delete(id)
     end
   end
 
