@@ -1,0 +1,3 @@
+"txid","refid","time","type","subtype","aclass","asset","amount","fee","balance"
+"","FTbGsnI-jl9QcMTJ5vClMsg7qBOkqm","2023-11-12 01:55:54","deposit","","currency","XETH",0.0040242631,0.0006036395,""
+"LMYILN-L26SL-26GLB6","STGRFS2-U35DJ-W7IMYN","2023-11-15 23:47:05","staking","","currency","XETH",0.0040242631,0.0006036395,0.0237107351

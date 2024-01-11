@@ -7,7 +7,9 @@ class ImportActivityFromKrakenService < ApplicationService
     'ZEUR' => 'EUR',
     'XXBT' => 'BTC',
     'XETH' => 'ETH',
-    'XXDG' => 'DOGE'
+    'XXDG' => 'DOGE',
+    'XBT.M' => 'BTC',
+    'SOL03.SOL' => 'SOL'
   }.freeze
 
   def call
@@ -16,18 +18,30 @@ class ImportActivityFromKrakenService < ApplicationService
         import_spend_and_receive(row)
       elsif trade?(row)
         import_trade(row)
+      elsif staking?(row)
+        import_staking(row)
       end
     end
-
-    return if trades.empty?
-
-    Rails.logger.warn("Unmatched trades: #{trades.values}")
   end
 
   private
 
   def trades
     @trades ||= {}
+  end
+
+  def staking?(row)
+    row['type'] == 'staking'
+  end
+
+  def import_staking(row)
+    Income.where(
+      asset: asset(row['asset']),
+      date: row['time'],
+      amount: row['amount'].to_d - row['fee'].to_d,
+      income_type: IncomeType.staking,
+      source: asset(row['asset'])
+    ).first_or_create!
   end
 
   def trade?(row)

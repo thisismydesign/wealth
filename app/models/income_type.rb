@@ -12,4 +12,8 @@ class IncomeType < ApplicationRecord
   def self.dividend
     where(name: 'Dividend').first_or_create!
   end
+
+  def self.staking
+    where(name: 'Staking').first_or_create!
+  end
 end
