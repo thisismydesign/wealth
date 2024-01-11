@@ -2,6 +2,8 @@
 
 ActiveAdmin.register Trade do
   index do
+    selectable_column
+
     column :name do |resource|
       link_to(
         resource.humanized, admin_trade_path(resource)
@@ -32,6 +34,8 @@ ActiveAdmin.register Trade do
   filter :date
   filter :from_amount
   filter :to_amount
+  filter :to
+  filter :from
 
   permit_params :date, :from_amount, :from_id, :to_amount, :to_id
 

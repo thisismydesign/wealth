@@ -18,6 +18,10 @@ class Asset < ApplicationRecord
     %w[name ticker description]
   end
 
+  def self.ransackable_associations(_auth_object = nil)
+    []
+  end
+
   def ticker_or_name
     ticker || name
   end
