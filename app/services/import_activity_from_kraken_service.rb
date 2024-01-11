@@ -49,8 +49,8 @@ class ImportActivityFromKrakenService < ApplicationService
   end
 
   def import_trade(row)
-    # On trades, fees are handled in a separate row
-    return if row['fee'] != '0'
+    # On trades, fees are handled in a separate row, skip those
+    return if row['amount'].to_d.zero?
 
     id = row['refid']
 
