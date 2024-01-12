@@ -9,17 +9,16 @@ ActiveAdmin.register TradePair do
     column :id do |resource|
       link_to resource.id, admin_trade_pair_path(resource)
     end
-    column :open_trade, class: 'secret' do |resource|
-      link_to(
-        resource.open_trade.humanized, admin_trade_path(resource.open_trade)
-      )
+
+    column :open_trade do |resource|
+      humanized_trade resource.open_trade
     end
-    column :close_trade, class: 'secret' do |resource|
-      link_to(
-        resource.close_trade.humanized, admin_trade_path(resource.close_trade)
-      )
+
+    column :close_trade do |resource|
+      humanized_trade resource.close_trade
     end
-    column :amount, class: 'secret'
+
+    rouned_value :amount
 
     actions
   end
