@@ -11,12 +11,14 @@ gem 'puma', '>= 5.0'
 gem 'rails', '~> 7.1.2'
 gem 'tzinfo-data', platforms: %i[windows jruby]
 
+# Gems used by the app
 gem 'activeadmin'
 gem 'activeadmin_addons'
+gem 'chartkick' # Charts
+gem 'faraday' # HTTP client
 gem 'nokogiri' # Parse MNB exchange rates from HTML
 gem 'sass-rails' # Needed for ActiveAdmin
 gem 'sprockets' # Needed for ActiveAdmin
-gem "chartkick"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
