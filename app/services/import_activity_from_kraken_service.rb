@@ -9,7 +9,7 @@ class ImportActivityFromKrakenService < ApplicationService
     'XETH' => 'ETH',
     'XXDG' => 'DOGE',
     'XBT.M' => 'BTC',
-    'SOL03.SOL' => 'SOL'
+    'SOL03.S' => 'SOL'
   }.freeze
 
   def call
