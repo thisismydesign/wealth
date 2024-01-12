@@ -17,7 +17,7 @@ end
 currency = AssetType.find_by(name: 'Currency')
 crypto = AssetType.find_by(name: 'Crypto')
 bank = AssetSource.find_by(name: 'Bank')
-crypto_exchange = AssetSource.find_by(name: 'Crypto Exchange')
+kraken = AssetSource.find_by(name: 'Kraken')
 broker = AssetSource.find_by(name: 'Broker')
 etf = AssetType.find_by(name: 'ETF')
 
@@ -31,10 +31,10 @@ etf = AssetType.find_by(name: 'ETF')
   { name: 'MSCI INDIA ETF (Acc, USD, LSEETF, iShares, UCITS)', ticker: 'NDIA', asset_type: etf, asset_source: broker },
   { name: 'S&P 500 ETF (Acc, EUR, IBIS2, iShares, UCITS)', ticker: 'SXR8', asset_type: etf, asset_source: broker },
 
-  { name: 'Bitcoin', ticker: 'BTC', asset_type: crypto, asset_source: crypto_exchange },
-  { name: 'Ethereum', ticker: 'ETH', asset_type: crypto, asset_source: crypto_exchange },
-  { name: 'Solana', ticker: 'SOL', asset_type: crypto, asset_source: crypto_exchange },
-  { name: 'Dogecoin', ticker: 'DOGE', asset_type: crypto, asset_source: crypto_exchange }
+  { name: 'Bitcoin', ticker: 'BTC', asset_type: crypto, asset_source: kraken },
+  { name: 'Ethereum', ticker: 'ETH', asset_type: crypto, asset_source: kraken },
+  { name: 'Solana', ticker: 'SOL', asset_type: crypto, asset_source: kraken },
+  { name: 'Dogecoin', ticker: 'DOGE', asset_type: crypto, asset_source: kraken }
 ].each do |asset|
   Asset.where(asset).first_or_create!
 end
