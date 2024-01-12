@@ -4,8 +4,19 @@
 
 Supports:
 - Import exchange rates from MNB
-- Import activity (trades, deposit, withdrawal) from IBKR
+- Import rates from Google Finance through a public google spreadsheet
+- Import activity (trades, dividends, deposit, withdrawal) from IBKR
+- Import activity (trades, staking) from Kraken
 - Tax calculation in custom currency using FIFO method
+
+### Usage
+
+```sh
+cp .env.example .env
+# Fill values in .env
+
+docker-compose up
+```
 
 #### Caveats
 
