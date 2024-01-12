@@ -24,6 +24,7 @@ ActiveAdmin.register Trade do
     column :type do |resource|
       status_tag(resource.type)
     end
+    column :asset_holder
     column :closed
 
     actions
@@ -42,6 +43,7 @@ ActiveAdmin.register Trade do
   filter :to_amount
   filter :to
   filter :from
+  filter :asset_holder
 
   permit_params :date, :from_amount, :from_id, :to_amount, :to_id
 

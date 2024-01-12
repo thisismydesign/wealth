@@ -14,6 +14,7 @@ ActiveAdmin.register Income do
     column :amount
     column :asset
     column :source
+    column :asset_holder
 
     actions
   end
@@ -23,6 +24,7 @@ ActiveAdmin.register Income do
   filter :amount
   filter :date
   filter :income_type
+  filter :asset_holder
 
   controller do
     def scoped_collection
