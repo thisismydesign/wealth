@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :asset_type do
-    name { ['Currency', 'Stock', 'ETF', 'Crypto', 'Real estate', 'Other'].sample }
+    name { Faker::Lorem.unique.word }
   end
 end
