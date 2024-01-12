@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_03_102842) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_12_151229) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -74,7 +74,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_03_102842) do
     t.bigint "income_type_id", null: false
     t.decimal "amount", null: false
     t.bigint "asset_id", null: false
-    t.bigint "source_id", null: false
+    t.bigint "source_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["asset_id"], name: "index_incomes_on_asset_id"

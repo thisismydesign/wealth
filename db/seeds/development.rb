@@ -5,6 +5,10 @@
   AssetType.where(name: asset_type).first_or_create!
 end
 
+%w[Work Dividend Rental Mining Staking Interest Other].each do |name|
+  IncomeType.where(name:).first_or_create!
+end
+
 [
   'Bank', 'Revolut', 'N26', 'Wise',
   'Broker', 'IBKR', 'Degiro', 'Trading212', 'eToro',
@@ -26,10 +30,14 @@ etf = AssetType.find_by(name: 'ETF')
   { name: 'US Dollar', ticker: 'USD', asset_type: currency, asset_source: bank },
   { name: 'Hungarian Forint', ticker: 'HUF', asset_type: currency, asset_source: bank },
 
-  { name: 'S&P 500 ETF (Dist, USD, LSEETF, Vanguard, UCITS)', ticker: 'VUSD', asset_type: etf, asset_source: broker },
-  { name: 'S&P 500 ETF (Dist, EUR, AEB, Vanguard, UCITS)', ticker: 'VUSA', asset_type: etf, asset_source: broker },
-  { name: 'MSCI INDIA ETF (Acc, USD, LSEETF, iShares, UCITS)', ticker: 'NDIA', asset_type: etf, asset_source: broker },
-  { name: 'S&P 500 ETF (Acc, EUR, IBIS2, iShares, UCITS)', ticker: 'SXR8', asset_type: etf, asset_source: broker },
+  { name: 'VUSD - S&P 500 ETF (Dist, USD, LSEETF, Vanguard, UCITS)', ticker: 'VUSD', asset_type: etf,
+    asset_source: broker },
+  { name: 'VUSA - S&P 500 ETF (Dist, EUR, AEB, Vanguard, UCITS)', ticker: 'VUSA', asset_type: etf,
+    asset_source: broker },
+  { name: 'NDIA - MSCI INDIA ETF (Acc, USD, LSEETF, iShares, UCITS)', ticker: 'NDIA', asset_type: etf,
+    asset_source: broker },
+  { name: 'SXR8 - S&P 500 ETF (Acc, EUR, IBIS2, iShares, UCITS)', ticker: 'SXR8', asset_type: etf,
+    asset_source: broker },
 
   { name: 'Bitcoin', ticker: 'BTC', asset_type: crypto, asset_source: kraken },
   { name: 'Ethereum', ticker: 'ETH', asset_type: crypto, asset_source: kraken },
@@ -37,8 +45,4 @@ etf = AssetType.find_by(name: 'ETF')
   { name: 'Dogecoin', ticker: 'DOGE', asset_type: crypto, asset_source: kraken }
 ].each do |asset|
   Asset.where(asset).first_or_create!
-end
-
-%w[Dividend Rental Mining Staking Interest Other].each do |name|
-  IncomeType.where(name:).first_or_create!
 end
