@@ -5,11 +5,11 @@ require 'rails_helper'
 RSpec.describe Admin::FundingsController, type: :controller do
   render_views
 
-  let!(:funding) { create(:funding) }
+  before { create(:funding, amount: 10_000) }
 
   it 'shows funding' do
     get :index
 
-    expect(response.body).to include(funding.amount.to_s)
+    expect(response.body).to include('10,000')
   end
 end

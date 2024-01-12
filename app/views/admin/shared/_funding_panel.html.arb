@@ -7,8 +7,6 @@ panel 'Funding' do
     column :ticker do |funding|
       funding[:ticker]
     end
-    column :funding, class: 'secret' do |funding|
-      funding[:funding]
-    end
+    rouned_value :funding
   end
 end

@@ -9,7 +9,7 @@ ActiveAdmin.register Trade do
     selectable_column
     id_column
 
-    column :name, class: 'secret' do |resource|
+    column :name do |resource|
       humanized_trade resource
     end
 

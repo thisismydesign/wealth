@@ -7,8 +7,8 @@ ActiveAdmin.register Funding do
     column :date do |income|
       income.date.strftime('%Y.%m.%d')
     end
-    column :amount, class: 'secret'
-    column :asset
+    rouned_value :amount
+    asset_link :asset
     column :asset_holder
 
     actions

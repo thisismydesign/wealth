@@ -5,15 +5,9 @@ panel year || 'All-time stats' do
     columns do
       column do
         table_for asset_balances do
-          column :name do |asset_balance|
-            link_to asset_balance[:asset].name, admin_asset_path(asset_balance[:asset])
-          end
-          column :ticker do |asset_balance|
-            asset_balance[:asset].ticker
-          end
-          column :current_balance, class: 'secret' do |asset_balance|
-            asset_balance[:balance]
-          end
+          asset_link :asset
+          rouned_value :balance
+          rouned_value :value
         end
       end
       column do

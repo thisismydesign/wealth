@@ -4,20 +4,26 @@ module Admin
   module CustomColumns
     def rouned_value(name)
       column name, class: 'secret' do |resource|
-        RoundService.call(decimal: resource.send(name))
+        value = resource.is_a?(Hash) ? resource[name] : resource.send(name)
+        number_with_delimiter(RoundService.call(decimal: value))
       end
     end
 
     def asset_link(name)
       column name do |resource|
-        link_to(resource.send(name).ticker_or_name, admin_asset_path(resource.send(name)))
+        asset = resource.is_a?(Hash) ? resource[name] : resource.send(name)
+        link_to(asset.ticker_or_name, admin_asset_path(asset))
       end
     end
 
     def humanized_trade(trade = nil)
-      link_to(
-        trade.humanized, admin_trade_path(trade), class: 'secret'
-      )
+      if trade.id.present?
+        link_to(
+          trade.humanized, admin_trade_path(trade), class: 'secret'
+        )
+      else
+        span trade.humanized, class: 'secret'
+      end
     end
   end
 end

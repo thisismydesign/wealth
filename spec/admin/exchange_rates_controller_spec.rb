@@ -5,11 +5,11 @@ require 'rails_helper'
 RSpec.describe Admin::ExchangeRatesController, type: :controller do
   render_views
 
-  let!(:exchange_rate) { create(:exchange_rate) }
+  before { create(:exchange_rate, rate: 10_000) }
 
   it 'shows exchange rate' do
     get :index
 
-    expect(response.body).to include(exchange_rate.rate.to_s)
+    expect(response.body).to include('10,000')
   end
 end

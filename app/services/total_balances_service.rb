@@ -8,7 +8,6 @@ class TotalBalancesService < ApplicationService
       balance = BalanceService.call(asset_id: asset.id, year:)
 
       {
-        name: asset.name,
         asset:,
         balance:,
         value: ValueService.call(asset_id: asset.id, amount: balance, date:)

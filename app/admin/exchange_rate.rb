@@ -7,9 +7,9 @@ ActiveAdmin.register ExchangeRate do
     column :date do |exchange_rate|
       exchange_rate.date.strftime('%Y.%m.%d')
     end
-    column :rate
-    column :from
-    column :to
+    rouned_value :rate
+    asset_link :from
+    asset_link :to
 
     actions
   end

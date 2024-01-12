@@ -14,7 +14,7 @@ ActiveAdmin.register_page 'Dashboard' do
 
         years.each do |year|
           asset_balances = TotalBalancesService.call(year:)
-          pie_chart_data = asset_balances.to_h { |asset_balance| [asset_balance[:name], asset_balance[:value]] }
+          pie_chart_data = asset_balances.to_h { |asset_balance| [asset_balance[:asset].ticker, asset_balance[:value]] }
 
           render 'admin/shared/stats_panel', asset_balances:, pie_chart_data:, year:
         end

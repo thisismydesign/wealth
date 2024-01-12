@@ -11,9 +11,9 @@ ActiveAdmin.register Income do
       income.date.strftime('%Y.%m.%d')
     end
     column :income_type
-    column :amount, class: 'secret'
-    column :asset
-    column :source
+    rouned_value :amount
+    asset_link :asset
+    asset_link :source
     column :asset_holder
 
     actions

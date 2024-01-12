@@ -43,19 +43,20 @@ ActiveAdmin.register_page 'Tax' do
         if closed_trades.any?
           panel 'Closed positions' do
             table_for closed_trades do
-              column :name, class: 'secret' do |trade|
-                link_to(
-                  trade.humanized, admin_trade_path(trade), class: 'secret'
-                )
+              column :name do |trade|
+                humanized_trade trade
               end
 
               column :date do |trade|
                 trade.date.strftime('%Y.%m.%d')
               end
-              column :from_amount, class: 'secret'
-              column :from
-              column :to_amount, class: 'secret'
-              column :to
+
+              rouned_value :from_amount
+              asset_link :from
+
+              rouned_value :to_amount
+              asset_link :to
+
               column 'Tax base close price', class: 'secret' do |trade|
                 price = trade.to_price_in(tax_currency)
                 "#{formatted_currency(price)} #{tax_currency.ticker_or_name}"
@@ -71,12 +72,15 @@ ActiveAdmin.register_page 'Tax' do
         if open_trades.any?
           panel 'Open positions' do
             table_for open_trades do
-              column :name, class: 'secret', &:humanized
+              column :name do |trade|
+                humanized_trade trade
+              end
 
-              column :from_amount, class: 'secret'
-              column :from
-              column :to_amount, class: 'secret'
-              column :to
+              rouned_value :from_amount
+              asset_link :from
+
+              rouned_value :to_amount
+              asset_link :to
             end
           end
         end
