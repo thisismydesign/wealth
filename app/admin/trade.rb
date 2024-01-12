@@ -25,7 +25,7 @@ ActiveAdmin.register Trade do
       status_tag(resource.type)
     end
     column :asset_holder
-    column :type do |resource|
+    column :closed do |resource|
       status_tag(resource.closed) if resource.closed.present?
     end
 
@@ -36,7 +36,7 @@ ActiveAdmin.register Trade do
 
   controller do
     def scoped_collection
-      super.includes(:from, :to, :close_trade_pairs, :asset_holder)
+      super.includes(:close_trade_pairs, :asset_holder, from: :asset_type, to: :asset_type)
     end
   end
 
