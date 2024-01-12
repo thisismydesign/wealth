@@ -6,25 +6,24 @@ class CurrencyConverterService < ApplicationService
   def call
     cache_key = "exchange_rate_#{from.ticker}_#{to.ticker}_#{date}_#{past_available}"
 
-    Rails.cache.fetch(cache_key) do
+    exchange_rate = Rails.cache.fetch(cache_key) do
       direct_exchange.presence || intermediary_exchange.presence
     end
+
+    amount * exchange_rate if exchange_rate.present?
   end
 
   private
 
   def direct_exchange
-    @direct_exchange ||= begin
-      exchange_rate = find_exchange_rate(from:, to:)
-      amount * exchange_rate.rate if exchange_rate.present?
-    end
+    find_exchange_rate(from:, to:)&.rate
   end
 
   def intermediary_exchange
-    @intermediary_exchange ||= if intermediary_exchange_rate.present?
-                                 exchange_rate = find_exchange_rate(from: intermediary_exchange_rate.to, to:)
-                                 amount * exchange_rate.rate * intermediary_exchange_rate.rate if exchange_rate.present?
-                               end
+    return if intermediary_exchange_rate.blank?
+
+    intermediary_to_exchange_rate = find_exchange_rate(from: intermediary_exchange_rate.to, to:)
+    intermediary_to_exchange_rate.rate * intermediary_exchange_rate.rate if intermediary_to_exchange_rate.present?
   end
 
   def scope
