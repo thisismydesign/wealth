@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AssetSource < ApplicationRecord
+class AssetHolder < ApplicationRecord
   has_many :assets, dependent: :restrict_with_exception
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }

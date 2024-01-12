@@ -14,8 +14,8 @@ end
   'Broker', 'IBKR', 'Degiro', 'Trading212', 'eToro',
   'Crypto Exchange', 'Kraken', 'Coinbase', 'Binance',
   'Other'
-].each do |asset_source|
-  AssetSource.where(name: asset_source).first_or_create!
+].each do |asset_holder|
+  AssetHolder.where(name: asset_holder).first_or_create!
 end
 
 currency = AssetType.find_by(name: 'Currency')

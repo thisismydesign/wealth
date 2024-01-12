@@ -5,6 +5,6 @@ FactoryBot.define do
     date { DateTime.now }
     amount { Faker::Number.decimal }
     asset
-    asset_source
+    asset_holder
   end
 end
