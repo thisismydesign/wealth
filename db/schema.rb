@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_12_153614) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_12_164016) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -35,10 +35,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_153614) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "asset_type_id", null: false
-    t.bigint "asset_source_id", null: false
-    t.index ["asset_source_id"], name: "index_assets_on_asset_source_id"
     t.index ["asset_type_id"], name: "index_assets_on_asset_type_id"
-    t.index ["name", "asset_type_id", "asset_source_id"], name: "index_assets_on_name_and_type_and_source", unique: true
+    t.index ["name"], name: "index_assets_on_name", unique: true
+    t.index ["ticker"], name: "index_assets_on_ticker", unique: true
   end
 
   create_table "exchange_rates", force: :cascade do |t|
@@ -106,7 +105,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_153614) do
     t.index ["to_id"], name: "index_trades_on_to_id"
   end
 
-  add_foreign_key "assets", "asset_sources"
   add_foreign_key "assets", "asset_types"
   add_foreign_key "exchange_rates", "assets", column: "from_id"
   add_foreign_key "exchange_rates", "assets", column: "to_id"

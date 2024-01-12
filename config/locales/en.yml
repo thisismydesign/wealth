@@ -1,9 +1,6 @@
 en:
   hello: "Hello world"
   models:
-    asset:
-      validations:
-        uniqueness: "must be unique per asset type and source"
     exchange_rate:
       validations:
         uniqueness: "must be unique per asset pair"

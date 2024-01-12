@@ -7,14 +7,13 @@ ActiveAdmin.register Asset do
     end
     column :name
     column :asset_type
-    column :asset_source
 
     actions
   end
 
   controller do
     def scoped_collection
-      super.includes(:asset_type, :asset_source)
+      super.includes(:asset_type)
     end
   end
 
@@ -22,5 +21,5 @@ ActiveAdmin.register Asset do
   filter :ticker
   filter :description
 
-  permit_params :name, :ticker, :description, :asset_type_id, :asset_source_id
+  permit_params :name, :ticker, :description, :asset_type_id
 end

@@ -20,29 +20,22 @@ end
 
 currency = AssetType.find_by(name: 'Currency')
 crypto = AssetType.find_by(name: 'Crypto')
-bank = AssetSource.find_by(name: 'Bank')
-kraken = AssetSource.find_by(name: 'Kraken')
-broker = AssetSource.find_by(name: 'Broker')
 etf = AssetType.find_by(name: 'ETF')
 
 [
-  { name: 'Euro', ticker: 'EUR', asset_type: currency, asset_source: bank },
-  { name: 'US Dollar', ticker: 'USD', asset_type: currency, asset_source: bank },
-  { name: 'Hungarian Forint', ticker: 'HUF', asset_type: currency, asset_source: bank },
+  { name: 'Euro', ticker: 'EUR', asset_type: currency },
+  { name: 'US Dollar', ticker: 'USD', asset_type: currency },
+  { name: 'Hungarian Forint', ticker: 'HUF', asset_type: currency },
 
-  { name: 'VUSD - S&P 500 ETF (Dist, USD, LSEETF, Vanguard, UCITS)', ticker: 'VUSD', asset_type: etf,
-    asset_source: broker },
-  { name: 'VUSA - S&P 500 ETF (Dist, EUR, AEB, Vanguard, UCITS)', ticker: 'VUSA', asset_type: etf,
-    asset_source: broker },
-  { name: 'NDIA - MSCI INDIA ETF (Acc, USD, LSEETF, iShares, UCITS)', ticker: 'NDIA', asset_type: etf,
-    asset_source: broker },
-  { name: 'SXR8 - S&P 500 ETF (Acc, EUR, IBIS2, iShares, UCITS)', ticker: 'SXR8', asset_type: etf,
-    asset_source: broker },
+  { name: 'VUSD - S&P 500 ETF (Dist, USD, LSEETF, Vanguard, UCITS)', ticker: 'VUSD', asset_type: etf },
+  { name: 'VUSA - S&P 500 ETF (Dist, EUR, AEB, Vanguard, UCITS)', ticker: 'VUSA', asset_type: etf },
+  { name: 'NDIA - MSCI INDIA ETF (Acc, USD, LSEETF, iShares, UCITS)', ticker: 'NDIA', asset_type: etf },
+  { name: 'SXR8 - S&P 500 ETF (Acc, EUR, IBIS2, iShares, UCITS)', ticker: 'SXR8', asset_type: etf },
 
-  { name: 'Bitcoin', ticker: 'BTC', asset_type: crypto, asset_source: kraken },
-  { name: 'Ethereum', ticker: 'ETH', asset_type: crypto, asset_source: kraken },
-  { name: 'Solana', ticker: 'SOL', asset_type: crypto, asset_source: kraken },
-  { name: 'Dogecoin', ticker: 'DOGE', asset_type: crypto, asset_source: kraken }
+  { name: 'Bitcoin', ticker: 'BTC', asset_type: crypto },
+  { name: 'Ethereum', ticker: 'ETH', asset_type: crypto },
+  { name: 'Solana', ticker: 'SOL', asset_type: crypto },
+  { name: 'Dogecoin', ticker: 'DOGE', asset_type: crypto }
 ].each do |asset|
   Asset.where(asset).first_or_create!
 end

@@ -8,11 +8,9 @@ class Asset < ApplicationRecord
   has_many :fundings, dependent: :restrict_with_exception
   has_many :incomes, dependent: :restrict_with_exception
   belongs_to :asset_type
-  belongs_to :asset_source
 
-  validates :name,
-            uniqueness: { scope: %i[asset_type_id asset_source_id],
-                          message: I18n.t('models.asset.validations.uniqueness') }
+  validates :name, presence: true, uniqueness: { case_sensitive: false }
+  validates :ticker, presence: true, uniqueness: { case_sensitive: false }
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[name ticker description]

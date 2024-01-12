@@ -4,12 +4,12 @@ class ImportActivityFromKrakenService < ApplicationService
   attr_accessor :csv_file
 
   ASSET_MAPPING = {
-    'ZEUR' => 'EUR',
-    'XXBT' => 'BTC',
-    'XETH' => 'ETH',
-    'XXDG' => 'DOGE',
-    'XBT.M' => 'BTC',
-    'SOL03.S' => 'SOL'
+    'ZEUR' => { ticker: 'EUR', asset_type: AssetType.currency },
+    'XXBT' => { ticker: 'BTC', asset_type: AssetType.crypto },
+    'XETH' => { ticker: 'ETH', asset_type: AssetType.crypto },
+    'XXDG' => { ticker: 'DOGE', asset_type: AssetType.crypto },
+    'XBT.M' => { ticker: 'BTC', asset_type: AssetType.crypto },
+    'SOL03.S' => { ticker: 'SOL', asset_type: AssetType.crypto }
   }.freeze
 
   def call
@@ -98,12 +98,11 @@ class ImportActivityFromKrakenService < ApplicationService
   end
 
   def asset(asset_name)
-    ticker = ASSET_MAPPING[asset_name] || asset_name
+    ticker = ASSET_MAPPING.dig(asset_name, :ticker) || asset_name
 
     Asset.where(
       ticker:,
-      asset_source: AssetSource.kraken,
-      asset_type: AssetType.crypto
+      asset_type: ASSET_MAPPING.dig(asset_name, :asset_type) || AssetType.crypto
     ).first_or_create!(name: ticker)
   end
 end
