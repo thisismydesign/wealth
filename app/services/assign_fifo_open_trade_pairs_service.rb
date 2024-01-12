@@ -29,7 +29,7 @@ class AssignFifoOpenTradePairsService < ApplicationService
   end
 
   def close_trade
-    @close_trade ||= Trade.find(close_trade_id)
+    @close_trade ||= Trade.includes(:open_trade_pairs, :to, :from).find(close_trade_id)
   end
 
   def open_trades

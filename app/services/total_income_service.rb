@@ -4,16 +4,13 @@ class TotalIncomeService < ApplicationService
   attr_accessor :year
 
   def call
-    asset_ids = Income.distinct.pluck(:asset_id)
+    scope = Income.includes(:asset)
+    scope = scope.where('extract(year from date) = ?', year) if year.present?
 
-    asset_ids.sum do |asset_id|
-      scope = Income.where(asset_id:)
-      scope = scope.where('extract(year from date) = ?', year) if year.present?
-
-      scope.sum do |income|
-        CurrencyConverterService.call(from: Asset.find(asset_id), to: TaxCurrencyService.call, date: income.date,
-                                      amount: income.amount) || 0
-      end
+    scope.sum do |income|
+      CurrencyConverterService.call(
+        from: income.asset, to: TaxCurrencyService.call, date: income.date, amount: income.amount
+      ) || 0
     end
   end
 end

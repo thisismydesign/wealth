@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ValueService < ApplicationService
-  attr_accessor :asset_id, :amount, :date
+  attr_accessor :asset, :amount, :date
 
   def call
     return 0 if amount.zero?
@@ -14,10 +14,6 @@ class ValueService < ApplicationService
   end
 
   private
-
-  def asset
-    @asset ||= Asset.find(asset_id)
-  end
 
   def trade_base_asset
     @trade_base_asset ||= Asset.find_by(ticker: Rails.application.config.x.trade_base_currency)

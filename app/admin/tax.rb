@@ -13,7 +13,6 @@ ActiveAdmin.register_page 'Tax' do
       panel year do
         closed_trades = ClosedPositionsService.call(year:)
         open_trades = OpenPositionsService.call(year:)
-        Rails.logger.debug open_trades
         tax_currency = TaxCurrencyService.call
         total_close = closed_trades.sum { |trade| trade.to_price_in(tax_currency) }
 

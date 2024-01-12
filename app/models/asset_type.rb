@@ -9,11 +9,13 @@ class AssetType < ApplicationRecord
     %w[name]
   end
 
+  @currency = nil
   def self.currency
-    where(name: 'Currency').first_or_create!
+    @currency ||= where(name: 'Currency').first_or_create!
   end
 
+  @crypto = nil
   def self.crypto
-    where(name: 'Crypto').first_or_create!
+    @crypto ||= where(name: 'Crypto').first_or_create!
   end
 end

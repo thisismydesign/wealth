@@ -4,7 +4,11 @@ class CurrencyConverterService < ApplicationService
   attr_accessor :from, :to, :date, :amount, :past_available
 
   def call
-    direct_exchange.presence || intermediary_exchange.presence
+    cache_key = "exchange_rate_#{from.ticker}_#{to.ticker}_#{date}_#{past_available}"
+
+    Rails.cache.fetch(cache_key) do
+      direct_exchange.presence || intermediary_exchange.presence
+    end
   end
 
   private

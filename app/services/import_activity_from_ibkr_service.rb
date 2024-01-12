@@ -20,7 +20,8 @@ class ImportActivityFromIbkrService < ApplicationService
   private
 
   def assign_trade_pairs
-    Trade.includes(:from, to: :asset_type).where(asset_type: { name: 'Currency' }).find_each do |close_trade|
+    Trade.includes(:from, :open_trade_pairs,
+                   to: :asset_type).where(asset_type: { name: 'Currency' }).find_each do |close_trade|
       AssignFifoOpenTradePairsService.call(close_trade_id: close_trade.id)
     end
   end

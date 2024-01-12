@@ -10,7 +10,7 @@ class TotalBalancesService < ApplicationService
       {
         asset:,
         balance:,
-        value: ValueService.call(asset_id: asset.id, amount: balance, date:)
+        value: ValueService.call(amount: balance, asset:, date:)
       }
     end
 
