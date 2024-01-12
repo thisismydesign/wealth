@@ -22,10 +22,22 @@ ActiveAdmin.register_page 'Tax' do
           income = TotalIncomeService.call(year:)
           tax = (income + profits) * Rails.application.config.x.tax_rate.to_d
 
-          h3 "Total close: #{formatted_currency(total_close)} #{tax_currency.ticker_or_name}", class: 'secret'
-          h3 "Total profit: #{formatted_currency(profits)} #{tax_currency.ticker_or_name}", class: 'secret'
-          h3 "Total income: #{formatted_currency(income)} #{tax_currency.ticker_or_name}", class: 'secret'
-          h3 "Total tax: #{formatted_currency(tax)} #{tax_currency.ticker_or_name}", class: 'secret'
+          h3 do
+            span 'Total close: '
+            span "#{formatted_currency(total_close)} #{tax_currency.ticker_or_name}", class: 'secret'
+          end
+          h3 do
+            span 'Total profit: '
+            span "#{formatted_currency(profits)} #{tax_currency.ticker_or_name}", class: 'secret'
+          end
+          h3 do
+            span 'Total income: '
+            span "#{formatted_currency(income)} #{tax_currency.ticker_or_name}", class: 'secret'
+          end
+          h3 do
+            span 'Total tax: '
+            span "#{formatted_currency(tax)} #{tax_currency.ticker_or_name}", class: 'secret'
+          end
         end
 
         if closed_trades.any?
