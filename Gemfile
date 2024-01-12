@@ -11,6 +11,9 @@ gem 'puma', '>= 5.0'
 gem 'rails', '~> 7.1.2'
 gem 'tzinfo-data', platforms: %i[windows jruby]
 
+# Initialize env early
+gem 'dotenv-rails', groups: %i[development test], require: 'dotenv/rails-now'
+
 # Gems used by the app
 gem 'activeadmin'
 gem 'activeadmin_addons'
