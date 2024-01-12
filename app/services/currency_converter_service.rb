@@ -25,7 +25,8 @@ class CurrencyConverterService < ApplicationService
 
   def scope
     date_query = past_available ? 'date <= ?' : 'date >= ?'
-    ExchangeRate.includes(:from, :to).where(date_query, date).order(date: :asc)
+    order = past_available ? 'desc' : 'asc'
+    ExchangeRate.includes(:from, :to).where(date_query, date).order(date: order)
   end
 
   def find_exchange_rate(from:, to:)

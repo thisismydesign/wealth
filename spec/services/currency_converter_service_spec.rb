@@ -39,15 +39,21 @@ RSpec.describe CurrencyConverterService do
   end
 
   context 'when exchange rate is not present for the given day but is present for a later day' do
-    before { create(:exchange_rate, from:, to:, rate: 3, date: 1.day.from_now) }
+    before do
+      create(:exchange_rate, from:, to:, rate: 6, date: 2.days.from_now)
+      create(:exchange_rate, from:, to:, rate: 3, date: 1.day.from_now)
+    end
 
-    it 'returns the converted amount' do
+    it 'returns the converted amount based on the closest rate' do
       expect(call).to eq(30)
     end
   end
 
   context 'when exchange rate is not present for the given day but is present for an earlier day' do
-    before { create(:exchange_rate, from:, to:, rate: 3, date: 1.day.ago) }
+    before do
+      create(:exchange_rate, from:, to:, rate: 3, date: 1.day.ago)
+      create(:exchange_rate, from:, to:, rate: 6, date: 2.days.ago)
+    end
 
     it 'returns nil' do
       expect(call).to be_nil
@@ -56,7 +62,7 @@ RSpec.describe CurrencyConverterService do
     context 'with past_available set to true' do
       subject(:call) { described_class.call(from:, to:, date: Time.zone.today, amount:, past_available: true) }
 
-      it 'returns the converted amount' do
+      it 'returns the converted amount based on the closest rate' do
         expect(call).to eq(30)
       end
     end
