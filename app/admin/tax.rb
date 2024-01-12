@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register_page 'Tax' do
+  menu priority: 4
+
   content title: 'Tax' do
     panel 'General Tax Overview' do
       h3 "Tax rate: #{Rails.application.config.x.tax_rate * 100}%"

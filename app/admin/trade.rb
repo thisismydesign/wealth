@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Trade do
+  menu priority: 2
+
   config.per_page = [10, 30, 50, 100]
 
   index do

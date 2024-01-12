@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register TradePair do
+  menu parent: 'Trades'
+
   index do
     selectable_column
 

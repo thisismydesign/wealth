@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register IncomeType do
+  menu parent: 'Incomes'
+
   index do
     column :name do |resource|
       link_to(resource.name, admin_income_type_path(resource))

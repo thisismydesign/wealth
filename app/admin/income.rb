@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Income do
+  menu priority: 3
+
   index do
     id_column
 

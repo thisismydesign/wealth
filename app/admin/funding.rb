@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Funding do
+  menu priority: 5
+
   index do
     column :date do |income|
       income.date.strftime('%Y.%m.%d')
