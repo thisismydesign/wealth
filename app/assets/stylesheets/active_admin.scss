@@ -12,10 +12,21 @@
 @import "active_admin/mixins";
 @import "active_admin/base";
 
-// Overriding any non-variable Sass must be done after the fact.
-// For example, to change the default status-tag color:
-//
-//   .status_tag { background: #6090DB; }
-
 .status_tag.open { background: #009000; }
 .status_tag.close { background: #900000; }
+
+#hide_values {
+  position: absolute !important;
+  right: 0;
+}
+
+.hidden-value {
+  color: transparent;
+  user-select: none;
+}
+
+// !important needed for links
+a.hidden-value {
+  color: transparent !important;
+  user-select: none;
+}

@@ -11,7 +11,7 @@ panel year || 'All-time stats' do
           column :ticker do |asset_balance|
             asset_balance[:asset].ticker
           end
-          column :current_balance do |asset_balance|
+          column :current_balance, class: 'secret' do |asset_balance|
             asset_balance[:balance]
           end
         end

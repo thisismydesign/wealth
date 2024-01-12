@@ -22,33 +22,33 @@ ActiveAdmin.register_page 'Tax' do
           income = TotalIncomeService.call(year:)
           tax = (income + profits) * Rails.application.config.x.tax_rate.to_d
 
-          h3 "Total close: #{formatted_currency(total_close)} #{tax_currency.ticker_or_name}"
-          h3 "Total profit: #{formatted_currency(profits)} #{tax_currency.ticker_or_name}"
-          h3 "Total income: #{formatted_currency(income)} #{tax_currency.ticker_or_name}"
-          h3 "Total tax: #{formatted_currency(tax)} #{tax_currency.ticker_or_name}"
+          h3 "Total close: #{formatted_currency(total_close)} #{tax_currency.ticker_or_name}", class: 'secret'
+          h3 "Total profit: #{formatted_currency(profits)} #{tax_currency.ticker_or_name}", class: 'secret'
+          h3 "Total income: #{formatted_currency(income)} #{tax_currency.ticker_or_name}", class: 'secret'
+          h3 "Total tax: #{formatted_currency(tax)} #{tax_currency.ticker_or_name}", class: 'secret'
         end
 
         if closed_trades.any?
           panel 'Closed positions' do
             table_for closed_trades do
-              column :name do |trade|
+              column :name, class: 'secret' do |trade|
                 link_to(
-                  trade.humanized, admin_trade_path(trade)
+                  trade.humanized, admin_trade_path(trade), class: 'secret'
                 )
               end
 
               column :date do |trade|
                 trade.date.strftime('%Y.%m.%d')
               end
-              column :from_amount
+              column :from_amount, class: 'secret'
               column :from
-              column :to_amount
+              column :to_amount, class: 'secret'
               column :to
-              column 'Tax base close price' do |trade|
+              column 'Tax base close price', class: 'secret' do |trade|
                 price = trade.to_price_in(tax_currency)
                 "#{formatted_currency(price)} #{tax_currency.ticker_or_name}"
               end
-              column 'Tax base profit' do |trade|
+              column 'Tax base profit', class: 'secret' do |trade|
                 profit = CalculateProfitService.call(close_trade: trade, currency: tax_currency)
                 "#{formatted_currency(profit)} #{tax_currency.ticker_or_name}"
               end
@@ -59,11 +59,11 @@ ActiveAdmin.register_page 'Tax' do
         if open_trades.any?
           panel 'Open positions' do
             table_for open_trades do
-              column :name, &:humanized
+              column :name, class: 'secret', &:humanized
 
-              column :from_amount
+              column :from_amount, class: 'secret'
               column :from
-              column :to_amount
+              column :to_amount, class: 'secret'
               column :to
             end
           end

@@ -7,7 +7,7 @@ panel 'Funding' do
     column :ticker do |funding|
       funding[:ticker]
     end
-    column :funding do |funding|
+    column :funding, class: 'secret' do |funding|
       funding[:funding]
     end
   end

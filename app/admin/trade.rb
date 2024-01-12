@@ -8,7 +8,7 @@ ActiveAdmin.register Trade do
   index do
     selectable_column
 
-    column :name do |resource|
+    column :name, class: 'secret' do |resource|
       link_to(
         resource.humanized, admin_trade_path(resource)
       )
@@ -17,9 +17,9 @@ ActiveAdmin.register Trade do
     column :date do |income|
       income.date.strftime('%Y.%m.%d')
     end
-    column :from_amount
+    column :from_amount, class: 'secret'
     column :from
-    column :to_amount
+    column :to_amount, class: 'secret'
     column :to
     column :type do |resource|
       status_tag(resource.type)
