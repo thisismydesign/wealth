@@ -9,6 +9,7 @@ ActiveAdmin.register Funding do
     end
     column :amount
     column :asset
+    column :asset_source
 
     actions
   end

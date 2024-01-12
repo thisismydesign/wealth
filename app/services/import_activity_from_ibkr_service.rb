@@ -60,9 +60,14 @@ class ImportActivityFromIbkrService < ApplicationService
 
     Funding.where(
       asset:,
+      asset_source:,
       date: row[3],
       amount: row[5]
     ).first_or_create!
+  end
+
+  def asset_source
+    @asset_source ||= AssetSource.ibkr
   end
 
   def ensure_asset(ticker)

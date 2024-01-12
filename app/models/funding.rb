@@ -2,6 +2,7 @@
 
 class Funding < ApplicationRecord
   belongs_to :asset
+  belongs_to :asset_source
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[amount]

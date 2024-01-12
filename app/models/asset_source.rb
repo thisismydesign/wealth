@@ -16,4 +16,8 @@ class AssetSource < ApplicationRecord
   def self.kraken
     where(name: 'Kraken').first_or_create!
   end
+
+  def self.ibkr
+    where(name: 'IBKR').first_or_create!
+  end
 end
