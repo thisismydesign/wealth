@@ -27,3 +27,8 @@ coverage
 
 # Mac
 .DS_Store
+
+# Personal seeds
+/db/seeds/personal.rb
+/db/seeds/fixtures/*
+!/db/seeds/fixtures/.keep

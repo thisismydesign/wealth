@@ -4,10 +4,11 @@
 
 Supports:
 - Import exchange rates from MNB
-- Import rates from Google Finance through a public google spreadsheet
+- Import rates from Google Finance through a [public google spreadsheet](https://docs.google.com/spreadsheets/d/1sengA50qeOqxxVPKAOQmGLRyTjkzSJMI8bBMtJzwQEc)
 - Import activity (trades, dividends, deposit, withdrawal) from IBKR
 - Import activity (trades, staking) from Kraken
 - Tax calculation in custom currency using FIFO method
+- Personalized seeds to laod existing data programatically
 
 ### Usage
 
