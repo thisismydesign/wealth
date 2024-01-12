@@ -21,6 +21,7 @@ ActiveAdmin.register Income do
 
   filter :amount
   filter :date
+  filter :income_type
 
   controller do
     def scoped_collection

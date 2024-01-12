@@ -9,6 +9,10 @@ class IncomeType < ApplicationRecord
     %w[name]
   end
 
+  def self.ransackable_associations(_auth_object = nil)
+    %w[incomes]
+  end
+
   def self.dividend
     where(name: 'Dividend').first_or_create!
   end
