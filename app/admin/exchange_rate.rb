@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register ExchangeRate do
+  menu parent: 'Assets'
+
   index do
     column :date do |exchange_rate|
       exchange_rate.date.strftime('%Y.%m.%d')
