@@ -43,9 +43,9 @@ class ImportActivityFromIbkrService < ApplicationService
     from_amount = row[12].to_d
 
     if to_amount.positive?
-      { from:, to:, date: row[6], to_amount:, from_amount: }
+      { from:, to:, date: row[6], to_amount:, from_amount:, asset_holder: }
     else
-      { from: to, to: from, date: row[6], to_amount: from_amount.abs, from_amount: to_amount.abs }
+      { from: to, to: from, date: row[6], to_amount: from_amount.abs, from_amount: to_amount.abs, asset_holder: }
     end
   end
 
@@ -92,10 +92,13 @@ class ImportActivityFromIbkrService < ApplicationService
 
     return if !asset || !source
 
+    create_income(row, asset, source)
+  end
+
+  def create_income(row, asset, source)
     Income.where(
-      asset:, date: row[3], amount: row[5],
-      income_type: IncomeType.dividend,
-      source:
+      asset:, date: row[3], amount: row[5], income_type: IncomeType.dividend,
+      source:, asset_holder:
     ).first_or_create!
   end
 end

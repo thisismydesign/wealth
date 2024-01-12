@@ -7,5 +7,6 @@ FactoryBot.define do
     to { association(:asset) }
     from_amount { Faker::Number.decimal }
     to_amount { Faker::Number.decimal }
+    asset_holder
   end
 end

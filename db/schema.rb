@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_12_174811) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_12_175627) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -78,6 +78,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_174811) do
     t.bigint "source_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "asset_holder_id", null: false
+    t.index ["asset_holder_id"], name: "index_incomes_on_asset_holder_id"
     t.index ["asset_id"], name: "index_incomes_on_asset_id"
     t.index ["income_type_id"], name: "index_incomes_on_income_type_id"
     t.index ["source_id"], name: "index_incomes_on_source_id"
@@ -101,6 +103,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_174811) do
     t.bigint "to_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "asset_holder_id", null: false
+    t.index ["asset_holder_id"], name: "index_trades_on_asset_holder_id"
     t.index ["from_id"], name: "index_trades_on_from_id"
     t.index ["to_id"], name: "index_trades_on_to_id"
   end
@@ -110,11 +114,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_174811) do
   add_foreign_key "exchange_rates", "assets", column: "to_id"
   add_foreign_key "fundings", "asset_holders"
   add_foreign_key "fundings", "assets"
+  add_foreign_key "incomes", "asset_holders"
   add_foreign_key "incomes", "assets"
   add_foreign_key "incomes", "assets", column: "source_id"
   add_foreign_key "incomes", "income_types"
   add_foreign_key "trade_pairs", "trades", column: "close_trade_id"
   add_foreign_key "trade_pairs", "trades", column: "open_trade_id"
+  add_foreign_key "trades", "asset_holders"
   add_foreign_key "trades", "assets", column: "from_id"
   add_foreign_key "trades", "assets", column: "to_id"
 end

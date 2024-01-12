@@ -8,6 +8,8 @@ RSpec.describe Trade do
   let(:eur) { build(:asset, name: 'Euro', ticker: 'EUR') }
   let(:btc) { build(:asset, name: 'Bitcoin', ticker: 'BTC') }
 
+  it { is_expected.to belong_to(:asset_holder) }
+
   describe 'humanized' do
     it 'returns a humanized version of the trade' do
       expect(trade.humanized).to eq('40000 EUR -> 1 BTC')

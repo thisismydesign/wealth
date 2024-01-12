@@ -2,13 +2,6 @@
 
 FactoryBot.define do
   factory :asset_holder do
-    name do
-      [
-        'Bank', 'Revolut', 'N26', 'Wise',
-        'Broker', 'IBKR', 'Degiro', 'Trading212', 'eToro',
-        'Crypto Exchange', 'Kraken', 'Coinbase', 'Binance',
-        'Other'
-      ].sample
-    end
+    name { Faker::Lorem.unique.word }
   end
 end

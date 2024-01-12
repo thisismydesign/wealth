@@ -6,6 +6,7 @@ FactoryBot.define do
     date { DateTime.now }
     income_type { IncomeType.where(name: FactoryBot.build(:income_type).name).first_or_create! }
     asset
+    asset_holder
     source { association(:asset) }
   end
 end

@@ -4,6 +4,7 @@ class Income < ApplicationRecord
   belongs_to :income_type
   belongs_to :asset
   belongs_to :source, class_name: 'Asset', optional: true
+  belongs_to :asset_holder
 
   validates :amount, presence: true
   validates :date, presence: true

@@ -40,8 +40,13 @@ class ImportActivityFromKrakenService < ApplicationService
       date: row['time'],
       amount: row['amount'].to_d - row['fee'].to_d,
       income_type: IncomeType.staking,
-      source: asset(row['asset'])
+      source: asset(row['asset']),
+      asset_holder:
     ).first_or_create!
+  end
+
+  def asset_holder
+    @asset_holder ||= AssetHolder.kraken
   end
 
   def trade?(row)
@@ -89,7 +94,8 @@ class ImportActivityFromKrakenService < ApplicationService
 
   def new_from_trade(row)
     total_cost = -row['amount'].to_d + row['fee'].to_d
-    Trade.where(from_amount: total_cost, from: asset(row['asset']), date: row['time']).first_or_initialize
+    Trade.where(from_amount: total_cost, from: asset(row['asset']), date: row['time'],
+                asset_holder:).first_or_initialize
   end
 
   def add_to_portion(trade, row)
