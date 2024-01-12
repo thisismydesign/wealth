@@ -26,5 +26,9 @@ ActiveAdmin.register ExchangeRate do
     link_to 'Import exchange rates from MNB', imports_exchange_rates_from_mnb_path
   end
 
+  action_item :imports_rates_from_googlefinance, only: :index do
+    link_to 'Import rates from Googlefinance', imports_rates_from_googlefinance_path
+  end
+
   permit_params :date, :rate, :from_id, :to_id
 end

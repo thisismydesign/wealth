@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'up' => 'rails/health#show', as: :rails_health_check
 
   get 'imports/exchange_rates_from_mnb', to: 'imports#exchange_rates_from_mnb'
+  get 'imports/rates_from_googlefinance', to: 'imports#rates_from_googlefinance'
   post 'imports/activity_from_ibkr', to: 'imports#activity_from_ibkr'
   post 'imports/activity_from_kraken', to: 'imports#activity_from_kraken'
 end
