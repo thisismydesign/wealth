@@ -28,7 +28,7 @@ ActiveAdmin.register Income do
 
   controller do
     def scoped_collection
-      super.includes(:income_type, :asset, :source)
+      super.includes(:income_type, :asset, :source, :asset_holder)
     end
   end
 

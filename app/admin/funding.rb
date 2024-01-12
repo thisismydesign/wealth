@@ -18,7 +18,7 @@ ActiveAdmin.register Funding do
 
   controller do
     def scoped_collection
-      super.includes(:asset)
+      super.includes(:asset, :asset_holder)
     end
   end
 
