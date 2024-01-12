@@ -23,6 +23,7 @@ ActiveAdmin.register Funding do
   end
 
   filter :amount
+  filter :asset_holder
 
   permit_params :date, :amount, :asset_id
 
