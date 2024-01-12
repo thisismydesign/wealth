@@ -43,6 +43,11 @@ class ImportRatesFromGooglefinanceService < ApplicationService
         from: Asset.find_by(ticker: 'NDIA'),
         to: Asset.find_by(ticker: 'USD'),
         sheet: 'AMS:NDIA'
+      },
+      {
+        from: Asset.find_by(ticker: 'USD'),
+        to: Asset.find_by(ticker: 'EUR'),
+        sheet: 'USDEUR'
       }
     ]
   end
