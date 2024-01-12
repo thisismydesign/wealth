@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+panel 'Funding' do
+  fundings = TotalDepositsService.call(year:)
+
+  table_for fundings do
+    column :ticker do |funding|
+      funding[:ticker]
+    end
+    column :funding do |funding|
+      funding[:funding]
+    end
+  end
+end

@@ -10,10 +10,13 @@ ActiveAdmin.register_page 'Dashboard' do
   content title: proc { I18n.t('active_admin.dashboard') } do
     columns do
       column do
-        render 'admin/shared/stats_panel', year: nil
+        years = [nil] + (Rails.application.config.x.start_year..Time.zone.today.year).to_a.reverse
 
-        (Rails.application.config.x.start_year..Time.zone.today.year).to_a.reverse_each do |year|
-          render 'admin/shared/stats_panel', year:
+        years.each do |year|
+          asset_balances = TotalBalancesService.call(year:)
+          pie_chart_data = asset_balances.to_h { |asset_balance| [asset_balance[:name], asset_balance[:value]] }
+
+          render 'admin/shared/stats_panel', asset_balances:, pie_chart_data:, year:
         end
 
         panel 'Actions' do
