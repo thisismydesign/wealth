@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_12_151229) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_12_152059) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -41,15 +41,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_151229) do
     t.index ["name", "asset_type_id", "asset_source_id"], name: "index_assets_on_name_and_type_and_source", unique: true
   end
 
-  create_table "deposits", force: :cascade do |t|
-    t.datetime "date", null: false
-    t.decimal "amount", null: false
-    t.bigint "asset_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["asset_id"], name: "index_deposits_on_asset_id"
-  end
-
   create_table "exchange_rates", force: :cascade do |t|
     t.bigint "from_id", null: false
     t.bigint "to_id", null: false
@@ -60,6 +51,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_151229) do
     t.index ["from_id", "to_id", "date"], name: "index_exchange_rates_on_from_to_date", unique: true
     t.index ["from_id"], name: "index_exchange_rates_on_from_id"
     t.index ["to_id"], name: "index_exchange_rates_on_to_id"
+  end
+
+  create_table "fundings", force: :cascade do |t|
+    t.datetime "date", null: false
+    t.decimal "amount", null: false
+    t.bigint "asset_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["asset_id"], name: "index_fundings_on_asset_id"
   end
 
   create_table "income_types", force: :cascade do |t|
@@ -106,9 +106,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_151229) do
 
   add_foreign_key "assets", "asset_sources"
   add_foreign_key "assets", "asset_types"
-  add_foreign_key "deposits", "assets"
   add_foreign_key "exchange_rates", "assets", column: "from_id"
   add_foreign_key "exchange_rates", "assets", column: "to_id"
+  add_foreign_key "fundings", "assets"
   add_foreign_key "incomes", "assets"
   add_foreign_key "incomes", "assets", column: "source_id"
   add_foreign_key "incomes", "income_types"

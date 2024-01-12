@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
-ActiveAdmin.register Deposit do
+ActiveAdmin.register Funding do
   index do
-    column :date
+    column :date do |income|
+      income.date.strftime('%Y.%m.%d')
+    end
     column :amount
     column :asset
 

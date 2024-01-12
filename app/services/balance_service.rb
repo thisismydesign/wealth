@@ -4,7 +4,7 @@ class BalanceService < ApplicationService
   attr_accessor :asset_id, :year
 
   def call
-    balance = DepositService.call(asset_id:, year:)
+    balance = FundingService.call(asset_id:, year:)
 
     balance -= total_from_trades
     balance += total_to_trades

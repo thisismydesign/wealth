@@ -7,8 +7,8 @@ class ImportActivityFromIbkrService < ApplicationService
     CSV.foreach(csv_file.path, headers: false, liberal_parsing: true) do |row|
       if trade?(row)
         import_trade(row)
-      elsif deposit?(row)
-        import_deposit(row)
+      elsif funding?(row)
+        import_funding(row)
       elsif dividend?(row)
         import_dividend(row)
       end
@@ -49,16 +49,16 @@ class ImportActivityFromIbkrService < ApplicationService
     end
   end
 
-  def deposit?(row)
+  def funding?(row)
     row[0] == 'Deposits & Withdrawals' && row[1] == 'Data'
   end
 
-  def import_deposit(row)
+  def import_funding(row)
     asset = ensure_asset(row[2])
 
     return unless asset
 
-    Deposit.where(
+    Funding.where(
       asset:,
       date: row[3],
       amount: row[5]
