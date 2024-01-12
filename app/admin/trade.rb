@@ -3,7 +3,7 @@
 ActiveAdmin.register Trade do
   menu priority: 2
 
-  config.per_page = [10, 30, 50, 100]
+  config.per_page = [30, 50, 100]
 
   index do
     selectable_column
@@ -25,7 +25,9 @@ ActiveAdmin.register Trade do
       status_tag(resource.type)
     end
     column :asset_holder
-    column :closed
+    column :type do |resource|
+      status_tag(resource.closed) if resource.closed.present?
+    end
 
     actions
   end
