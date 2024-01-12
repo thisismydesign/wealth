@@ -14,8 +14,8 @@ ActiveAdmin.register Trade do
       )
     end
 
-    column :date do |income|
-      income.date.strftime('%Y.%m.%d')
+    column :date do |resource|
+      resource.date.strftime('%Y.%m.%d')
     end
     column :from_amount, class: 'secret'
     column :from
