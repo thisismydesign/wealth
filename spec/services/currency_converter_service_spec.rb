@@ -46,6 +46,22 @@ RSpec.describe CurrencyConverterService do
     end
   end
 
+  context 'when exchange rate is not present for the given day but is present for an earlier day' do
+    before { create(:exchange_rate, from:, to:, rate: 3, date: 1.day.ago) }
+
+    it 'returns nil' do
+      expect(call).to be_nil
+    end
+
+    context 'with past_available set to true' do
+      subject(:call) { described_class.call(from:, to:, date: Time.zone.today, amount:, past_available: true) }
+
+      it 'returns the converted amount' do
+        expect(call).to eq(30)
+      end
+    end
+  end
+
   context 'when direct exchange rate between pairs is not present but is present through another currency' do
     let(:intermediary_asset) { create(:asset, asset_type: AssetType.currency) }
 

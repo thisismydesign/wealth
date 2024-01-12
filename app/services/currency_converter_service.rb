@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
 class CurrencyConverterService < ApplicationService
-  attr_accessor :from, :to, :date, :amount
+  attr_accessor :from, :to, :date, :amount, :past_available
 
   def call
-    return direct_exchange if direct_exchange.present?
-
-    intermediary_exchange.presence
+    direct_exchange.presence || intermediary_exchange.presence
   end
 
   private
@@ -26,7 +24,8 @@ class CurrencyConverterService < ApplicationService
   end
 
   def scope
-    ExchangeRate.includes(:from, :to).where('date >= ?', date).order(date: :asc)
+    date_query = past_available ? 'date <= ?' : 'date >= ?'
+    ExchangeRate.includes(:from, :to).where(date_query, date).order(date: :asc)
   end
 
   def find_exchange_rate(from:, to:)
