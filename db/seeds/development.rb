@@ -5,7 +5,7 @@
   AssetType.where(name: asset_type).first_or_create!
 end
 
-%w[Work Dividend Rental Mining Staking Interest Other].each do |name|
+%w[Dividend Rental Mining Staking Interest Other].each do |name|
   IncomeType.where(name:).first_or_create!
 end
 

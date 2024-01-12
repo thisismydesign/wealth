@@ -4,6 +4,7 @@ ActiveAdmin.register Income do
   menu priority: 3
 
   index do
+    selectable_column
     id_column
 
     column :date do |income|
