@@ -45,4 +45,17 @@ RSpec.describe CurrencyConverterService do
       expect(call).to eq(30)
     end
   end
+
+  context 'when direct exchange rate between pairs is not present but is present through another currency' do
+    let(:intermediary_asset) { create(:asset, asset_type: AssetType.currency) }
+
+    before do
+      create(:exchange_rate, from:, to: intermediary_asset, rate: 3)
+      create(:exchange_rate, from: intermediary_asset, to:, rate: 2)
+    end
+
+    it 'returns the converted amount' do
+      expect(call).to eq(amount * 6)
+    end
+  end
 end
