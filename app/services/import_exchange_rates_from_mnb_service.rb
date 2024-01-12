@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'net/http'
-
 class ImportExchangeRatesFromMnbService < ApplicationService
   def call
     Asset.where(asset_type: AssetType.find_by(name: 'Currency')).where.not(ticker: 'HUF').find_each do |asset|
@@ -17,9 +15,7 @@ class ImportExchangeRatesFromMnbService < ApplicationService
   private
 
   def fetch_page(ticker)
-    response = Net::HTTP.get_response(URI.parse(url(ticker)))
-
-    raise "Failed to fetch the page, response code: #{response.code}" unless response.is_a?(Net::HTTPSuccess)
+    response = Faraday.get(url(ticker))
 
     Nokogiri::HTML(response.body)
   end
@@ -32,7 +28,15 @@ class ImportExchangeRatesFromMnbService < ApplicationService
   end
 
   def url(ticker)
-    "https://www.mnb.hu/en/arfolyam-tablazat?deviza=rbCurrencySelect&devizaSelected=#{ticker}&datefrom=#{Rails.application.config.x.start_year}.01.01.&datetill=#{Time.zone.today.strftime('%Y.%m.%d.')}"
+    "https://www.mnb.hu/en/arfolyam-tablazat?deviza=rbCurrencySelect&devizaSelected=#{ticker}&datefrom=#{start_date}&datetill=#{end_date}"
+  end
+
+  def start_date
+    "#{Rails.application.config.x.start_year}.01.01."
+  end
+
+  def end_date
+    Time.zone.today.strftime('%Y.%m.%d.')
   end
 
   def import(rows, ticker)
