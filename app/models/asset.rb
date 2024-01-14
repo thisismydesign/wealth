@@ -35,7 +35,7 @@ class Asset < ApplicationRecord
     ).first_or_create!(name: Rails.application.config.x.trade_base_currency, asset_type: AssetType.currency)
   end
 
-  def ticker_or_name
-    ticker || name
+  def currency?
+    asset_type == AssetType.currency
   end
 end

@@ -12,7 +12,7 @@ module Admin
     def asset_link(name)
       column name do |resource|
         asset = resource.is_a?(Hash) ? resource[name] : resource.send(name)
-        link_to(asset.ticker_or_name, admin_asset_path(asset))
+        link_to(asset.ticker, admin_asset_path(asset))
       end
     end
 

@@ -23,19 +23,19 @@ ActiveAdmin.register_page 'Tax' do
 
           h3 do
             span 'Total close: '
-            span "#{formatted_currency(total_close)} #{tax_currency.ticker_or_name}", class: 'secret'
+            span "#{formatted_currency(total_close)} #{tax_currency.ticker}", class: 'secret'
           end
           h3 do
             span 'Total profit: '
-            span "#{formatted_currency(profits)} #{tax_currency.ticker_or_name}", class: 'secret'
+            span "#{formatted_currency(profits)} #{tax_currency.ticker}", class: 'secret'
           end
           h3 do
             span 'Total income: '
-            span "#{formatted_currency(income)} #{tax_currency.ticker_or_name}", class: 'secret'
+            span "#{formatted_currency(income)} #{tax_currency.ticker}", class: 'secret'
           end
           h3 do
             span 'Total tax: '
-            span "#{formatted_currency(tax)} #{tax_currency.ticker_or_name}", class: 'secret'
+            span "#{formatted_currency(tax)} #{tax_currency.ticker}", class: 'secret'
           end
         end
 
@@ -58,11 +58,11 @@ ActiveAdmin.register_page 'Tax' do
 
               column 'Tax base close price', class: 'secret' do |trade|
                 price = trade.to_price_in(tax_currency)
-                "#{formatted_currency(price)} #{tax_currency.ticker_or_name}"
+                "#{formatted_currency(price)} #{tax_currency.ticker}"
               end
               column 'Tax base profit', class: 'secret' do |trade|
                 profit = CalculateProfitService.call(close_trade: trade, currency: tax_currency)
-                "#{formatted_currency(profit)} #{tax_currency.ticker_or_name}"
+                "#{formatted_currency(profit)} #{tax_currency.ticker}"
               end
             end
           end
