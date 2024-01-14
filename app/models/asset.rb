@@ -21,21 +21,19 @@ class Asset < ApplicationRecord
     []
   end
 
-  @tax_base = nil
   def self.tax_base
-    @tax_base ||= where(
+    where(
       ticker: Rails.application.config.x.tax_base_currency
     ).first_or_create!(name: Rails.application.config.x.tax_base_currency, asset_type: AssetType.currency)
   end
 
-  @trade_base = nil
   def self.trade_base
-    @trade_base ||= where(
+    where(
       ticker: Rails.application.config.x.trade_base_currency
     ).first_or_create!(name: Rails.application.config.x.trade_base_currency, asset_type: AssetType.currency)
   end
 
   def currency?
-    asset_type == AssetType.currency
+    asset_type.name == 'Currency'
   end
 end
