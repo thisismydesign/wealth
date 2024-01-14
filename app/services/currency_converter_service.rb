@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class CurrencyConverterService < ApplicationService
-  attr_accessor :from, :to, :date, :amount, :past_available
+  attr_accessor :from, :to, :date, :amount, :fallback_to_past_rate
 
   def call
-    cache_key = "exchange_rate_#{from.ticker}_#{to.ticker}_#{date}_#{past_available}"
+    cache_key = "exchange_rate_#{from.ticker}_#{to.ticker}_#{date}_#{fallback_to_past_rate}"
 
     exchange_rate = Rails.cache.fetch(cache_key) do
       direct_exchange.presence || intermediary_exchange.presence
@@ -27,8 +27,8 @@ class CurrencyConverterService < ApplicationService
   end
 
   def scope
-    date_query = past_available ? 'date <= ?' : 'date >= ?'
-    order = past_available ? 'desc' : 'asc'
+    date_query = fallback_to_past_rate ? 'date <= ?' : 'date >= ?'
+    order = fallback_to_past_rate ? 'desc' : 'asc'
     ExchangeRate.includes(:from, :to).where(date_query, date).order(date: order)
   end
 

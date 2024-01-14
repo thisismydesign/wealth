@@ -9,7 +9,7 @@ class ValueService < ApplicationService
 
     CurrencyConverterService.call(
       from: asset, to: trade_base_asset, date: date || Time.zone.today,
-      amount:, past_available: true
+      amount:, fallback_to_past_rate: true
     ) || purchase_value
   end
 
@@ -23,7 +23,7 @@ class ValueService < ApplicationService
     Trade.where(to: asset).sum do |trade|
       CurrencyConverterService.call(
         from: trade.from, to: trade_base_asset, date: date || Time.zone.today,
-        amount: trade.from_amount, past_available: true
+        amount: trade.from_amount, fallback_to_past_rate: true
       )
     end
   end

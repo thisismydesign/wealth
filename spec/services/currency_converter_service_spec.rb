@@ -59,8 +59,8 @@ RSpec.describe CurrencyConverterService do
       expect(call).to be_nil
     end
 
-    context 'with past_available set to true' do
-      subject(:call) { described_class.call(from:, to:, date: Time.zone.today, amount:, past_available: true) }
+    context 'with fallback_to_past_rate set to true' do
+      subject(:call) { described_class.call(from:, to:, date: Time.zone.today, amount:, fallback_to_past_rate: true) }
 
       it 'returns the converted amount based on the closest rate' do
         expect(call).to eq(30)
