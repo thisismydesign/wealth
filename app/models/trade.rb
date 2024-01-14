@@ -35,12 +35,12 @@ class Trade < ApplicationRecord
   end
 
   def type
-    if to.asset_type.name == 'Currency'
-      'Close'
-    elsif from.asset_type.name == 'Currency'
-      'Open'
+    if to.currency?
+      :close
+    elsif from.currency?
+      :open
     else
-      'Inter'
+      :inter
     end
   end
 
@@ -49,7 +49,7 @@ class Trade < ApplicationRecord
   end
 
   def closed
-    return '' if type == 'Close'
+    return '' if type == :close
 
     if closed?
       'Yes'

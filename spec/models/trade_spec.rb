@@ -3,16 +3,34 @@
 require 'rails_helper'
 
 RSpec.describe Trade do
-  subject(:trade) { build(:trade, from_amount: 40_000, from: eur, to_amount: 1, to: btc) }
+  subject(:trade) { build(:trade, from_amount: 40_000, from:, to_amount: 1, to:) }
 
-  let(:eur) { build(:asset, name: 'Euro', ticker: 'EUR') }
-  let(:btc) { build(:asset, name: 'Bitcoin', ticker: 'BTC') }
+  let(:from) { build(:asset, name: 'Euro', ticker: 'EUR') }
+  let(:to) { build(:asset, name: 'Bitcoin', ticker: 'BTC') }
 
   it { is_expected.to belong_to(:asset_holder) }
 
-  describe 'humanized' do
+  describe '#humanized' do
     it 'returns a humanized version of the trade' do
       expect(trade.humanized).to eq('40000 EUR -> 1 BTC')
+    end
+  end
+
+  describe '#type' do
+    context 'when from is a currency' do
+      let(:from) { build(:asset, asset_type: AssetType.currency) }
+
+      it 'returns :open' do
+        expect(trade.type).to eq(:open)
+      end
+    end
+
+    context 'when to is a currency' do
+      let(:to) { build(:asset, asset_type: AssetType.currency) }
+
+      it 'returns :close' do
+        expect(trade.type).to eq(:close)
+      end
     end
   end
 end
