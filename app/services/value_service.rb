@@ -16,7 +16,7 @@ class ValueService < ApplicationService
   private
 
   def trade_base_asset
-    @trade_base_asset ||= Asset.find_by(ticker: Rails.application.config.x.trade_base_currency)
+    @trade_base_asset ||= Asset.find_by(ticker: Asset.trade_base)
   end
 
   def purchase_value

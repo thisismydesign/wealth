@@ -13,7 +13,7 @@ ActiveAdmin.register_page 'Tax' do
       panel year do
         closed_trades = ClosedPositionsService.call(year:)
         open_trades = OpenPositionsService.call(year:)
-        tax_currency = TaxCurrencyService.call
+        tax_currency = Asset.tax_base
         total_close = closed_trades.sum { |trade| trade.to_price_in(tax_currency) }
 
         div do

@@ -9,11 +9,7 @@ class TotalProfitsService < ApplicationService
 
   def trades_sum
     close_trades.sum do |trade|
-      CalculateProfitService.call(close_trade: trade, currency: tax_currency)
+      CalculateProfitService.call(close_trade: trade, currency: Asset.tax_base)
     end
-  end
-
-  def tax_currency
-    @tax_currency ||= TaxCurrencyService.call
   end
 end

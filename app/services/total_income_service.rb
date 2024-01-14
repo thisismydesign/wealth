@@ -9,7 +9,7 @@ class TotalIncomeService < ApplicationService
 
     scope.sum do |income|
       CurrencyConverterService.call(
-        from: income.asset, to: TaxCurrencyService.call, date: income.date, amount: income.amount
+        from: income.asset, to: Asset.tax_base, date: income.date, amount: income.amount
       ) || 0
     end
   end

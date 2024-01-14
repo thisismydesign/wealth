@@ -6,7 +6,7 @@ RSpec.describe Admin::TaxController, type: :controller do
   render_views
 
   before do
-    base = TaxCurrencyService.call
+    base = Asset.tax_base
     btc = create(:asset, ticker: 'BTC', asset_type: AssetType.crypto)
     open_trade = create(:trade, from_amount: 40_000, from: base, to_amount: 1, to: btc, date: 1.day.ago)
     close_trade = create(:trade, from_amount: 1, to_amount: 45_000, from: btc, to: base)
