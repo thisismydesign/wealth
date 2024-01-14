@@ -6,7 +6,7 @@ class ImportExchangeRatesFromMnbService < ApplicationService
       page = fetch_page(asset.ticker)
       table = page.css('table').first
 
-      raise 'No table found' unless table
+      raise ApplicationError, 'No table found' unless table
 
       import(extract_rows_from(table), asset.ticker)
     end

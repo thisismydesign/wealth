@@ -5,7 +5,11 @@ class RoundService < ApplicationService
 
   def call
     return 0 if decimal.zero?
-    raise "only BigDecimal is accepted (given: #{decimal} which is #{decimal.class})" unless decimal.is_a?(BigDecimal)
+
+    unless decimal.is_a?(BigDecimal)
+      raise ApplicationError,
+            "only BigDecimal is accepted (given: #{decimal} which is #{decimal.class})"
+    end
 
     round
   end
