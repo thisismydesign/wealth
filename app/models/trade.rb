@@ -35,9 +35,9 @@ class Trade < ApplicationRecord
   end
 
   def type
-    if to.currency?
+    if to.currency? && !from.currency?
       :close
-    elsif from.currency?
+    elsif from.currency? && !to.currency?
       :open
     else
       :inter

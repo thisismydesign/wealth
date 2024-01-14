@@ -32,5 +32,23 @@ RSpec.describe Trade do
         expect(trade.type).to eq(:close)
       end
     end
+
+    context 'when neither from nor to is a currency' do
+      let(:from) { build(:asset, asset_type: AssetType.crypto) }
+      let(:to) { build(:asset, asset_type: AssetType.crypto) }
+
+      it 'returns :inter' do
+        expect(trade.type).to eq(:inter)
+      end
+    end
+
+    context 'when both from and to are currencies' do
+      let(:from) { build(:asset, asset_type: AssetType.currency) }
+      let(:to) { build(:asset, asset_type: AssetType.currency) }
+
+      it 'returns :inter' do
+        expect(trade.type).to eq(:inter)
+      end
+    end
   end
 end
