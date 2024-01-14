@@ -8,6 +8,7 @@ class Trade < ApplicationRecord
                               inverse_of: :close_trade
   has_many :close_trade_pairs, class_name: 'TradePair', foreign_key: 'open_trade_id', dependent: :destroy,
                                inverse_of: :open_trade
+  has_many :trade_prices, dependent: :destroy
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[date from_amount to_amount from_id to_id asset_holder_id]
