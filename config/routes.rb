@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  require 'sidekiq/web'
+
   ActiveAdmin.routes(self)
 
   root to: 'admin/dashboard#index'
@@ -13,4 +15,6 @@ Rails.application.routes.draw do
   get 'imports/rates_from_googlefinance', to: 'imports#rates_from_googlefinance'
   post 'imports/activity_from_ibkr', to: 'imports#activity_from_ibkr'
   post 'imports/activity_from_kraken', to: 'imports#activity_from_kraken'
+
+  mount Sidekiq::Web => '/sidekiq'
 end

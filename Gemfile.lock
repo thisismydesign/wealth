@@ -119,8 +119,6 @@ GEM
     drb (2.2.0)
       ruby2_keywords
     erubi (1.12.0)
-    ethon (0.16.0)
-      ffi (>= 1.15.0)
     factory_bot (6.4.5)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.4.3)
@@ -255,6 +253,8 @@ GEM
     rdoc (6.6.2)
       psych (>= 4.0.0)
     redcarpet (3.6.0)
+    redis-client (0.19.1)
+      connection_pool
     regexp_parser (2.8.3)
     reline (0.4.1)
       io-console (~> 0.5)
@@ -323,6 +323,11 @@ GEM
       tilt
     shoulda-matchers (6.0.0)
       activesupport (>= 5.2.0)
+    sidekiq (7.2.0)
+      concurrent-ruby (< 2)
+      connection_pool (>= 2.3.0)
+      rack (>= 2.2.4)
+      redis-client (>= 0.14.0)
     simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -340,8 +345,6 @@ GEM
     thor (1.3.0)
     tilt (2.3.0)
     timeout (0.4.1)
-    typhoeus (0.6.9)
-      ethon (>= 0.7.1)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.5.0)
@@ -353,9 +356,6 @@ GEM
     xdan-datetimepicker-rails (2.5.4)
       jquery-rails
       rails (>= 3.2.16)
-    yfinance (1.0.13)
-      ffi (~> 1.9)
-      typhoeus (~> 0.6.9)
     zeitwerk (2.6.12)
 
 PLATFORMS
@@ -383,10 +383,10 @@ DEPENDENCIES
   rubocop-rspec
   sass-rails
   shoulda-matchers (~> 6.0)
+  sidekiq
   simplecov
   sprockets
   tzinfo-data
-  yfinance
 
 RUBY VERSION
    ruby 3.2.2p53
