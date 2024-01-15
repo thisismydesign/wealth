@@ -53,10 +53,6 @@ class Trade < ApplicationRecord
     "#{RoundService.call(decimal: to_amount)} #{to.ticker}"
   end
 
-  def to_price_in(currency)
-    @to_price_in ||= CurrencyConverterService.call(from: to, to: currency, date:, amount: to_amount)
-  end
-
   def type
     if to.currency? && !from.currency?
       :close
