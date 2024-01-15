@@ -41,5 +41,15 @@ RSpec.describe CreateTradePricesService do
         expect { call }.to raise_error(ApplicationError)
       end
     end
+
+    context 'when trade prices already exist' do
+      let!(:trade_price) { create(:trade_price, trade:, asset: currency, amount: 0.1) }
+
+      it 'removes existing trade prices' do
+        call rescue nil
+
+        expect { trade_price.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
   end
 end

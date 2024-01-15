@@ -6,11 +6,17 @@ class CreateTradePricesService < ApplicationService
   def call
     return if inter_trade?
 
+    remove_trade_prices
+
     create_tax_base_price
     create_trade_base_price
   end
 
   private
+
+  def remove_trade_prices
+    trade.trade_prices.destroy_all
+  end
 
   def create_tax_base_price
     amount = convert(to: Asset.tax_base)
