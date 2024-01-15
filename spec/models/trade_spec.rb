@@ -51,4 +51,88 @@ RSpec.describe Trade do
       end
     end
   end
+
+  describe '.close_trades' do
+    subject(:close_trades) { described_class.close_trades }
+
+    let!(:trade) { create(:trade, from_amount: 40_000, from:, to_amount: 1, to:) }
+
+    context 'when to is a currency and from is not' do
+      let(:to) { build(:asset, asset_type: AssetType.currency) }
+      let(:from) { build(:asset, asset_type: AssetType.crypto) }
+
+      it 'is included' do
+        expect(close_trades).to include(trade)
+      end
+    end
+
+    context 'when from is a currency and to is not' do
+      let(:to) { build(:asset, asset_type: AssetType.crypto) }
+      let(:from) { build(:asset, asset_type: AssetType.currency) }
+
+      it 'is not included' do
+        expect(close_trades).not_to include(trade)
+      end
+    end
+
+    context 'when both to and from are not currencies' do
+      let(:to) { build(:asset, asset_type: AssetType.crypto) }
+      let(:from) { build(:asset, asset_type: AssetType.crypto) }
+
+      it 'is not included' do
+        expect(close_trades).not_to include(trade)
+      end
+    end
+
+    context 'when both to and from are currencies' do
+      let(:to) { build(:asset, asset_type: AssetType.currency) }
+      let(:from) { build(:asset, asset_type: AssetType.currency) }
+
+      it 'is not included' do
+        expect(close_trades).not_to include(trade)
+      end
+    end
+  end
+
+  describe '.open_trades' do
+    subject(:open_trades) { described_class.open_trades }
+
+    let!(:trade) { create(:trade, from_amount: 40_000, from:, to_amount: 1, to:) }
+
+    context 'when to is a currency and from is not' do
+      let(:to) { build(:asset, asset_type: AssetType.currency) }
+      let(:from) { build(:asset, asset_type: AssetType.crypto) }
+
+      it 'is not included' do
+        expect(open_trades).not_to include(trade)
+      end
+    end
+
+    context 'when from is a currency and to is not' do
+      let(:to) { build(:asset, asset_type: AssetType.crypto) }
+      let(:from) { build(:asset, asset_type: AssetType.currency) }
+
+      it 'is included' do
+        expect(open_trades).to include(trade)
+      end
+    end
+
+    context 'when both to and from are not currencies' do
+      let(:to) { build(:asset, asset_type: AssetType.crypto) }
+      let(:from) { build(:asset, asset_type: AssetType.crypto) }
+
+      it 'is not included' do
+        expect(open_trades).not_to include(trade)
+      end
+    end
+
+    context 'when both to and from are currencies' do
+      let(:to) { build(:asset, asset_type: AssetType.currency) }
+      let(:from) { build(:asset, asset_type: AssetType.currency) }
+
+      it 'is not included' do
+        expect(open_trades).not_to include(trade)
+      end
+    end
+  end
 end

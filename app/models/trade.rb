@@ -10,6 +10,23 @@ class Trade < ApplicationRecord
                                inverse_of: :open_trade
   has_many :trade_prices, dependent: :destroy
 
+  scope :close_trades, lambda {
+    joins(to: :asset_type)
+      .joins('LEFT JOIN assets from_assets ON from_assets.id = trades.from_id')
+      .joins('LEFT JOIN asset_types from_asset_types ON from_asset_types.id = from_assets.asset_type_id')
+      .where(asset_types: { name: 'Currency' })
+      .where.not(from_asset_types: { name: 'Currency' })
+  }
+
+  scope :open_trades, lambda {
+    joins(to: :asset_type)
+      .joins('LEFT JOIN assets from_assets ON from_assets.id = trades.from_id')
+      .joins('LEFT JOIN asset_types from_asset_types ON from_asset_types.id = from_assets.asset_type_id')
+      .where.not(asset_types: { name: 'Currency' })
+      .where(from_asset_types: { name: 'Currency' })
+  }
+
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[date from_amount to_amount from_id to_id asset_holder_id]
   end
