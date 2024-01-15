@@ -25,6 +25,14 @@ module Admin
         span trade.humanized, class: 'secret'
       end
     end
+
+    def tax_value(value)
+      if value.present?
+        span "#{formatted_currency(value)} #{Asset.tax_base.ticker}", class: 'secret'
+      else
+        'N/A'
+      end
+    end
   end
 end
 
