@@ -59,17 +59,24 @@ ActiveAdmin.register Trade do
       row :from
       row :to_amount
       row :to
-      row 'Open trades' do |resource|
+      row :open_trades do |resource|
         resource.open_trade_pairs.map do |open_trade_pair|
           link_to(
             open_trade_pair.open_trade.humanized, admin_trade_path(open_trade_pair.open_trade)
           )
         end
       end
-      row 'Close trades' do |resource|
-        resource.close_trade_pairs.map do |close_trade_pairs|
+      row :close_trades do |resource|
+        resource.close_trade_pairs.map do |close_trade_pair|
           link_to(
-            close_trade_pairs.close_trade.humanized, admin_trade_path(close_trade_pairs.close_trade)
+            close_trade_pair.close_trade.humanized, admin_trade_path(close_trade_pair.close_trade)
+          )
+        end
+      end
+      row :trade_prices do |resource|
+        resource.trade_prices.map do |trade_price|
+          link_to(
+            trade_price.humanized, admin_trade_price_path(trade_price)
           )
         end
       end
