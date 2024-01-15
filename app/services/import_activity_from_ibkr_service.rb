@@ -41,12 +41,15 @@ class ImportActivityFromIbkrService < ApplicationService
 
   def row_to_trade(row, from, to)
     to_amount = row[7].to_d
-    from_amount = row[12].to_d
+    from_amount = (row[10].to_d + row[11].to_d).abs
 
     if to_amount.positive?
+      # Buy
       { from:, to:, date: row[6], to_amount:, from_amount:, asset_holder: }
     else
-      { from: to, to: from, date: row[6], to_amount: from_amount.abs, from_amount: to_amount.abs, asset_holder: }
+      # Sell
+      from_amount = row[10].to_d + row[11].to_d
+      { from: to, to: from, date: row[6], to_amount: from_amount, from_amount: to_amount.abs, asset_holder: }
     end
   end
 
