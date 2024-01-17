@@ -32,6 +32,16 @@ class Trade < ApplicationRecord
       .where(from_asset_types: { name: 'Currency' })
   }
 
+  after_save :create_trade_prices
+  after_save :assign_trade_pairs
+
+  def create_trade_prices
+    CreateTradePricesJob.perform_later(id)
+  end
+
+  def assign_trade_pairs
+    AssignTradePairsJob.perform_later(id)
+  end
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[date from_amount to_amount from_id to_id asset_holder_id]

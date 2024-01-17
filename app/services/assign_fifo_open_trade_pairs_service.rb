@@ -4,6 +4,7 @@ class AssignFifoOpenTradePairsService < ApplicationService
   attr_accessor :close_trade_id
 
   def call
+    return if close_trade.type != :close
     return if close_trade.open_trade_pairs.sum(&:amount) >= close_trade.from_amount
 
     amount_closed = BigDecimal('0')
