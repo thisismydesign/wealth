@@ -40,15 +40,14 @@ class ImportActivityFromIbkrService < ApplicationService
   end
 
   def row_to_trade(row, from, to)
-    to_amount = row[7].to_d
-    from_amount = (row[10].to_d + row[11].to_d).abs
+    to_amount = to_big_decimal(row[7])
+    from_amount = to_big_decimal(row[10]) + to_big_decimal(row[11])
 
     if to_amount.positive?
       # Buy
-      { from:, to:, date: row[6], to_amount:, from_amount:, asset_holder: }
+      { from:, to:, date: row[6], to_amount:, from_amount: from_amount.abs, asset_holder: }
     else
       # Sell
-      from_amount = row[10].to_d + row[11].to_d
       { from: to, to: from, date: row[6], to_amount: from_amount, from_amount: to_amount.abs, asset_holder: }
     end
   end
@@ -66,7 +65,7 @@ class ImportActivityFromIbkrService < ApplicationService
       asset:,
       asset_holder:,
       date: row[3],
-      amount: row[5]
+      amount: to_big_decimal(row[5])
     ).first_or_create!
   end
 
@@ -101,8 +100,12 @@ class ImportActivityFromIbkrService < ApplicationService
 
   def create_income(row, asset, source)
     Income.where(
-      asset:, date: row[3], amount: row[5], income_type: IncomeType.dividend,
+      asset:, date: row[3], amount: to_big_decimal(row[5]), income_type: IncomeType.dividend,
       source:, asset_holder:
     ).first_or_create!
+  end
+
+  def to_big_decimal(amount)
+    amount.delete(',').to_d
   end
 end

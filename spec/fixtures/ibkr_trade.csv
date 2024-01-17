@@ -1,0 +1,4 @@
+Trades,Header,DataDiscriminator,Asset Category,Currency,Symbol,Date/Time,Quantity,T. Price,C. Price,Proceeds,Comm/Fee,Basis,Realized P/L,MTM P/L,Code
+Trades,Data,Order,Stocks,USD,NDIA,"2023-06-29, 04:00:06","2,200",7.501,7.497,-16502.2,-9.073699,16511.273699,0,-8.8,O
+Trades,Data,Order,Stocks,USD,NDIA,"2023-12-27, 03:00:21","-2,200",8.494664091,8.5615,18688.261,-10.824102245,-16511.273698,2166.1632,-147.039,C;P
+Trades,SubTotal,,Stocks,USD,NDIA,,0,,,2186.061,-19.897801245,0.000001,2166.1632,-155.839,
