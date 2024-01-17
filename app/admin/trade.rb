@@ -49,7 +49,7 @@ ActiveAdmin.register Trade do
   filter :from
   filter :asset_holder
 
-  permit_params :date, :from_amount, :from_id, :to_amount, :to_id
+  permit_params :date, :from_amount, :from_id, :to_amount, :to_id, :asset_holder_id
 
   show do
     attributes_table do
@@ -90,6 +90,7 @@ ActiveAdmin.register Trade do
       f.input :from_amount
       f.input :to_amount
       f.input :date, as: :date_time_picker
+      f.input :asset_holder
     end
 
     actions
