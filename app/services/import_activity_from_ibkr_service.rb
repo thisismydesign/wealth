@@ -13,18 +13,9 @@ class ImportActivityFromIbkrService < ApplicationService
         import_dividend(row)
       end
     end
-
-    assign_trade_pairs
   end
 
   private
-
-  def assign_trade_pairs
-    Trade.includes(:from, :open_trade_pairs,
-                   to: :asset_type).where(asset_type: { name: 'Currency' }).find_each do |close_trade|
-      AssignFifoOpenTradePairsService.call(close_trade_id: close_trade.id)
-    end
-  end
 
   def trade?(row)
     row[0] == 'Trades' && row[1] == 'Data' && row[2] == 'Order'
