@@ -10,7 +10,7 @@ RSpec.describe CalculateProfitService do
   let(:close_trade) { create(:trade, from_amount: 1, from: btc, to_amount: 40_000, to: currency) }
   let(:open_trade) { create(:trade, from_amount: 20_000, to_amount: 1, from: currency, to: btc, date: 1.day.ago) }
 
-  context 'when tax base trade price is present for close and open trades' do
+  context 'when tax base price is present for close and open trades' do
     context 'when there is an single open trade' do
       before do
         create(:price, priceable: close_trade, asset: currency, amount: 1000)
@@ -59,7 +59,7 @@ RSpec.describe CalculateProfitService do
     end
   end
 
-  context 'when tax base trade price is missing for open trade' do
+  context 'when tax base price is missing for open trade' do
     before do
       create(:trade_pair, open_trade:, close_trade:, amount: 1)
       create(:price, priceable: close_trade, asset: currency, amount: 1000)
@@ -70,7 +70,7 @@ RSpec.describe CalculateProfitService do
     end
   end
 
-  context 'when tax base trade price is missing for close trade' do
+  context 'when tax base price is missing for close trade' do
     before do
       create(:trade_pair, open_trade:, close_trade:, amount: 1)
       create(:price, priceable: open_trade, asset: currency, amount: 1000)
@@ -80,22 +80,4 @@ RSpec.describe CalculateProfitService do
       expect(call).to be_nil
     end
   end
-
-  # TODO
-  # context 'when there is an open trade with equal amount' do
-
-  #   it 'returns the profit in the given currency' do
-  #     expect(call).to eq(5000)
-  #   end
-  # end
-
-  # context 'when open trade partially fills close trade' do
-  #   before do
-  #     create(:trade, from_amount: 40_000, from: eur, to_amount: 2, to: btc, date: 1.day.ago)
-  #   end
-
-  #   it 'returns the profit in the given currency' do
-  #     expect(call).to eq(40_000 / 2)
-  #   end
-  # end
 end
