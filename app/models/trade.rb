@@ -34,10 +34,10 @@ class Trade < ApplicationRecord
       .where(from_asset_types: { name: 'Currency' })
   }
 
-  after_save :create_trade_prices
+  after_save :create_prices
   after_save :assign_trade_pairs
 
-  def create_trade_prices
+  def create_prices
     CreateTradePricesJob.perform_later(id)
   end
 

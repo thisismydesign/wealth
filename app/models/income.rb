@@ -16,6 +16,12 @@ class Income < ApplicationRecord
   validates :amount, presence: true
   validates :date, presence: true
 
+  after_save :create_prices
+
+  def create_prices
+    CreateIncomePricesJob.perform_later(id)
+  end
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[amount date income_type_id asset_holder_id]
   end
