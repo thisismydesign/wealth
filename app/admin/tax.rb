@@ -13,7 +13,7 @@ ActiveAdmin.register_page 'Tax' do
       panel year do
         close_trades = ClosedPositionsService.call(year:)
         open_positions = OpenPositionsService.call(year:)
-        total_close = close_trades.sum { |trade| trade.tax_base_trade_price&.amount || 0 }
+        total_close = close_trades.sum { |trade| trade.tax_base_price&.amount || 0 }
 
         div do
           profits = TotalProfitsService.call(close_trades:)
@@ -56,7 +56,7 @@ ActiveAdmin.register_page 'Tax' do
               asset_link :to
 
               column 'Tax base close price' do |trade|
-                tax_value trade.tax_base_trade_price&.amount
+                tax_value trade.tax_base_price&.amount
               end
 
               column 'Tax base profit' do |trade|

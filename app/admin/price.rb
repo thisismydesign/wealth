@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
-ActiveAdmin.register TradePrice do
+ActiveAdmin.register Price do
   menu parent: 'Trades'
 
   index do
     selectable_column
     id_column
 
-    column :name do |resource|
-      humanized_trade resource.trade
-    end
+    column :priceable
 
     asset_link :asset
     rouned_value :amount
@@ -21,7 +19,7 @@ ActiveAdmin.register TradePrice do
 
   controller do
     def scoped_collection
-      super.includes(:asset, trade: %i[from to])
+      super.includes(:asset, :priceable)
     end
   end
 end

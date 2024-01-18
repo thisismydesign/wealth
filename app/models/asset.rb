@@ -7,7 +7,7 @@ class Asset < ApplicationRecord
   has_many :buy_trades, inverse_of: :to, foreign_key: 'to_id', class_name: 'Trade', dependent: :restrict_with_exception
   has_many :fundings, dependent: :restrict_with_exception
   has_many :incomes, dependent: :restrict_with_exception
-  has_many :trade_prices, dependent: :restrict_with_exception
+  has_many :prices, dependent: :restrict_with_exception
   belongs_to :asset_type
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }

@@ -73,10 +73,10 @@ ActiveAdmin.register Trade do
           )
         end
       end
-      row :trade_prices do |resource|
-        resource.trade_prices.map do |trade_price|
+      row :prices do |resource|
+        resource.prices.map do |price|
           link_to(
-            trade_price.humanized, admin_trade_price_path(trade_price)
+            price.humanized, admin_price_path(price)
           )
         end
       end

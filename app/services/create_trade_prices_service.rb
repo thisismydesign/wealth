@@ -6,7 +6,7 @@ class CreateTradePricesService < ApplicationService
   def call
     return if inter_trade?
 
-    remove_trade_prices
+    remove_prices
 
     create_tax_base_price
     create_trade_base_price
@@ -14,20 +14,20 @@ class CreateTradePricesService < ApplicationService
 
   private
 
-  def remove_trade_prices
-    trade.trade_prices.destroy_all
+  def remove_prices
+    trade.prices.destroy_all
   end
 
   def create_tax_base_price
     amount = convert(to: Asset.tax_base)
 
-    trade.trade_prices.create(asset: Asset.tax_base, amount:)
+    trade.prices.create(asset: Asset.tax_base, amount:)
   end
 
   def create_trade_base_price
     amount = convert(to: Asset.trade_base, fallback_to_past_rate: true)
 
-    trade.trade_prices.create(asset: Asset.trade_base, amount:)
+    trade.prices.create(asset: Asset.trade_base, amount:)
   end
 
   def convert(to:, fallback_to_past_rate: false)

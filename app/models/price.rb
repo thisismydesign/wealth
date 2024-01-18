@@ -7,6 +7,14 @@ class Price < ApplicationRecord
   validates :amount, presence: true
   validate :check_priceable_type
 
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[amount]
+  end
+
+  def humanized
+    "#{RoundService.call(decimal: amount)} #{asset.ticker}"
+  end
+
   private
 
   def check_priceable_type

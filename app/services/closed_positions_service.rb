@@ -5,10 +5,10 @@ class ClosedPositionsService < ApplicationService
 
   def call
     scope = Trade.close_trades.includes(
-      :tax_base_trade_price,
+      :tax_base_price,
       to: :asset_type,
       from: :asset_type,
-      open_trade_pairs: { open_trade: :tax_base_trade_price }
+      open_trade_pairs: { open_trade: :tax_base_price }
     )
     scope = scope.where('extract(year from date) = ?', year) if year.present?
 

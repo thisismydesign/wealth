@@ -12,7 +12,7 @@ RSpec.describe CreateTradePricesService do
     let(:trade) { create(:trade, from: currency, to: currency) }
 
     it 'does not create trade prices' do
-      expect { call }.not_to change(TradePrice, :count)
+      expect { call }.not_to change(Price, :count)
     end
   end
 
@@ -26,13 +26,13 @@ RSpec.describe CreateTradePricesService do
       end
 
       it 'creates trade prices' do
-        expect { call }.to change(TradePrice, :count).by(2)
+        expect { call }.to change(Price, :count).by(2)
       end
 
       it 'creates trade prices with correct amounts' do
         call
 
-        expect(trade.trade_prices.map(&:amount)).to contain_exactly(0.1, 0.1)
+        expect(trade.prices.map(&:amount)).to contain_exactly(0.1, 0.1)
       end
     end
 
@@ -43,12 +43,12 @@ RSpec.describe CreateTradePricesService do
     end
 
     context 'when trade prices already exist' do
-      let!(:trade_price) { create(:trade_price, trade:, asset: currency, amount: 0.1) }
+      let!(:price) { create(:price, priceable: trade, asset: currency, amount: 0.1) }
 
       it 'removes existing trade prices' do
         call rescue nil
 
-        expect { trade_price.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { price.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end
