@@ -45,4 +45,24 @@ ActiveAdmin.register Income do
 
     actions
   end
+
+  show do
+    attributes_table do
+      row :date
+      row :income_type
+      row :amount
+      row :asset
+      row :source
+      row :created_at
+      row :updated_at
+      row :asset_holder
+      row :prices do |resource|
+        resource.prices.map do |price|
+          link_to(
+            price.humanized, admin_price_path(price)
+          )
+        end
+      end
+    end
+  end
 end
