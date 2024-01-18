@@ -6,7 +6,7 @@ RSpec.describe CreateTradePricesService do
   subject(:call) { described_class.call(trade:) }
 
   let(:amount) { BigDecimal('10') }
-  let!(:currency) { create(:asset, asset_type: AssetType.currency) }
+  let!(:currency) { Asset.trade_base }
 
   context 'when trade is :inter' do
     let(:trade) { create(:trade, from: currency, to: currency) }

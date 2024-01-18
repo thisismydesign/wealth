@@ -10,6 +10,6 @@ RSpec.describe Admin::AssetsController, type: :controller do
   it 'shows asset' do
     get :index
 
-    expect(response.body).to include(asset.name)
+    expect(response.body).to include(CGI.escapeHTML(asset.name))
   end
 end

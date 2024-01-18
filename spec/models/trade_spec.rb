@@ -22,7 +22,8 @@ RSpec.describe Trade do
   end
 
   describe '#type' do
-    context 'when from is a currency' do
+    context 'when from is a currency and to is not' do
+      let(:to) { build(:asset, asset_type: AssetType.crypto) }
       let(:from) { build(:asset, asset_type: AssetType.currency) }
 
       it 'returns :open' do
@@ -30,8 +31,9 @@ RSpec.describe Trade do
       end
     end
 
-    context 'when to is a currency' do
+    context 'when to is a currency and from is not' do
       let(:to) { build(:asset, asset_type: AssetType.currency) }
+      let(:from) { build(:asset, asset_type: AssetType.crypto) }
 
       it 'returns :close' do
         expect(trade.type).to eq(:close)
