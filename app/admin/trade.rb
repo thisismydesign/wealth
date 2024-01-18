@@ -82,6 +82,15 @@ ActiveAdmin.register Trade do
     end
   end
 
+  member_action :assign_fifo_open_trade_pairs, method: :post do
+    AssignFifoOpenTradePairsService.call(close_trade_id: resource.id)
+    redirect_to resource_path
+  end
+
+  action_item :assign_fifo_open_trade_pairs, only: :show do
+    link_to 'Assign FIFO Open Trade Pairs', assign_fifo_open_trade_pairs_admin_trade_path(resource), method: :post
+  end
+
   form do |f|
     inputs do
       f.input :from
