@@ -6,45 +6,16 @@ class CreateTradePricesService < ApplicationService
   def call
     return if inter_trade?
 
-    remove_prices
-
-    create_tax_base_price
-    create_trade_base_price
+    CreatePricesService.call(priceable: trade, traded_currency:, traded_amount:)
   end
 
   private
-
-  def remove_prices
-    trade.prices.destroy_all
-  end
-
-  def create_tax_base_price
-    amount = convert(to: Asset.tax_base)
-
-    trade.prices.create(asset: Asset.tax_base, amount:)
-  end
-
-  def create_trade_base_price
-    amount = convert(to: Asset.trade_base, fallback_to_past_rate: true)
-
-    trade.prices.create(asset: Asset.trade_base, amount:)
-  end
-
-  def convert(to:, fallback_to_past_rate: false)
-    amount = CurrencyConverterService.call(
-      from: traded_currency, to:, date: trade.date, amount: traded_currency_amount, fallback_to_past_rate:
-    )
-    return amount if amount.present?
-
-    raise ApplicationError,
-          "No conversion available from #{traded_currency.ticker} to #{to.ticker} on Trade##{trade.id}"
-  end
 
   def traded_currency
     open_trade? ? trade.from : trade.to
   end
 
-  def traded_currency_amount
+  def traded_amount
     open_trade? ? trade.from_amount : trade.to_amount
   end
 
