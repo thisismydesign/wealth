@@ -20,6 +20,6 @@ class OpenPositionsService < ApplicationService
     scope = Trade.includes(:to, :close_trade_pairs, from: :asset_type).where(asset_type: { name: 'Currency' })
     scope = scope.where('extract(year from date) <= ?', year) if year.present?
 
-    scope.filter { |trade| !trade.closed? }
+    scope.filter { |trade| !trade.open_trade_closed? }
   end
 end

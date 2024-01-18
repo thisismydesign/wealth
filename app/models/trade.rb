@@ -75,23 +75,25 @@ class Trade < ApplicationRecord
     end
   end
 
-  def open_amount
-    @open_amount ||= to_amount - close_trade_pairs.sum(&:amount)
+  def open_trade_open_to_amount
+    return if type != :open
+
+    to_amount - close_trade_pairs.sum(&:amount)
   end
 
-  def closed
-    return '' if type == :close
+  def open_trade_status
+    return if type != :open
 
-    if closed?
-      'Yes'
-    elsif open_amount == to_amount
-      'No'
+    if open_trade_closed?
+      :fully_closed
+    elsif open_trade_open_to_amount == to_amount
+      :fully_open
     else
-      'Partially'
+      :partially_closed
     end
   end
 
-  def closed?
-    open_amount <= 0
+  def open_trade_closed?
+    open_trade_open_to_amount <= 0
   end
 end

@@ -22,16 +22,15 @@ ActiveAdmin.register Trade do
 
     rouned_value :to_amount
     asset_link :to
+    column :asset_holder
 
     column :type do |resource|
       status_tag(resource.type)
     end
-    column :asset_holder
-    column :closed do |resource|
-      status_tag(resource.closed) if resource.closed.present?
+    column :open_status do |resource|
+      status = resource.open_trade_status
+      status_tag(status) if status.present?
     end
-
-    actions
   end
 
   config.sort_order = 'date_desc'

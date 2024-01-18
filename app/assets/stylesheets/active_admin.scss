@@ -13,7 +13,9 @@
 @import "active_admin/base";
 
 .status_tag.open { background: #009000; }
-.status_tag.close { background: #900000; }
+.status_tag.close { background: #0ba8cb; }
+.status_tag.fully_closed { background: #0ba8cb; }
+.status_tag.fully_open { background: #009000; }
 
 #hide_values {
   position: absolute !important;

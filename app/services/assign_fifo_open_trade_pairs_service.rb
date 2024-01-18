@@ -22,7 +22,7 @@ class AssignFifoOpenTradePairsService < ApplicationService
 
   def create_trade_pair(amount_closed, open_trade)
     if fully_closes_open_trade?(amount_closed, open_trade)
-      TradePair.where(open_trade:, close_trade:, amount: open_trade.open_amount).first_or_create!
+      TradePair.where(open_trade:, close_trade:, amount: open_trade.open_trade_open_to_amount).first_or_create!
     else
       TradePair.where(open_trade:, close_trade:,
                       amount: close_trade.from_amount - amount_closed).first_or_create!
