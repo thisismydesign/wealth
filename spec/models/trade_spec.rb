@@ -9,6 +9,11 @@ RSpec.describe Trade do
   let(:to) { build(:asset, name: 'Bitcoin', ticker: 'BTC') }
 
   it { is_expected.to belong_to(:asset_holder) }
+  it { is_expected.to belong_to(:from).class_name('Asset') }
+  it { is_expected.to belong_to(:to).class_name('Asset') }
+
+  it { is_expected.to have_one(:trade_base_price).dependent(:destroy) }
+  it { is_expected.to have_one(:tax_base_price).dependent(:destroy) }
 
   describe '#humanized' do
     it 'returns a humanized version of the trade' do

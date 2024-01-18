@@ -4,6 +4,14 @@ class Trade < ApplicationRecord
   belongs_to :from, class_name: 'Asset'
   belongs_to :to, class_name: 'Asset'
   belongs_to :asset_holder
+
+  has_one :tax_base_price, lambda {
+                             where(asset: Asset.tax_base)
+                           }, as: :priceable, class_name: 'Price', dependent: :destroy, inverse_of: :priceable
+  has_one :trade_base_price, lambda {
+                               where(asset: Asset.trade_base)
+                             }, as: :priceable, class_name: 'Price', dependent: :destroy, inverse_of: :priceable
+
   has_many :open_trade_pairs, class_name: 'TradePair', foreign_key: 'close_trade_id', dependent: :destroy,
                               inverse_of: :close_trade
   has_many :close_trade_pairs, class_name: 'TradePair', foreign_key: 'open_trade_id', dependent: :destroy,
