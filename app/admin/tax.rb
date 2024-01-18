@@ -11,6 +11,7 @@ ActiveAdmin.register_page 'Tax' do
 
     (Rails.application.config.x.start_year..Time.zone.today.year).to_a.reverse_each do |year|
       panel year do
+        tax_base = Asset.tax_base
         close_trades = ClosedPositionsService.call(year:)
         open_positions = OpenPositionsService.call(year:)
         total_close = close_trades.sum { |trade| trade.tax_base_price&.amount || 0 }
@@ -22,19 +23,19 @@ ActiveAdmin.register_page 'Tax' do
 
           h3 do
             span 'Total close: '
-            tax_value total_close
+            optional_currency total_close, tax_base
           end
           h3 do
             span 'Total profit: '
-            tax_value profits
+            optional_currency profits, tax_base
           end
           h3 do
             span 'Total income: '
-            tax_value income
+            optional_currency income, tax_base
           end
           h3 do
             span 'Total tax: '
-            tax_value tax
+            optional_currency tax, tax_base
           end
         end
 
@@ -56,11 +57,11 @@ ActiveAdmin.register_page 'Tax' do
               asset_link :to
 
               column 'Tax base close price' do |trade|
-                tax_value trade.tax_base_price&.amount
+                optional_currency trade.tax_base_price&.amount, tax_base
               end
 
               column 'Tax base profit' do |trade|
-                tax_value CalculateProfitService.call(close_trade: trade)
+                optional_currency CalculateProfitService.call(close_trade: trade), tax_base
               end
             end
           end

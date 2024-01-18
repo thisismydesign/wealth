@@ -26,9 +26,9 @@ module Admin
       end
     end
 
-    def tax_value(value)
+    def optional_currency(value, asset)
       if value.present?
-        span "#{formatted_currency(value)} #{Asset.tax_base.ticker}", class: 'secret'
+        span "#{formatted_currency(value)} #{asset.ticker}", class: 'secret'
       else
         'N/A'
       end
