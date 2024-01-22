@@ -88,6 +88,10 @@ ActiveAdmin.register_page 'Tax' do
 
               rouned_value :to_amount
               asset_link :to
+
+              column :total_open_price do |trade|
+                optional_currency trade.tax_base_price&.amount, tax_base
+              end
             end
           end
         end

@@ -6,10 +6,7 @@ class OpenPositionsService < ApplicationService
   def call
     scope.group_by(&:to).map do |to_asset, trades_by_to|
       trades_by_to.group_by(&:from).map do |from_asset, trades|
-        to_amount = trades.sum(&:to_amount)
-        from_amount = trades.sum(&:from_amount)
-
-        Trade.new(to: to_asset, from: from_asset, to_amount:, from_amount:)
+        create_sum_trade(to_asset, from_asset, trades)
       end.flatten
     end.flatten
   end
@@ -17,9 +14,20 @@ class OpenPositionsService < ApplicationService
   private
 
   def scope
-    scope = Trade.includes(:to, :close_trade_pairs, from: :asset_type).where(asset_type: { name: 'Currency' })
+    scope = Trade.includes(:to, :close_trade_pairs, :tax_base_price,
+                           from: :asset_type).where(asset_type: { name: 'Currency' })
     scope = scope.where('extract(year from date) <= ?', year) if year.present?
 
     scope.filter { |trade| !trade.open_trade_closed? }
+  end
+
+  def create_sum_trade(to_asset, from_asset, trades)
+    to_amount = trades.sum(&:to_amount)
+    from_amount = trades.sum(&:from_amount)
+    tax_base_price = trades.sum { |trade| trade.tax_base_price&.amount || 0 }
+
+    trade = Trade.new(to: to_asset, from: from_asset, to_amount:, from_amount:)
+    trade.tax_base_price = Price.new(asset: Asset.tax_base, amount: tax_base_price)
+    trade
   end
 end
