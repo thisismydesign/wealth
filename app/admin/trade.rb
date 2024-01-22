@@ -5,6 +5,10 @@ ActiveAdmin.register Trade do
 
   config.per_page = [30, 50, 100]
 
+  scope(:all, default: true)
+  scope(:close_trades)
+  scope(:open_trades)
+
   index do
     selectable_column
     id_column
