@@ -10,13 +10,58 @@ ActiveAdmin.register_page 'Dashboard' do
   content title: proc { I18n.t('active_admin.dashboard') } do
     columns do
       column do
-        years = [nil] + (Rails.application.config.x.start_year..Time.zone.today.year).to_a.reverse
-
-        years.each do |year|
-          asset_balances = TotalBalancesService.call(year:)
+        panel :Balance do
+          asset_balances = TotalBalancesService.call
           pie_chart_data = asset_balances.to_h { |asset_balance| [asset_balance[:asset].ticker, asset_balance[:value]] }
 
-          render 'admin/shared/stats_panel', asset_balances:, pie_chart_data:, year:
+          columns do
+            column do
+              table_for asset_balances do
+                asset_link :asset
+                rouned_value :balance
+                rouned_value :value
+              end
+            end
+            column do
+              render 'admin/shared/pie_chart', data: pie_chart_data
+            end
+          end
+
+          asset_balance_by_type = asset_balances.group_by do |asset_balance|
+            asset_balance[:asset].asset_type.name
+          end
+          asset_value_by_type = asset_balance_by_type.map do |asset_type, balances|
+            {
+              asset_type:,
+              value: balances.sum { |balance| balance[:value] }
+            }
+          end
+
+          columns do
+            column do
+              table_for asset_value_by_type do
+                column :asset_type
+                rouned_value :value
+              end
+            end
+
+            column do
+              render 'admin/shared/pie_chart', data: asset_value_by_type.to_h { |asset_value|
+                                                       [asset_value[:asset_type], asset_value[:value]]
+                                                     }
+            end
+          end
+        end
+
+        panel 'Funding' do
+          fundings = TotalFundingsService.call
+
+          table_for fundings do
+            column :ticker do |funding|
+              funding[:ticker]
+            end
+            rouned_value :funding
+          end
         end
 
         panel 'Actions' do
