@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class AssetHolder < ApplicationRecord
-  has_many :assets, dependent: :restrict_with_exception
+  has_many :trades, dependent: :restrict_with_exception
+  has_many :fundings, dependent: :restrict_with_exception
+  has_many :incomes, dependent: :restrict_with_exception
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 

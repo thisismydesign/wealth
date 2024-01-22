@@ -13,16 +13,24 @@ ActiveAdmin.register_page 'Dashboard' do
         asset_balances = TotalBalancesService.call
 
         panel 'Balance by Asset' do
-          pie_chart_data = asset_balances.to_h { |asset_balance| [asset_balance[:asset].ticker, asset_balance[:value]] }
+          balance_by_asset = asset_balances.each_with_object({}) do |asset_balance, hash|
+            asset = asset_balance[:asset]
+            hash[asset.ticker] ||= { asset:, value: 0, balance: 0 }
+            hash[asset.ticker][:value] += asset_balance[:value]
+            hash[asset.ticker][:balance] += asset_balance[:balance]
+          end.values
+
+          pie_chart_data = balance_by_asset.to_h { |balance| [balance[:asset].ticker, balance[:value]] }
 
           columns do
             column do
-              table_for asset_balances do
+              table_for balance_by_asset do
                 asset_link :asset
                 rouned_value :balance
                 rouned_value :value
               end
             end
+
             column do
               render 'admin/shared/pie_chart', data: pie_chart_data
             end
@@ -30,40 +38,50 @@ ActiveAdmin.register_page 'Dashboard' do
         end
 
         panel 'Balance by Asset Type' do
-          asset_balance_by_type = asset_balances.group_by do |asset_balance|
-            asset_balance[:asset].asset_type.name
-          end
-          asset_value_by_type = asset_balance_by_type.map do |asset_type, balances|
-            {
-              asset_type:,
-              value: balances.sum { |balance| balance[:value] }
-            }
-          end
+          balance_by_asset_type = asset_balances.each_with_object({}) do |asset_balance, hash|
+            asset_type = asset_balance[:asset].asset_type
+            hash[asset_type.name] ||= { asset_type:, value: 0 }
+            hash[asset_type.name][:value] += asset_balance[:value]
+          end.values
+
+          pie_chart_data = balance_by_asset_type.to_h { |balance| [balance[:asset_type].name, balance[:value]] }
 
           columns do
             column do
-              table_for asset_value_by_type do
+              table_for balance_by_asset_type do
                 column :asset_type
                 rouned_value :value
               end
             end
 
             column do
-              render 'admin/shared/pie_chart', data: asset_value_by_type.to_h { |asset_value|
-                                                       [asset_value[:asset_type], asset_value[:value]]
-                                                     }
+              render 'admin/shared/pie_chart', data: pie_chart_data
             end
           end
         end
 
-        panel 'Funding' do
-          fundings = TotalFundingsService.call
+        panel 'Balance by Asset Holder' do
+          balance_by_asset_holder = asset_balances.each_with_object({}) do |asset_balance, hash|
+            asset_holder = asset_balance[:asset_holder]
+            hash[asset_holder.name] ||= { asset_holder:, value: 0, funding: 0 }
+            hash[asset_holder.name][:value] += asset_balance[:value]
+            hash[asset_holder.name][:funding] += asset_balance[:funding]
+          end.values
 
-          table_for fundings do
-            column :ticker do |funding|
-              funding[:ticker]
+          pie_chart_data = balance_by_asset_holder.to_h { |balance| [balance[:asset_holder].name, balance[:value]] }
+
+          columns do
+            column do
+              table_for balance_by_asset_holder do
+                column :asset_holder
+                rouned_value :value
+                rouned_value :funding
+              end
             end
-            rouned_value :funding
+
+            column do
+              render 'admin/shared/pie_chart', data: pie_chart_data
+            end
           end
         end
 
