@@ -7,7 +7,7 @@ class TotalFundingsService < ApplicationService
     fundings = Asset.where(asset_type: AssetType.find_by(name: 'Currency')).map do |asset|
       {
         ticker: asset.ticker,
-        funding: FundingService.call(asset_id: asset.id, year:)
+        funding: FundingService.call(asset:, year:)
       }
     end
 

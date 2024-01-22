@@ -10,8 +10,9 @@ ActiveAdmin.register_page 'Dashboard' do
   content title: proc { I18n.t('active_admin.dashboard') } do
     columns do
       column do
-        panel :Balance do
-          asset_balances = TotalBalancesService.call
+        asset_balances = TotalBalancesService.call
+
+        panel 'Balance by Asset' do
           pie_chart_data = asset_balances.to_h { |asset_balance| [asset_balance[:asset].ticker, asset_balance[:value]] }
 
           columns do
@@ -26,7 +27,9 @@ ActiveAdmin.register_page 'Dashboard' do
               render 'admin/shared/pie_chart', data: pie_chart_data
             end
           end
+        end
 
+        panel 'Balance by Asset Type' do
           asset_balance_by_type = asset_balances.group_by do |asset_balance|
             asset_balance[:asset].asset_type.name
           end

@@ -5,7 +5,7 @@ class TotalBalancesService < ApplicationService
 
   def call
     balances = Asset.includes(:sell_trades, :buy_trades, :fundings, :asset_type).find_each.map do |asset|
-      balance = BalanceService.call(asset_id: asset.id, year:)
+      balance = BalanceService.call(asset:, year:)
 
       {
         asset:,
