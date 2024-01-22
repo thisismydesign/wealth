@@ -56,15 +56,15 @@ ActiveAdmin.register_page 'Tax' do
               rouned_value :to_amount
               asset_link :to
 
-              column 'Tax base open price' do |trade|
+              column :open_price do |trade|
                 optional_currency CalculateOpenPriceService.call(close_trade: trade), tax_base
               end
 
-              column 'Tax base close price' do |trade|
+              column :close_price do |trade|
                 optional_currency trade.tax_base_price&.amount, tax_base
               end
 
-              column 'Tax base profit' do |trade|
+              column :profit do |trade|
                 open_price = CalculateOpenPriceService.call(close_trade: trade)
                 profit = CalculateProfitService.call(close_trade: trade)
                 percentage_profit = profit / open_price * 100
