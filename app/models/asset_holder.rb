@@ -16,4 +16,8 @@ class AssetHolder < ApplicationRecord
   def self.ibkr
     where(name: 'IBKR').first_or_create!
   end
+
+  def self.binance
+    where(name: 'Binance').first_or_create!
+  end
 end
