@@ -12,6 +12,20 @@ ActiveAdmin.register_page 'Dashboard' do
       column do
         asset_balances = TotalBalancesService.call
 
+        panel 'Balance' do
+          balances = asset_balances.filter { |balance| !balance[:balance].zero? }
+          balances = balances.group_by { |balance| balance[:asset_holder] }
+
+          balances.each_value do |balance|
+            table_for balance, class: 'half-width' do
+              column :asset_holder
+              asset_link :asset
+              rouned_value :balance
+              rouned_value :value
+            end
+          end
+        end
+
         panel 'Balance by Asset' do
           balance_by_asset = asset_balances.each_with_object({}) do |asset_balance, hash|
             asset = asset_balance[:asset]
