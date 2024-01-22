@@ -13,6 +13,8 @@ RSpec.describe Admin::TaxController, type: :controller do
     create(:trade_pair, open_trade:, close_trade:)
     create(:exchange_rate, from: base, to: base, date: 1.day.ago, rate: 1)
     create(:exchange_rate, from: base, to: base, date: Time.zone.today, rate: 1)
+    create(:price, priceable: open_trade, asset: base, amount: 40_000 * 350)
+    create(:price, priceable: close_trade, asset: base, amount: 45_000 * 350)
   end
 
   it 'shows trade' do
