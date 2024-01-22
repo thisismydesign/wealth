@@ -4,6 +4,9 @@ ActiveAdmin.register Funding do
   menu priority: 5
 
   index do
+    selectable_column
+    id_column
+
     column :date do |income|
       income.date.strftime('%Y.%m.%d')
     end

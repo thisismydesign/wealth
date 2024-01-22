@@ -19,6 +19,7 @@ ActiveAdmin.register_page 'Dashboard' do
             hash[asset.ticker][:value] += asset_balance[:value]
             hash[asset.ticker][:balance] += asset_balance[:balance]
           end.values
+          balance_by_asset = balance_by_asset.filter { |balance| !balance[:balance].zero? }
 
           pie_chart_data = balance_by_asset.to_h { |balance| [balance[:asset].ticker, balance[:value]] }
 
