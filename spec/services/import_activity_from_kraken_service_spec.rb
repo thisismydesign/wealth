@@ -49,7 +49,7 @@ RSpec.describe ImportActivityFromKrakenService do
     # rubocop:enable RSpec/ExampleLength
   end
 
-  context 'when export contains a staking' do
+  context 'when export contains a staking reward' do
     let(:csv_file) { fixture_file_upload(Rails.root.join('spec/fixtures/kraken_staking.csv'), 'text/csv') }
 
     it 'creates income' do
@@ -79,5 +79,25 @@ RSpec.describe ImportActivityFromKrakenService do
 
       expect { call }.not_to change(Trade, :count)
     end
+  end
+
+  context 'when export contains a deposit' do
+    let(:csv_file) { fixture_file_upload(Rails.root.join('spec/fixtures/kraken_deposit.csv'), 'text/csv') }
+
+    it 'creates funding' do
+      expect { call }.to change(Funding, :count).by(1)
+    end
+
+    # rubocop:disable RSpec/ExampleLength
+    it 'creates funding with correct attributes' do
+      call
+
+      expect(Funding.last).to have_attributes(
+        amount: BigDecimal('10000'),
+        asset: Asset.find_by(ticker: 'EUR'),
+        date: Time.zone.parse('2023-06-20 07:46:46')
+      )
+    end
+    # rubocop:enable RSpec/ExampleLength
   end
 end

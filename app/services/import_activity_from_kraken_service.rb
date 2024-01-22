@@ -12,6 +12,7 @@ class ImportActivityFromKrakenService < ApplicationService
     'SOL03.S' => { ticker: 'SOL', asset_type: AssetType.crypto }
   }.freeze
 
+  # rubocop:disable Metrics/MethodLength
   def call
     CSV.foreach(csv_file.path, headers: true) do |row|
       if spend_or_receive?(row)
@@ -20,14 +21,30 @@ class ImportActivityFromKrakenService < ApplicationService
         import_trade(row)
       elsif staking?(row)
         import_staking(row)
+      elsif deposit?(row)
+        import_deposit(row)
       end
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   private
 
   def trades
     @trades ||= {}
+  end
+
+  def deposit?(row)
+    row['type'] == 'deposit'
+  end
+
+  def import_deposit(row)
+    asset = asset(row['asset'])
+    return unless asset.asset_type == AssetType.currency
+
+    Funding.where(
+      asset: asset(row['asset']), date: row['time'], amount: row['amount'].to_d, asset_holder:
+    ).first_or_create!
   end
 
   def staking?(row)
