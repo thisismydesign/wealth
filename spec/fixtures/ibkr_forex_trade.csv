@@ -1,0 +1,2 @@
+Trades,Header,DataDiscriminator,Asset Category,Currency,Symbol,Date/Time,Quantity,T. Price,,Proceeds,Comm in EUR,,,MTM in EUR,Code
+Trades,Data,Order,Forex,USD,EUR.USD,"2023-06-29, 04:01:30","-14,996.33",1.0918,,16372.993094,-1.83264,,,74.846413,
