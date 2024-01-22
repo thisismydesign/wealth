@@ -41,6 +41,7 @@ class ImportActivityFromKrakenService < ApplicationService
   def import_deposit(row)
     asset = asset(row['asset'])
     return unless asset.asset_type == AssetType.currency
+    return if row['txid'].empty?
 
     Funding.where(
       asset: asset(row['asset']), date: row['time'], amount: row['amount'].to_d, asset_holder:

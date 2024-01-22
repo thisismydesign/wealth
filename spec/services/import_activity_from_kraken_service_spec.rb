@@ -95,7 +95,7 @@ RSpec.describe ImportActivityFromKrakenService do
       expect(Funding.last).to have_attributes(
         amount: BigDecimal('10000'),
         asset: Asset.find_by(ticker: 'EUR'),
-        date: Time.zone.parse('2023-06-20 07:46:46')
+        date: Time.zone.parse('2023-06-20 08:49:10')
       )
     end
     # rubocop:enable RSpec/ExampleLength
