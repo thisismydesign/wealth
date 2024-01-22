@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe TotalIncomeService do
+RSpec.describe TotalTaxableIncomeService do
   subject(:call) { described_class.call }
 
   it 'returns 0' do
@@ -11,7 +11,7 @@ RSpec.describe TotalIncomeService do
 
   context 'when there are incomes' do
     before do
-      create_list(:income, 2, amount: 1).each do |income|
+      create_list(:income, 2, amount: 1, income_type: IncomeType.dividend).each do |income|
         create(:price, priceable: income, amount: 1, asset: Asset.tax_base)
       end
     end

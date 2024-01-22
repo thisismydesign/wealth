@@ -18,7 +18,7 @@ ActiveAdmin.register_page 'Tax' do
 
         div do
           profits = TotalProfitsService.call(close_trades:)
-          income = TotalIncomeService.call(year:)
+          income = TotalTaxableIncomeService.call(year:)
           tax = (income + profits) * Rails.application.config.x.tax_rate.to_d
 
           h3 do
