@@ -3,7 +3,7 @@
 class ApplicationService
   include ActiveModel::Model
 
-  def self.call(**args)
-    new(**args).call
+  def self.call(**args, &)
+    new(**args).call(&)
   end
 end

@@ -16,31 +16,61 @@ ActiveAdmin.register_page 'Dashboard' do
           balances = asset_balances.filter { |balance| !balance[:balance].zero? }
           balances = balances.group_by { |balance| balance[:asset_holder] }
 
-          balances.each_value do |balance|
-            table_for balance, class: 'half-width' do
-              column :asset_holder
-              asset_link :asset
-              rouned_value :balance
-              rouned_value :value
+          total = asset_balances.sum { |asset_balance| asset_balance[:value] }
+          real_estate_value = asset_balances.sum do |balance|
+            balance[:asset].asset_type == AssetType.real_estate ? balance[:value] : 0
+          end
+
+          total_balances = [
+            {
+              name: 'Total',
+              value: total
+            },
+            {
+              name: 'Total liquid',
+              value: total - real_estate_value
+            },
+            {
+              name: 'Total real estate',
+              value: real_estate_value
+            }
+          ]
+
+          columns do
+            column do
+              balances.each_value do |balance|
+                table_for balance do
+                  column :asset_holder
+                  asset_link :asset
+                  rouned_value :balance
+                  rouned_value :value
+                end
+              end
+            end
+
+            column do
+              table_for total_balances do
+                column :name
+                column :value do |balance|
+                  optional_currency balance[:value], Asset.trade_base
+                end
+              end
             end
           end
         end
 
         panel 'Balance by Asset' do
-          balance_by_asset = asset_balances.each_with_object({}) do |asset_balance, hash|
-            asset = asset_balance[:asset]
-            hash[asset.ticker] ||= { asset:, value: 0, balance: 0 }
-            hash[asset.ticker][:value] += asset_balance[:value]
-            hash[asset.ticker][:balance] += asset_balance[:balance]
-          end.values
+          balance_by_asset = GroupBalancesService.call(asset_balances:) do |asset_balance|
+            [asset_balance[:asset], asset_balance[:asset].ticker]
+          end
           balance_by_asset = balance_by_asset.filter { |balance| !balance[:balance].zero? }
 
-          pie_chart_data = balance_by_asset.to_h { |balance| [balance[:asset].ticker, balance[:value]] }
+          pie_chart_data = balance_by_asset.to_h { |balance| [balance[:group_by].ticker, balance[:value]] }
 
           columns do
             column do
               table_for balance_by_asset do
-                asset_link :asset
+                asset_link :group_by
                 rouned_value :balance
                 rouned_value :value
               end
@@ -53,18 +83,18 @@ ActiveAdmin.register_page 'Dashboard' do
         end
 
         panel 'Balance by Asset Type' do
-          balance_by_asset_type = asset_balances.each_with_object({}) do |asset_balance, hash|
-            asset_type = asset_balance[:asset].asset_type
-            hash[asset_type.name] ||= { asset_type:, value: 0 }
-            hash[asset_type.name][:value] += asset_balance[:value]
-          end.values
+          balance_by_asset_type = GroupBalancesService.call(asset_balances:) do |asset_balance|
+            [asset_balance[:asset].asset_type, asset_balance[:asset].asset_type.name]
+          end
 
-          pie_chart_data = balance_by_asset_type.to_h { |balance| [balance[:asset_type].name, balance[:value]] }
+          pie_chart_data = balance_by_asset_type.to_h { |balance| [balance[:group_by].name, balance[:value]] }
 
           columns do
             column do
               table_for balance_by_asset_type do
-                column :asset_type
+                column :group_by do |balance|
+                  link_to(balance[:group_by].name, admin_asset_type_path(balance[:group_by]))
+                end
                 rouned_value :value
               end
             end
@@ -76,19 +106,17 @@ ActiveAdmin.register_page 'Dashboard' do
         end
 
         panel 'Balance by Asset Holder' do
-          balance_by_asset_holder = asset_balances.each_with_object({}) do |asset_balance, hash|
-            asset_holder = asset_balance[:asset_holder]
-            hash[asset_holder.name] ||= { asset_holder:, value: 0, funding: 0 }
-            hash[asset_holder.name][:value] += asset_balance[:value]
-            hash[asset_holder.name][:funding] += asset_balance[:funding]
-          end.values
-
-          pie_chart_data = balance_by_asset_holder.to_h { |balance| [balance[:asset_holder].name, balance[:value]] }
+          balance_by_asset_holder = GroupBalancesService.call(asset_balances:) do |asset_balance|
+            [asset_balance[:asset_holder], asset_balance[:asset_holder].name]
+          end
+          pie_chart_data = balance_by_asset_holder.to_h { |balance| [balance[:group_by].name, balance[:value]] }
 
           columns do
             column do
               table_for balance_by_asset_holder do
-                column :asset_holder
+                column :group_by do |balance|
+                  link_to(balance[:group_by].name, admin_asset_holder_path(balance[:group_by]))
+                end
                 rouned_value :value
                 rouned_value :funding
               end
