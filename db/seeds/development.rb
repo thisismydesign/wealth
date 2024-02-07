@@ -31,6 +31,7 @@ etf = AssetType.find_by(name: 'ETF')
   { name: 'VUSA - S&P 500 ETF (Dist, EUR, AEB, Vanguard, UCITS)', ticker: 'VUSA', asset_type: etf },
   { name: 'NDIA - MSCI INDIA ETF (Acc, USD, LSEETF, iShares, UCITS)', ticker: 'NDIA', asset_type: etf },
   { name: 'SXR8 - S&P 500 ETF (Acc, EUR, IBIS2, iShares, UCITS)', ticker: 'SXR8', asset_type: etf },
+  { name: 'CSPX - S&P 500 ETF (Acc, EUR, IBIS2, iShares, UCITS)', ticker: 'CSPX', asset_type: etf },
 
   { name: 'Bitcoin', ticker: 'BTC', asset_type: crypto },
   { name: 'Ethereum', ticker: 'ETH', asset_type: crypto },
