@@ -22,7 +22,7 @@ Metrics/BlockLength:
   Exclude:
     - 'app/admin/**/*.rb'
 
-# Allow rescue shorthand is specs
+# Allow rescue shorthand in specs
 Style/RescueModifier:
   Exclude:
     - 'spec/**/*.rb'
