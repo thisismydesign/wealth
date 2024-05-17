@@ -34,7 +34,7 @@ jobs:
     timeout-minutes: 10
     needs: [build-docker-image]
     env:
-      OMJ_IMAGE: ${{ needs.build-docker-image.outputs.docker-tag }}
+      DOCKER_IMAGE: ${{ needs.build-docker-image.outputs.docker-tag }}
       DOCKER_STAGE_TARGET: deps
 
     steps:
@@ -63,7 +63,7 @@ jobs:
     timeout-minutes: 10
     needs: [build-docker-image]
     env:
-      OMJ_IMAGE: ${{ needs.build-docker-image.outputs.docker-tag }}
+      DOCKER_IMAGE: ${{ needs.build-docker-image.outputs.docker-tag }}
       DOCKER_STAGE_TARGET: deps
 
     steps:
@@ -84,5 +84,5 @@ jobs:
     - name: Pull images
       run: docker-compose pull db redis
 
-    - name: Lint
+    - name: Test
       run: docker-compose run web bundle exec rspec
