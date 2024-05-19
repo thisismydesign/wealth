@@ -3,7 +3,7 @@
 ActiveAdmin.register Trade do
   menu priority: 2
 
-  config.per_page = [30, 50, 100]
+  config.per_page = [30, 50, 100, 1000]
 
   scope(:all, default: true)
   scope(:close_trades)
