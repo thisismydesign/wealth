@@ -20,4 +20,8 @@ class AssetType < ApplicationRecord
   def self.real_estate
     where(name: 'Real estate').first_or_create!
   end
+
+  def self.etf
+    where(name: 'ETF').first_or_create!
+  end
 end

@@ -57,5 +57,6 @@ module App
     config.x.trade_base_currency = 'EUR'
     config.x.tax_base_currency = 'HUF'
     config.x.tax_rate = 0.15
+    config.x.social_tax_rate = 0.13
   end
 end

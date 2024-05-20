@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe TotalTaxableIncomeService do
+RSpec.describe Tax::TotalIncomeService do
   subject(:call) { described_class.call }
 
   it 'returns 0' do
