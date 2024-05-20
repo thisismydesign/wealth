@@ -45,6 +45,11 @@ ActiveAdmin.register Trade do
     end
   end
 
+  filter :year, as: :select, collection: lambda {
+    (Trade.order(:date).first.date.year..Time.zone.today.year).map do |year|
+      [year, year]
+    end
+  }
   filter :date
   filter :from_amount
   filter :to_amount

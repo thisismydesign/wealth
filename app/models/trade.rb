@@ -34,6 +34,8 @@ class Trade < ApplicationRecord
       .where(from_asset_types: { name: 'Currency' })
   }
 
+  scope :year_eq, ->(year) { where('extract(year from date) = ?', year) }
+
   after_save :create_prices
   after_save :assign_trade_pairs
 
@@ -51,6 +53,10 @@ class Trade < ApplicationRecord
 
   def self.ransackable_associations(_auth_object = nil)
     %w[from to asset_holder]
+  end
+
+  def self.ransackable_scopes(_auth_object = nil)
+    %w[year_eq]
   end
 
   def humanized
