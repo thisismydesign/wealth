@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get 'imports/rates_from_googlefinance', to: 'imports#rates_from_googlefinance'
   post 'imports/activity_from_ibkr', to: 'imports#activity_from_ibkr'
   post 'imports/activity_from_kraken', to: 'imports#activity_from_kraken'
+  post 'imports/activity_from_wise', to: 'imports#activity_from_wise'
 
   mount Sidekiq::Web => '/sidekiq'
 end

@@ -24,4 +24,10 @@ class ImportsController < ApplicationController
 
     redirect_back(fallback_location: root_path)
   end
+
+  def activity_from_wise
+    ImportActivityFromWiseService.call(csv_file: params[:csv_file])
+
+    redirect_back(fallback_location: root_path)
+  end
 end

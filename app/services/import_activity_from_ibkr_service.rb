@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ClassLength
 class ImportActivityFromIbkrService < ApplicationService
   attr_accessor :csv_file
 
@@ -98,16 +97,6 @@ class ImportActivityFromIbkrService < ApplicationService
     @asset_holder ||= AssetHolder.ibkr
   end
 
-  def ensure_asset(ticker)
-    asset = Asset.find_by(ticker:)
-    unless asset
-      Rails.logger.warn("Asset not found: #{ticker}")
-      return false
-    end
-
-    asset
-  end
-
   def dividend?(row)
     row[0] == 'Dividends' && row[1] == 'Data' && row[3].present?
   end
@@ -147,4 +136,3 @@ class ImportActivityFromIbkrService < ApplicationService
     amount.delete(',').to_d
   end
 end
-# rubocop:enable Metrics/ClassLength

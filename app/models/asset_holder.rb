@@ -22,4 +22,8 @@ class AssetHolder < ApplicationRecord
   def self.binance
     where(name: 'Binance').first_or_create!
   end
+
+  def self.wise
+    where(name: 'Wise').first_or_create!
+  end
 end
