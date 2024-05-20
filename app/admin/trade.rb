@@ -56,6 +56,10 @@ ActiveAdmin.register Trade do
   filter :to
   filter :from
   filter :asset_holder
+  filter :type, as: :select, collection: [
+    %i[close close_trades],
+    %i[open open_trades]
+  ]
 
   permit_params :date, :from_amount, :from_id, :to_amount, :to_id, :asset_holder_id
 

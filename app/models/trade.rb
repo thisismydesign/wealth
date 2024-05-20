@@ -35,6 +35,7 @@ class Trade < ApplicationRecord
   }
 
   scope :year_eq, ->(year) { where('extract(year from date) = ?', year) }
+  scope :type_eq, ->(type) { public_send(type) }
 
   after_save :create_prices
   after_save :assign_trade_pairs
@@ -56,7 +57,7 @@ class Trade < ApplicationRecord
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    %w[year_eq]
+    %w[year_eq type_eq]
   end
 
   def humanized
