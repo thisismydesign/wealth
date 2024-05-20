@@ -106,4 +106,23 @@ RSpec.describe ImportActivityFromIbkrService do
       )
     end
   end
+
+  context 'when export contains interest' do
+    let(:csv_file) { fixture_file_upload(Rails.root.join('spec/fixtures/ibkr_interest.csv'), 'text/csv') }
+
+    let!(:eur) { create(:asset, ticker: 'EUR') }
+
+    it 'creates income' do
+      expect { call }.to change(Income, :count).by(1)
+    end
+
+    it 'creates income with correct attributes' do
+      call
+
+      expect(Income.first).to have_attributes(
+        amount: BigDecimal('2.08'), asset: eur, date: Time.zone.parse('2023-03-29'),
+        source: eur, income_type: IncomeType.interest
+      )
+    end
+  end
 end

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
 class ImportActivityFromIbkrService < ApplicationService
   attr_accessor :csv_file
 
@@ -14,6 +15,8 @@ class ImportActivityFromIbkrService < ApplicationService
         import_funding(row)
       elsif dividend?(row)
         import_dividend(row)
+      elsif interest?(row)
+        import_interest(row)
       end
     end
   end
@@ -106,23 +109,36 @@ class ImportActivityFromIbkrService < ApplicationService
   end
 
   def dividend?(row)
-    row[0] == 'Dividends' && row[1] == 'Data'
+    row[0] == 'Dividends' && row[1] == 'Data' && row[3].present?
   end
 
   def import_dividend(row)
-    return if row[3].blank?
-
     asset = ensure_asset(row[2])
     source = ensure_asset(row[4].split('(').first.strip)
 
     return if !asset || !source
 
-    create_income(row, asset, source)
+    create_income(row, asset, source, IncomeType.dividend)
   end
 
-  def create_income(row, asset, source)
+  def interest?(row)
+    row[0] == 'Interest' && row[1] == 'Data' && row[3].present?
+  end
+
+  def import_interest(row)
+    asset = ensure_asset(row[2])
+    source = nil
+
+    source = ensure_asset(row[2]) if row[4].include?('Credit Interest')
+
+    return unless asset
+
+    create_income(row, asset, source, IncomeType.interest)
+  end
+
+  def create_income(row, asset, source, type)
     Income.where(
-      asset:, date: row[3], amount: to_big_decimal(row[5]), income_type: IncomeType.dividend,
+      asset:, date: row[3], amount: to_big_decimal(row[5]), income_type: type,
       source:, asset_holder:
     ).first_or_create!
   end
@@ -131,3 +147,4 @@ class ImportActivityFromIbkrService < ApplicationService
     amount.delete(',').to_d
   end
 end
+# rubocop:enable Metrics/ClassLength
