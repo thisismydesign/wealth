@@ -2,7 +2,7 @@
 
 module Tax
   class OpenPositionsService < ApplicationService
-    attr_accessor :year, :to_asset_type
+    attr_accessor :year, :accept_previous_years, :to_asset_type
 
     def call
       scope.group_by(&:to).map do |to_asset, trades_by_to|
@@ -17,10 +17,15 @@ module Tax
     def scope
       scope = Trade.open_trades
 
-      scope = scope.where('extract(year from date) <= ?', year) if year.present?
+      scope = scope_timeframe(scope)
       scope = scope.where(asset_types: { name: to_asset_type.name }) if to_asset_type.present?
 
       scope.includes(:to, :close_trade_pairs, :tax_base_price, :from).filter { |trade| !trade.open_trade_closed? }
+    end
+
+    def scope_timeframe(scope)
+      scope = scope.where('extract(year from date) <= ?', year) if year.present? && accept_previous_years
+      scope.where('extract(year from date) = ?', year) if year.present? && !accept_previous_years
     end
 
     def create_sum_trade(to_asset, from_asset, trades)

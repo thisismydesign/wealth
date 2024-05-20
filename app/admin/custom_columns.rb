@@ -33,6 +33,26 @@ module Admin
         'N/A'
       end
     end
+
+    def open_positions_table(open_positions_label, open_positions, tax_base)
+      panel open_positions_label do
+        table_for open_positions do
+          column :name do |trade|
+            humanized_trade trade
+          end
+
+          rouned_value :from_amount
+          asset_link :from
+
+          rouned_value :to_amount
+          asset_link :to
+
+          column :total_open_price do |trade|
+            optional_currency trade.tax_base_price&.amount, tax_base
+          end
+        end
+      end
+    end
   end
 end
 
