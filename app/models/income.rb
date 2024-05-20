@@ -17,6 +17,8 @@ class Income < ApplicationRecord
   validates :amount, presence: true
   validates :date, presence: true
 
+  scope :year_eq, ->(year) { where('extract(year from date) = ?', year) }
+
   after_save :create_prices
 
   def create_prices
@@ -29,5 +31,9 @@ class Income < ApplicationRecord
 
   def self.ransackable_associations(_auth_object = nil)
     %w[income_type asset_holder]
+  end
+
+  def self.ransackable_scopes(_auth_object = nil)
+    %w[year_eq]
   end
 end
