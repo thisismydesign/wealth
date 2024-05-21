@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/MethodLength
 module Admin
   module CustomColumns
     def rouned_value(name)
@@ -92,6 +94,8 @@ module Admin
     end
   end
 end
+# rubocop:enable Metrics/MethodLength
+# rubocop:enable Metrics/AbcSize
 
 # Including here on top-level, in other places it fails
 # rubocop:disable Style/MixinUsage

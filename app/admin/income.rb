@@ -22,7 +22,8 @@ ActiveAdmin.register Income do
   config.sort_order = 'date_desc'
 
   filter :year, as: :select, collection: lambda {
-    (Income.order(:date).first.date.year..Time.zone.today.year).map do |year|
+    first_year = Income.order(:date).first&.date&.year || Time.zone.today.year
+    (first_year..Time.zone.today.year).map do |year|
       [year, year]
     end
   }
