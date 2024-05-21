@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
 class ImportActivityFromIbkrService < ApplicationService
   attr_accessor :csv_file
 
@@ -16,6 +17,8 @@ class ImportActivityFromIbkrService < ApplicationService
         import_dividend(row)
       elsif interest?(row)
         import_interest(row)
+      elsif fee?(row)
+        import_fee(row)
       end
     end
   end
@@ -132,7 +135,21 @@ class ImportActivityFromIbkrService < ApplicationService
     ).first_or_create!
   end
 
+  def fee?(row)
+    row[0] == 'Fees' && row[1] == 'Data' && row[3].present?
+  end
+
+  def import_fee(row)
+    asset = ensure_asset(row[3])
+
+    Trade.where({
+                  from: asset, to: asset, date: row[4],
+                  to_amount: 0, from_amount: to_big_decimal(row[6]).abs, asset_holder:
+                }).first_or_create!
+  end
+
   def to_big_decimal(amount)
     amount.delete(',').to_d
   end
 end
+# rubocop:enable Metrics/ClassLength
