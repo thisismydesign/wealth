@@ -45,10 +45,9 @@ ActiveAdmin.register_page 'Tax' do
           end
 
           panel 'Crypto transactions' do
-            Tax::ClosedPositionsService.call(year:, from_asset_type: AssetType.crypto)
+            close_trades = Tax::ClosedPositionsService.call(year:, from_asset_type: AssetType.crypto)
             open_positions = Tax::OpenPositionsService.call(year:, accept_previous_years: false,
                                                             to_asset_type: AssetType.crypto)
-            open_positions_label = "Opened positions (in #{year})"
 
             h3 do
               span 'Total open: '
@@ -60,6 +59,8 @@ ActiveAdmin.register_page 'Tax' do
               # TODO
             end
 
+            closed_positions_table(close_trades, year, tax_base) if close_trades.any?
+            open_positions_label = "Opened positions (in #{year})"
             open_positions_table(open_positions_label, open_positions, tax_base) if open_positions.any?
           end
 
