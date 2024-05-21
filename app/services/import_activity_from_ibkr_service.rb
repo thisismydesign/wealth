@@ -41,14 +41,14 @@ class ImportActivityFromIbkrService < ApplicationService
   end
 
   def row_to_currency_trade(row, from, to)
-    to_amount = to_big_decimal(row[7])
+    to_amount = to_big_decimal(row[7]) + to_big_decimal(row[11])
     from_amount = to_big_decimal(row[10])
 
     if to_amount.positive?
-      # Buy
+      # Buy non-native currency
       { from:, to:, date: row[6], to_amount:, from_amount: from_amount.abs, asset_holder: }
     else
-      # Sell
+      # Sell non-native currency
       { from: to, to: from, date: row[6], to_amount: from_amount, from_amount: to_amount.abs, asset_holder: }
     end
   end
@@ -63,18 +63,18 @@ class ImportActivityFromIbkrService < ApplicationService
 
     return unless from && to
 
-    Trade.where(row_to_stack_trade(row, from, to)).first_or_create!
+    Trade.where(row_to_stock_trade(row, from, to)).first_or_create!
   end
 
-  def row_to_stack_trade(row, from, to)
+  def row_to_stock_trade(row, from, to)
     to_amount = to_big_decimal(row[7])
     from_amount = to_big_decimal(row[10]) + to_big_decimal(row[11])
 
     if to_amount.positive?
-      # Buy
+      # Buy stock
       { from:, to:, date: row[6], to_amount:, from_amount: from_amount.abs, asset_holder: }
     else
-      # Sell
+      # Sell stock
       { from: to, to: from, date: row[6], to_amount: from_amount, from_amount: to_amount.abs, asset_holder: }
     end
   end

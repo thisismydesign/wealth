@@ -52,8 +52,8 @@ RSpec.describe ImportActivityFromIbkrService do
       call
 
       expect(Trade.first).to have_attributes(
-        from_amount: BigDecimal('14996.33'), from: Asset.find_by(ticker: 'EUR'), to_amount: BigDecimal('16372.993094'),
-        to: Asset.find_by(ticker: 'USD'), date: Time.zone.parse('2023-06-29, 04:01:30')
+        to_amount: BigDecimal('16372.993094'), to: Asset.find_by(ticker: 'USD'), from: Asset.find_by(ticker: 'EUR'),
+        date: Time.zone.parse('2023-06-29, 04:01:30'), from_amount: BigDecimal('14998.16264')
       )
     end
   end
