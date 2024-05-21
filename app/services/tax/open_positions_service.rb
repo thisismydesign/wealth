@@ -25,7 +25,9 @@ module Tax
 
     def scope_timeframe(scope)
       scope = scope.where('extract(year from date) <= ?', year) if year.present? && accept_previous_years
-      scope.where('extract(year from date) = ?', year) if year.present? && !accept_previous_years
+      scope = scope.where('extract(year from date) = ?', year) if year.present? && !accept_previous_years
+
+      scope
     end
 
     def create_sum_trade(to_asset, from_asset, trades)
