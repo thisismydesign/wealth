@@ -8,6 +8,7 @@ class BalanceService < ApplicationService
 
     balance -= total_from_trades
     balance += total_to_trades
+    balance += total_incomes
 
     balance
   end
@@ -28,5 +29,13 @@ class BalanceService < ApplicationService
     scope = scope.where(asset_holder:) if asset_holder.present?
 
     scope.sum(:to_amount)
+  end
+
+  def total_incomes
+    scope = Income.where(asset:)
+    scope = scope.where('extract(year from date) <= ?', year) if year.present?
+    scope = scope.where(asset_holder:) if asset_holder.present?
+
+    scope.sum(:amount)
   end
 end
