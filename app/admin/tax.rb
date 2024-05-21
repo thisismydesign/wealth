@@ -38,42 +38,7 @@ ActiveAdmin.register_page 'Tax' do
               optional_currency tax, tax_base
             end
 
-            if close_trades.any?
-              panel "Positions closed in #{year}" do
-                table_for close_trades do
-                  column :name do |trade|
-                    humanized_trade trade
-                  end
-
-                  column :date do |trade|
-                    trade.date.strftime('%Y.%m.%d')
-                  end
-
-                  rouned_value :from_amount
-                  asset_link :from
-
-                  rouned_value :to_amount
-                  asset_link :to
-
-                  column :open_price do |trade|
-                    optional_currency CalculateOpenPriceService.call(close_trade: trade), tax_base
-                  end
-
-                  column :close_price do |trade|
-                    optional_currency trade.tax_base_price&.amount, tax_base
-                  end
-
-                  column :profit do |trade|
-                    open_price = CalculateOpenPriceService.call(close_trade: trade)
-                    profit = CalculateProfitService.call(close_trade: trade)
-                    percentage_profit = profit / open_price * 100
-
-                    optional_currency profit, tax_base
-                    span " (#{percentage_profit.round(2)}%)"
-                  end
-                end
-              end
-            end
+            closed_positions_table(close_trades, year, tax_base) if close_trades.any?
 
             open_positions_label = "Open positions (opened in #{year} or earlier)"
             open_positions_table(open_positions_label, open_positions, tax_base) if open_positions.any?
