@@ -26,11 +26,11 @@ class Income < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[amount date income_type_id asset_holder_id]
+    %w[amount date income_type_id asset_holder_id source_id]
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    %w[income_type asset_holder]
+    %w[income_type asset_holder source_id]
   end
 
   def self.ransackable_scopes(_auth_object = nil)

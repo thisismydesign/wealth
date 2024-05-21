@@ -29,6 +29,7 @@ ActiveAdmin.register Income do
   }
   filter :date
   filter :amount
+  filter :source
   filter :income_type
   filter :asset_holder
 
