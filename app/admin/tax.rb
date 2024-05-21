@@ -48,15 +48,22 @@ ActiveAdmin.register_page 'Tax' do
             close_trades = Tax::ClosedPositionsService.call(year:, from_asset_type: AssetType.crypto)
             open_positions = Tax::OpenPositionsService.call(year:, accept_previous_years: false,
                                                             to_asset_type: AssetType.crypto)
+            total_close = close_trades.sum { |trade| trade.tax_base_price&.amount || 0 }
+            total_open = open_positions.sum { |trade| trade.tax_base_price&.amount || 0 }
 
             h3 do
               span 'Total open: '
-              # TODO
+              optional_currency total_open, tax_base
             end
 
             h3 do
               span 'Total close: '
-              # TODO
+              optional_currency total_close, tax_base
+            end
+
+            h3 do
+              span 'Total profit: '
+              optional_currency total_close - total_open, tax_base
             end
 
             closed_positions_table(close_trades, year, tax_base) if close_trades.any?
