@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ImportActivityFromWiseService < ApplicationService
+class ImportActivityFromWiseService < Import::ImportService
   attr_accessor :csv_file
 
   def call

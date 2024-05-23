@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # rubocop:disable Metrics/ClassLength
-class ImportActivityFromIbkrService < ApplicationService
+class ImportActivityFromIbkrService < Import::ImportService
   attr_accessor :csv_file
 
   # rubocop:disable Metrics/MethodLength
