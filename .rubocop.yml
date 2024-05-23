@@ -21,6 +21,7 @@ Lint/EmptyBlock:
 Metrics/BlockLength:
   Exclude:
     - 'app/admin/**/*.rb'
+    - 'app/views/**/*.arb'
 
 # Allow rescue shorthand in specs
 Style/RescueModifier:
