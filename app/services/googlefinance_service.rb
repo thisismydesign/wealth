@@ -16,6 +16,6 @@ class GooglefinanceService < ApplicationService
   end
 
   def sheet_id
-    @sheet_id ||= ENV.fetch('GOOGLEFINANCE_SHEET_ID', nil)
+    @sheet_id ||= ConfigService.call(key: [:googlefinance_sheet_id])
   end
 end

@@ -35,5 +35,4 @@ FROM base AS app
 
 COPY --from=deps /usr/local/bundle/ /usr/local/bundle/
 
-COPY .env.example .env
 COPY . .

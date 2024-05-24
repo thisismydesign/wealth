@@ -14,10 +14,14 @@ Supports:
 ### Usage
 
 ```sh
-cp .env.example .env
-# Fill values in .env
-
 docker-compose up
+```
+
+Tools:
+
+```sh
+docker-compose exec web bin/rails credentials:decrypt
+docker-compose exec web bin/rails credentials:encrypt
 ```
 
 #### Caveats
