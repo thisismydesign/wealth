@@ -10,4 +10,5 @@ run:
   web: bin/rails server --binding 0.0.0.0
   worker:
     image: web
-    command: bundle exec good_job start
+    command:
+      - bundle exec good_job start
