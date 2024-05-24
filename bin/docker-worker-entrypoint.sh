@@ -11,6 +11,5 @@ wait_for()
 bundle check || bundle install
 
 wait_for 10 db 5432
-wait_for 10 redis 6379
 
 exec "$@"

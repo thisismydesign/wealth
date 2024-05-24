@@ -53,7 +53,7 @@ jobs:
         cache-to: type=gha
 
     - name: Pull images
-      run: docker-compose pull db redis
+      run: docker-compose pull db
 
     - name: Lint
       run: docker-compose run web bundle exec rubocop
@@ -82,7 +82,7 @@ jobs:
         cache-to: type=gha
 
     - name: Pull images
-      run: docker-compose pull db redis
+      run: docker-compose pull db
 
     - name: Test
       run: docker-compose run web bundle exec rspec
