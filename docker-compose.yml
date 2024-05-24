@@ -22,7 +22,7 @@ services:
   worker:
     image: ${DOCKER_IMAGE:-wealth:local}
     entrypoint: bin/docker-worker-entrypoint.sh
-    command: bundle exec sidekiq
+    command: bundle exec good_job start
     volumes:
       - .:/app
       - bundle_cache:/usr/local/bundle

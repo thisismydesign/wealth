@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  require 'sidekiq/web'
-
   ActiveAdmin.routes(self)
 
   root to: 'admin/dashboard#index'
@@ -17,5 +15,5 @@ Rails.application.routes.draw do
   post 'imports/activity_from_kraken', to: 'imports#activity_from_kraken'
   post 'imports/activity_from_wise', to: 'imports#activity_from_wise'
 
-  mount Sidekiq::Web => '/sidekiq'
+  mount GoodJob::Engine => 'good_job'
 end

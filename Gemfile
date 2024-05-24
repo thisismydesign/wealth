@@ -19,9 +19,9 @@ gem 'activeadmin'
 gem 'activeadmin_addons'
 gem 'chartkick' # Charts
 gem 'faraday' # HTTP client
+gem 'good_job' # ActiveJob backend
 gem 'nokogiri' # Parse MNB exchange rates from HTML
 gem 'sass-rails' # Needed for ActiveAdmin
-gem 'sidekiq'
 gem 'sprockets' # Needed for ActiveAdmin
 
 group :development, :test do

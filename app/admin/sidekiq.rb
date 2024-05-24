@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-ActiveAdmin.register Sidekiq do
-  menu url: '/sidekiq', label: 'Sidekiq'
+ActiveAdmin.register_page 'Background jobs' do
+  menu url: '/good_job', label: 'Background jobs'
 end

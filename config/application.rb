@@ -46,8 +46,7 @@ module App
     # Needed for ActiveAdmin
     config.middleware.use ActionDispatch::Flash
     config.middleware.use Rack::MethodOverride
-    # Needed for Sidekiq
-    config.active_job.queue_adapter = :sidekiq
+    config.active_job.queue_adapter = :good_job
     config.session_store :cookie_store, key: '_interslice_session'
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use config.session_store, config.session_options
