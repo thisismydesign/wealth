@@ -57,13 +57,5 @@ module App
     config.x.tax_base_currency = 'HUF'
     config.x.tax_rate = 0.15
     config.x.social_tax_rate = 0.13
-
-    config.good_job.enable_cron = true
-    config.good_job.cron = {
-      import: {
-        class: 'ImportJob',
-        cron: '0 6 * * *' # Every day at 6:00am
-      }
-    }
   end
 end
