@@ -6,11 +6,6 @@ RSpec.describe ImportActivityFromIbkrService do
   subject(:call) { described_class.call(csv_file:) }
 
   context 'when export contains a stock trade' do
-    before do
-      create(:asset, ticker: 'USD')
-      create(:asset, ticker: 'NDIA')
-    end
-
     let(:csv_file) { fixture_file_upload(Rails.root.join('spec/fixtures/ibkr_stock_trade.csv'), 'text/csv') }
 
     it 'creates trades' do
@@ -37,11 +32,6 @@ RSpec.describe ImportActivityFromIbkrService do
   end
 
   context 'when export contains a forex trade' do
-    before do
-      create(:asset, ticker: 'USD')
-      create(:asset, ticker: 'EUR')
-    end
-
     let(:csv_file) { fixture_file_upload(Rails.root.join('spec/fixtures/ibkr_forex_trade.csv'), 'text/csv') }
 
     it 'creates trades' do
@@ -51,7 +41,7 @@ RSpec.describe ImportActivityFromIbkrService do
     it 'creates trade with correct attributes' do
       call
 
-      expect(Trade.first).to have_attributes(
+      expect(Trade.last).to have_attributes(
         to_amount: BigDecimal('16372.993094'), to: Asset.find_by(ticker: 'USD'), from: Asset.find_by(ticker: 'EUR'),
         date: Time.zone.parse('2023-06-29, 04:01:30'), from_amount: BigDecimal('14998.16264')
       )
@@ -60,10 +50,6 @@ RSpec.describe ImportActivityFromIbkrService do
 
   context 'when export contains funding' do
     let(:csv_file) { fixture_file_upload(Rails.root.join('spec/fixtures/ibkr_funding.csv'), 'text/csv') }
-
-    before do
-      create(:asset, ticker: 'EUR')
-    end
 
     it 'creates fundings' do
       expect { call }.to change(Funding, :count).by(2)
@@ -89,11 +75,6 @@ RSpec.describe ImportActivityFromIbkrService do
   context 'when export contains dividend' do
     let(:csv_file) { fixture_file_upload(Rails.root.join('spec/fixtures/ibkr_dividends.csv'), 'text/csv') }
 
-    before do
-      create(:asset, ticker: 'USD')
-      create(:asset, ticker: 'VUSA')
-    end
-
     it 'creates income' do
       expect { call }.to change(Income, :count).by(1)
     end
@@ -101,7 +82,7 @@ RSpec.describe ImportActivityFromIbkrService do
     it 'creates income with correct attributes' do
       call
 
-      expect(Income.first).to have_attributes(
+      expect(Income.last).to have_attributes(
         amount: BigDecimal('4.99'), asset: Asset.find_by(ticker: 'USD'), date: Time.zone.parse('2023-03-29')
       )
     end
@@ -110,8 +91,6 @@ RSpec.describe ImportActivityFromIbkrService do
   context 'when export contains interest' do
     let(:csv_file) { fixture_file_upload(Rails.root.join('spec/fixtures/ibkr_interest.csv'), 'text/csv') }
 
-    let!(:eur) { create(:asset, ticker: 'EUR') }
-
     it 'creates income' do
       expect { call }.to change(Income, :count).by(1)
     end
@@ -119,9 +98,26 @@ RSpec.describe ImportActivityFromIbkrService do
     it 'creates income with correct attributes' do
       call
 
-      expect(Income.first).to have_attributes(
-        amount: BigDecimal('2.08'), asset: eur, date: Time.zone.parse('2023-03-29'),
-        source: eur, income_type: IncomeType.interest
+      expect(Income.last).to have_attributes(
+        amount: BigDecimal('2.08'), asset: Asset.find_by(ticker: 'EUR'), date: Time.zone.parse('2023-03-29'),
+        source: Asset.find_by(ticker: 'EUR'), income_type: IncomeType.interest
+      )
+    end
+  end
+
+  context 'when export contains fee' do
+    let(:csv_file) { fixture_file_upload(Rails.root.join('spec/fixtures/ibkr_fee.csv'), 'text/csv') }
+
+    it 'creates trade' do
+      expect { call }.to change(Trade, :count).by(1)
+    end
+
+    it 'creates trade with correct attributes' do
+      call
+
+      expect(Trade.last).to have_attributes(
+        to_amount: BigDecimal('0'), to: Asset.find_by(ticker: 'EUR'), from: Asset.find_by(ticker: 'EUR'),
+        date: Time.zone.parse('2021-06-03'), from_amount: BigDecimal('8.18')
       )
     end
   end

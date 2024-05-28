@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # rubocop:disable Metrics/ClassLength
-class ImportActivityFromIbkrService < Import::ImportService
+class ImportActivityFromIbkrService < ApplicationService
   attr_accessor :csv_file
 
   # rubocop:disable Metrics/MethodLength
@@ -32,8 +32,8 @@ class ImportActivityFromIbkrService < Import::ImportService
 
   def import_currency_trade(row)
     to_ticker, from_ticker = row[5].split('.')
-    from = ensure_asset(from_ticker)
-    to = ensure_asset(to_ticker)
+    from = EnsureAssetService.call(ticker: from_ticker, asset_type: AssetType.currency)
+    to = EnsureAssetService.call(ticker: to_ticker, asset_type: AssetType.currency)
 
     return unless from && to
 
@@ -58,8 +58,8 @@ class ImportActivityFromIbkrService < Import::ImportService
   end
 
   def import_stock_trade(row)
-    from = ensure_asset(row[4])
-    to = ensure_asset(row[5])
+    from = EnsureAssetService.call(ticker: row[4], asset_type: AssetType.currency)
+    to = EnsureAssetService.call(ticker: row[5], asset_type: AssetType.etf)
 
     return unless from && to
 
@@ -84,7 +84,7 @@ class ImportActivityFromIbkrService < Import::ImportService
   end
 
   def import_funding(row)
-    asset = ensure_asset(row[2])
+    asset = EnsureAssetService.call(ticker: row[2], asset_type: AssetType.currency)
 
     return unless asset
 
@@ -105,8 +105,8 @@ class ImportActivityFromIbkrService < Import::ImportService
   end
 
   def import_dividend(row)
-    asset = ensure_asset(row[2])
-    source = ensure_asset(row[4].split('(').first.strip)
+    asset = EnsureAssetService.call(ticker: row[2], asset_type: AssetType.currency)
+    source = EnsureAssetService.call(ticker: row[4].split('(').first.strip, asset_type: AssetType.etf)
 
     return if !asset || !source
 
@@ -118,10 +118,8 @@ class ImportActivityFromIbkrService < Import::ImportService
   end
 
   def import_interest(row)
-    asset = ensure_asset(row[2])
-    source = nil
-
-    source = ensure_asset(row[2]) if row[4].include?('Credit Interest')
+    asset = EnsureAssetService.call(ticker: row[2], asset_type: AssetType.currency)
+    source = row[4].include?('Credit Interest') ? asset : nil
 
     return unless asset
 
@@ -140,7 +138,7 @@ class ImportActivityFromIbkrService < Import::ImportService
   end
 
   def import_fee(row)
-    asset = ensure_asset(row[3])
+    asset = EnsureAssetService.call(ticker: row[3], asset_type: AssetType.currency)
 
     Trade.where({
                   from: asset, to: asset, date: row[4],

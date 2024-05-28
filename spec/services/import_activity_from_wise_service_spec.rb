@@ -16,8 +16,8 @@ RSpec.describe ImportActivityFromWiseService do
       call
 
       expect(Income.first).to have_attributes(
-        amount: BigDecimal('1.51'), date: Time.zone.parse('05-12-2023'),
-        income_type: IncomeType.interest
+        amount: BigDecimal('1.51'), asset: Asset.find_by(ticker: 'EUR'), date: Time.zone.parse('2023-12-05'),
+        source: Asset.find_by(ticker: 'EUR'), income_type: IncomeType.interest
       )
     end
   end
