@@ -23,20 +23,23 @@ crypto = AssetType.find_by(name: 'Crypto')
 etf = AssetType.find_by(name: 'ETF')
 
 [
-  { name: 'Euro', ticker: 'EUR', asset_type: currency },
-  { name: 'US Dollar', ticker: 'USD', asset_type: currency },
-  { name: 'Hungarian Forint', ticker: 'HUF', asset_type: currency },
+  { ticker: 'EUR', name: 'Euro', asset_type: currency },
+  { ticker: 'USD', name: 'US Dollar', asset_type: currency },
+  { ticker: 'HUF', name: 'Hungarian Forint', asset_type: currency },
 
-  { name: 'VUSD - S&P 500 ETF (Dist, USD, LSEETF, Vanguard, UCITS)', ticker: 'VUSD', asset_type: etf },
-  { name: 'VUSA - S&P 500 ETF (Dist, EUR, AEB, Vanguard, UCITS)', ticker: 'VUSA', asset_type: etf },
-  { name: 'NDIA - MSCI INDIA ETF (Acc, USD, LSEETF, iShares, UCITS)', ticker: 'NDIA', asset_type: etf },
-  { name: 'SXR8 - S&P 500 ETF (Acc, EUR, IBIS2, iShares, UCITS)', ticker: 'SXR8', asset_type: etf },
-  { name: 'CSPX - S&P 500 ETF (Acc, EUR, IBIS2, iShares, UCITS)', ticker: 'CSPX', asset_type: etf },
+  { ticker: 'VUSD', name: 'Vanguard S&P 500 USD Dist', description: 'Dist, USD, LSEETF, Vanguard, UCITS',
+    asset_type: etf },
+  { ticker: 'VUSA', name: 'Vanguard S&P 500 EUR Dist', description: 'Dist, EUR, AEB, Vanguard, UCITS',
+    asset_type: etf },
+  { ticker: 'NDIA', name: 'iShares MSCI INDIA USD Acc', description: 'Acc, USD, LSEETF, iShares, UCITS',
+    asset_type: etf },
+  { ticker: 'CSPX', name: 'iShares S&P 500 EUR Acc', description: 'Acc, EUR, IBIS2, iShares, UCITS, aka SXR8',
+    asset_type: etf },
 
-  { name: 'Bitcoin', ticker: 'BTC', asset_type: crypto },
-  { name: 'Ethereum', ticker: 'ETH', asset_type: crypto },
-  { name: 'Solana', ticker: 'SOL', asset_type: crypto },
-  { name: 'Dogecoin', ticker: 'DOGE', asset_type: crypto }
+  { ticker: 'BTC', name: 'Bitcoin', asset_type: crypto },
+  { ticker: 'ETH', name: 'Ethereum', asset_type: crypto },
+  { ticker: 'SOL', name: 'Solana', asset_type: crypto },
+  { ticker: 'DOGE', name: 'Dogecoin', asset_type: crypto }
 ].each do |asset|
   Asset.where(asset).first_or_create!
 end

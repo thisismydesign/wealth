@@ -6,6 +6,7 @@ ActiveAdmin.register Asset do
       link_to(resource.ticker, admin_asset_path(resource))
     end
     column :name
+    column :description
     column :asset_type
 
     actions
