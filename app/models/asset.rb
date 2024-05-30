@@ -10,7 +10,6 @@ class Asset < ApplicationRecord
   has_many :prices, dependent: :restrict_with_exception
   belongs_to :asset_type
 
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :ticker, presence: true, uniqueness: { case_sensitive: false }
 
   def self.ransackable_attributes(_auth_object = nil)
