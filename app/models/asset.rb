@@ -9,6 +9,9 @@ class Asset < ApplicationRecord
   has_many :incomes, dependent: :restrict_with_exception
   has_many :prices, dependent: :restrict_with_exception
   belongs_to :asset_type
+  has_many :exchange_rates_from, class_name: 'ExchangeRate', foreign_key: 'from_id', dependent: :destroy,
+                                 inverse_of: :from
+  has_many :exchange_rates_to, class_name: 'ExchangeRate', foreign_key: 'to_id', dependent: :destroy, inverse_of: :to
 
   validates :ticker, presence: true, uniqueness: { case_sensitive: false }
 
