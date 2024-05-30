@@ -2,7 +2,7 @@
 
 class ImportRatesFromGooglefinanceService < ApplicationService
   def call
-    RATES.each do |rate|
+    asset_pairs.each do |rate|
       response = GooglefinanceService.call(sheet: rate[:sheet])
       CSV.parse(response.body, headers: true) do |row|
         ExchangeRate.where(from: rate[:from], to: rate[:to], date: row['Date'], rate: row['Close']).first_or_create!
@@ -10,41 +10,25 @@ class ImportRatesFromGooglefinanceService < ApplicationService
     end
   end
 
-  RATES = [
-    {
-      from: Asset.find_by(ticker: 'SXR8'),
-      to: Asset.find_by(ticker: 'EUR'),
-      sheet: 'AMS:CSPX'
-    },
-    {
-      from: Asset.find_by(ticker: 'BTC'),
-      to: Asset.find_by(ticker: 'EUR'),
-      sheet: 'BTCEUR'
-    },
-    {
-      from: Asset.find_by(ticker: 'ETH'),
-      to: Asset.find_by(ticker: 'EUR'),
-      sheet: 'ETHEUR'
-    },
-    {
-      from: Asset.find_by(ticker: 'VUSD'),
-      to: Asset.find_by(ticker: 'USD'),
-      sheet: 'LON:VUSD'
-    },
-    {
-      from: Asset.find_by(ticker: 'VUSA'),
-      to: Asset.find_by(ticker: 'EUR'),
-      sheet: 'AMS:VUSA'
-    },
-    {
-      from: Asset.find_by(ticker: 'NDIA'),
-      to: Asset.find_by(ticker: 'USD'),
-      sheet: 'AMS:NDIA'
-    },
-    {
-      from: Asset.find_by(ticker: 'USD'),
-      to: Asset.find_by(ticker: 'EUR'),
-      sheet: 'USDEUR'
-    }
-  ].freeze
+  def eur
+    @eur ||= EnsureAssetService.call(ticker: 'EUR', asset_type: AssetType.currency)
+  end
+
+  def usd
+    @usd ||= EnsureAssetService.call(ticker: 'USD', asset_type: AssetType.currency)
+  end
+
+  # rubocop:disable Metrics/AbcSize
+  def asset_pairs
+    @asset_pairs ||= [
+      { sheet: 'AMS:CSPX', to: eur, from: EnsureAssetService.call(ticker: 'CSPX', asset_type: AssetType.etf) },
+      { sheet: 'LON:VUSD', to: usd, from: EnsureAssetService.call(ticker: 'VUSD', asset_type: AssetType.etf) },
+      { sheet: 'AMS:VUSA', to: eur, from: EnsureAssetService.call(ticker: 'VUSA', asset_type: AssetType.etf) },
+      { sheet: 'AMS:NDIA', to: usd, from: EnsureAssetService.call(ticker: 'NDIA', asset_type: AssetType.etf) },
+      { sheet: 'BTCEUR', to: eur, from: EnsureAssetService.call(ticker: 'BTC', asset_type: AssetType.crypto) },
+      { sheet: 'ETHEUR', to: eur, from: EnsureAssetService.call(ticker: 'ETH', asset_type: AssetType.crypto) },
+      { sheet: 'USDEUR', to: eur, from: usd }
+    ]
+  end
+  # rubocop:enable Metrics/AbcSize
 end
