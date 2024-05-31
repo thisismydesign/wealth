@@ -15,6 +15,7 @@ gem 'tzinfo-data', platforms: %i[windows jruby]
 gem 'activeadmin'
 gem 'activeadmin_addons'
 gem 'chartkick' # Charts
+gem 'devise' # Authentication
 gem 'faraday' # HTTP client
 gem 'good_job' # ActiveJob backend
 gem 'nokogiri' # Parse MNB exchange rates from HTML
