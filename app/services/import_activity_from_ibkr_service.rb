@@ -5,16 +5,19 @@ class ImportActivityFromIbkrService < ApplicationService
   attr_accessor :csv_file
 
   # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def call
+    ticker_mapping = Ibkr::TickerMapperService.call(csv_file:)
+
     CSV.foreach(csv_file.path, headers: false, liberal_parsing: true) do |row|
       if currency_trade?(row)
         import_currency_trade(row)
       elsif stock_trade?(row)
-        import_stock_trade(row)
+        import_stock_trade(row, ticker_mapping)
       elsif funding?(row)
         import_funding(row)
       elsif dividend?(row)
-        import_dividend(row)
+        import_dividend(row, ticker_mapping)
       elsif interest?(row)
         import_interest(row)
       elsif fee?(row)
@@ -22,6 +25,7 @@ class ImportActivityFromIbkrService < ApplicationService
       end
     end
   end
+  # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/MethodLength
 
   private
@@ -57,9 +61,9 @@ class ImportActivityFromIbkrService < ApplicationService
     row[0] == 'Trades' && row[1] == 'Data' && row[2] == 'Order' && row[3] == 'Stocks'
   end
 
-  def import_stock_trade(row)
+  def import_stock_trade(row, ticker_mapping)
     from = EnsureAssetService.call(ticker: row[4], asset_type: AssetType.currency)
-    to = EnsureAssetService.call(ticker: row[5], asset_type: AssetType.etf)
+    to = EnsureAssetService.call(ticker: ticker_mapping[row[5]], asset_type: AssetType.etf)
 
     return unless from && to
 
@@ -80,7 +84,7 @@ class ImportActivityFromIbkrService < ApplicationService
   end
 
   def funding?(row)
-    row[0] == 'Deposits & Withdrawals' && row[1] == 'Data'
+    row[0] == 'Deposits & Withdrawals' && row[1] == 'Data' && row[3].present?
   end
 
   def import_funding(row)
@@ -104,9 +108,10 @@ class ImportActivityFromIbkrService < ApplicationService
     row[0] == 'Dividends' && row[1] == 'Data' && row[3].present?
   end
 
-  def import_dividend(row)
+  def import_dividend(row, ticker_mapping)
+    source_ticker = ticker_mapping[row[4].split('(').first.strip]
     asset = EnsureAssetService.call(ticker: row[2], asset_type: AssetType.currency)
-    source = EnsureAssetService.call(ticker: row[4].split('(').first.strip, asset_type: AssetType.etf)
+    source = EnsureAssetService.call(ticker: source_ticker, asset_type: AssetType.etf)
 
     return if !asset || !source
 

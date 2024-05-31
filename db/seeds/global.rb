@@ -27,13 +27,13 @@ etf = AssetType.find_by(name: 'ETF')
   { ticker: 'USD', name: 'US Dollar', asset_type: currency },
   { ticker: 'HUF', name: 'Hungarian Forint', asset_type: currency },
 
-  { ticker: 'VUSD', name: 'Vanguard S&P 500 USD Dist', description: 'Dist, USD, LSEETF, Vanguard, UCITS',
+  { ticker: 'LON:VUSD', name: 'Vanguard S&P 500 USD Dist', description: 'Dist, USD, LSEETF, Vanguard, UCITS',
     asset_type: etf },
-  { ticker: 'VUSA', name: 'Vanguard S&P 500 EUR Dist', description: 'Dist, EUR, AEB, Vanguard, UCITS',
+  { ticker: 'AMS:VUSA', name: 'Vanguard S&P 500 EUR Dist', description: 'Dist, EUR, AEB, Vanguard, UCITS',
     asset_type: etf },
-  { ticker: 'NDIA', name: 'iShares MSCI INDIA USD Acc', description: 'Acc, USD, LSEETF, iShares, UCITS',
+  { ticker: 'LON:NDIA', name: 'iShares MSCI INDIA USD Acc', description: 'Acc, USD, LSEETF, iShares, UCITS',
     asset_type: etf },
-  { ticker: 'CSPX', name: 'iShares S&P 500 EUR Acc', description: 'Acc, EUR, IBIS2, iShares, UCITS, aka SXR8',
+  { ticker: 'FRA:CSPX', name: 'iShares S&P 500 EUR Acc', description: 'Acc, EUR, IBIS2, iShares, UCITS, aka SXR8',
     asset_type: etf },
 
   { ticker: 'BTC', name: 'Bitcoin', asset_type: crypto },

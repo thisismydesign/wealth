@@ -27,8 +27,6 @@ docker-compose exec web bin/rails credentials:encrypt
 #### Caveats
 
 - Set config in `application.rb`
-- Assets need to be added manually to be recognized
 - Tax calculation does not support trading between non-currency assets. I.e. USD -> BTC & BTC -> USD is supported, but BTC -> ETH is not.
-- IBKR export does not differentiate between tickers on different exchanges (e.g. LSTEEF, AEB). Make sure only one ticket with the same name is available.
 - Fees are not handled separately. They're added to costs or subtracted from proceeds.
 - Asset value conversion to tax base currency happens according to Hungarian tax law (i.e. when exchange rate is not available the app will use previous available date).
