@@ -33,7 +33,7 @@ etf = AssetType.find_by(name: 'ETF')
     asset_type: etf },
   { ticker: 'LON:NDIA	', name: 'iShares MSCI INDIA USD Acc', description: 'Acc, USD, LSEETF, iShares, UCITS',
     asset_type: etf },
-  { ticker: 'AMS:CSPX', name: 'iShares S&P 500 EUR Acc', description: 'Acc, EUR, IBIS2, iShares, UCITS, aka SXR8',
+  { ticker: 'FRA:CSPX', name: 'iShares S&P 500 EUR Acc', description: 'Acc, EUR, IBIS2, iShares, UCITS, aka SXR8',
     asset_type: etf },
 
   { ticker: 'BTC', name: 'Bitcoin', asset_type: crypto },
