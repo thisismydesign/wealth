@@ -84,7 +84,7 @@ class ImportActivityFromIbkrService < ApplicationService
   end
 
   def funding?(row)
-    row[0] == 'Deposits & Withdrawals' && row[1] == 'Data'
+    row[0] == 'Deposits & Withdrawals' && row[1] == 'Data' && row[3].present?
   end
 
   def import_funding(row)
