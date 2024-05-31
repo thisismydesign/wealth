@@ -31,7 +31,7 @@ panel "Positions closed in #{year}" do
     column :profit do |trade|
       open_price = CalculateOpenPriceService.call(close_trade: trade)
       profit = CalculateProfitService.call(close_trade: trade)
-      percentage_profit = profit / open_price * 100
+      percentage_profit = profit.to_d / open_price.to_d * 100
 
       optional_currency profit, tax_base
       span " (#{percentage_profit.round(2)}%)"
