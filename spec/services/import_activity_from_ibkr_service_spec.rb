@@ -17,7 +17,7 @@ RSpec.describe ImportActivityFromIbkrService do
 
       expect(Trade.first).to have_attributes(
         from_amount: BigDecimal('16511.273699'), from: Asset.find_by(ticker: 'USD'), to_amount: BigDecimal('2200'),
-        to: Asset.find_by(ticker: 'NDIA'), date: Time.zone.parse('2023-06-29, 04:00:06')
+        to: Asset.find_by(ticker: 'LON:NDIA'), date: Time.zone.parse('2023-06-29, 04:00:06')
       )
     end
 
@@ -25,8 +25,8 @@ RSpec.describe ImportActivityFromIbkrService do
       call
 
       expect(Trade.last).to have_attributes(
-        from_amount: BigDecimal('2200'), from: Asset.find_by(ticker: 'NDIA'), to_amount: BigDecimal('18677.436897755'),
-        to: Asset.find_by(ticker: 'USD'), date: Time.zone.parse('2023-12-27, 03:00:21')
+        from_amount: BigDecimal('2200'), from: Asset.find_by(ticker: 'LON:NDIA'), to: Asset.find_by(ticker: 'USD'),
+        to_amount: BigDecimal('18677.436897755'), date: Time.zone.parse('2023-12-27, 03:00:21')
       )
     end
   end
@@ -83,7 +83,8 @@ RSpec.describe ImportActivityFromIbkrService do
       call
 
       expect(Income.last).to have_attributes(
-        amount: BigDecimal('4.99'), asset: Asset.find_by(ticker: 'USD'), date: Time.zone.parse('2023-03-29')
+        amount: BigDecimal('4.99'), asset: Asset.find_by(ticker: 'USD'), date: Time.zone.parse('2023-03-29'),
+        source: Asset.find_by(ticker: 'AMS:VUSA'), income_type: IncomeType.dividend
       )
     end
   end
