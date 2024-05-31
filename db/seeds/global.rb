@@ -41,9 +41,7 @@ etf = AssetType.find_by(name: 'ETF')
   { ticker: 'SOL', name: 'Solana', asset_type: crypto },
   { ticker: 'DOGE', name: 'Dogecoin', asset_type: crypto }
 ].each do |asset|
-  Asset.find_or_create_by!(ticker: asset[:ticker]) do |a|
-    a.name = asset[:name]
-    a.description = asset[:description]
-    a.asset_type = asset[:asset_type]
-  end
+  Asset.find_or_create_by!(
+    ticker: asset[:ticker], asset_type: asset[:asset_type]
+  ).update!(asset.except(:ticker, :asset_type))
 end
