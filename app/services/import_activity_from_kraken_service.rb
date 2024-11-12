@@ -4,6 +4,7 @@ class ImportActivityFromKrakenService < ApplicationService
   attr_accessor :csv_file
 
   ASSET_MAPPING = {
+    'EUR' => { ticker: 'EUR', asset_type: AssetType.currency },
     'ZEUR' => { ticker: 'EUR', asset_type: AssetType.currency },
     'XXBT' => { ticker: 'BTC', asset_type: AssetType.crypto },
     'XETH' => { ticker: 'ETH', asset_type: AssetType.crypto },
