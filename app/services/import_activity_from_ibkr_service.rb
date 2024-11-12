@@ -2,7 +2,7 @@
 
 # rubocop:disable Metrics/ClassLength
 class ImportActivityFromIbkrService < ApplicationService
-  attr_accessor :csv_file
+  attr_accessor :csv_file, :custom_asset_holder
 
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
@@ -101,7 +101,7 @@ class ImportActivityFromIbkrService < ApplicationService
   end
 
   def asset_holder
-    @asset_holder ||= AssetHolder.ibkr
+    @asset_holder ||= custom_asset_holder || AssetHolder.ibkr
   end
 
   def dividend?(row)
