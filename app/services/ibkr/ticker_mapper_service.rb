@@ -13,9 +13,12 @@ module Ibkr
     def call
       tickers = {}
 
-      CSV.foreach(csv_file.path, headers: false, liberal_parsing: true) do |row|
-        if row[0] == 'Financial Instrument Information' && row[1] == 'Data' && row[2] == 'Stocks'
-          tickers[row[3]] = "#{EXCHANGE_MAPPING[row[7]]}:#{row[3]}"
+      section_data = Ibkr::CsvSectionParser.call(csv_file:, section: 'Financial Instrument Information')
+
+      section_data.each do |row|
+        if row['Asset Category'] == 'Stocks'
+          exchange = EXCHANGE_MAPPING[row['Listing Exch']] || row['Listing Exch']
+          tickers[row['Symbol']] = "#{exchange}:#{row['Symbol']}"
         end
       end
 

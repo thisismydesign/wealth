@@ -12,4 +12,14 @@ RSpec.describe Ibkr::TickerMapperService do
       expect(call).to eq({ 'CSPX' => 'FRA:CSPX' })
     end
   end
+
+  context 'when export contains different headers' do
+    let(:csv_file) do
+      fixture_file_upload(Rails.root.join('spec/fixtures/ibkr_instrument_different_headers.csv'), 'text/csv')
+    end
+
+    it 'returns mapping' do
+      expect(call).to eq({ 'VUSD' => 'LON:VUSD' })
+    end
+  end
 end
