@@ -10,6 +10,8 @@ panel "Positions closed in #{year}" do
       humanized_trade trade
     end
 
+    column :asset_holder
+
     column :date do |trade|
       trade.date.strftime('%Y.%m.%d')
     end
@@ -38,7 +40,7 @@ panel "Positions closed in #{year}" do
     end
 
     column :tax do |trade|
-      profit = CalculateProfitService.call(close_trade: trade)
+      profit = CalculateProfitService.call(close_trade: trade) || 0
       optional_currency profit * Rails.application.config.x.tax_rate.to_d, tax_base
     end
   end
