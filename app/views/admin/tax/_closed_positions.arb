@@ -36,5 +36,10 @@ panel "Positions closed in #{year}" do
       optional_currency profit, tax_base
       span " (#{percentage_profit.round(2)}%)"
     end
+
+    column :tax do |trade|
+      profit = CalculateProfitService.call(close_trade: trade)
+      optional_currency profit * Rails.application.config.x.tax_rate.to_d, tax_base
+    end
   end
 end
