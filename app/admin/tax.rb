@@ -11,7 +11,7 @@ ActiveAdmin.register_page 'Tax' do
     end
 
     tabs do
-      (Rails.application.config.x.start_year..Time.zone.today.year).each do |year|
+      (Rails.application.config.x.start_year..Time.zone.today.year).reverse_each do |year|
         tab year.to_s do
           render partial: 'admin/tax/tax', locals: { year: }
         end
