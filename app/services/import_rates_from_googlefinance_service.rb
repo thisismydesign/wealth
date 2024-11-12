@@ -5,7 +5,9 @@ class ImportRatesFromGooglefinanceService < ApplicationService
     asset_pairs.each do |rate|
       response = GooglefinanceService.call(sheet: rate[:sheet])
       CSV.parse(response.body, headers: true) do |row|
-        ExchangeRate.where(from: rate[:from], to: rate[:to], date: row['Date'], rate: row['Close']).first_or_create!
+        exchange_rate = ExchangeRate.where(from: rate[:from], to: rate[:to], date: row['Date']).first_or_initialize
+        exchange_rate.rate = row['Close']
+        exchange_rate.save!
       end
     end
   end
