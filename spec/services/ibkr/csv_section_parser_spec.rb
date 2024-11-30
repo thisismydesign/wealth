@@ -8,6 +8,7 @@ RSpec.describe Ibkr::CsvSectionParser do
   let(:csv_file) { fixture_file_upload(Rails.root.join('spec/fixtures/ibkr_instrument.csv'), 'text/csv') }
   let(:section) { 'Financial Instrument Information' }
 
+  # rubocop:disable RSpec/ExampleLength
   it 'returns section data' do
     expect(call).to eq(
       [
@@ -25,4 +26,5 @@ RSpec.describe Ibkr::CsvSectionParser do
       ]
     )
   end
+  # rubocop:enable RSpec/ExampleLength
 end
