@@ -38,25 +38,25 @@ jobs:
       DOCKER_STAGE_TARGET: deps
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Docker Buildx to be able to use caching
-      uses: docker/setup-buildx-action@v2
+      - name: Set up Docker Buildx to be able to use caching
+        uses: docker/setup-buildx-action@v2
 
-    - name: Build image
-      uses: docker/build-push-action@v3
-      with:
-        load: true
-        target: deps
-        tags: ${{ needs.build-docker-image.outputs.docker-tag }}
-        cache-from: type=gha
-        cache-to: type=gha
+      - name: Build image
+        uses: docker/build-push-action@v3
+        with:
+          load: true
+          target: deps
+          tags: ${{ needs.build-docker-image.outputs.docker-tag }}
+          cache-from: type=gha
+          cache-to: type=gha
 
-    - name: Pull images
-      run: docker-compose pull db
+      - name: Pull images
+        run: docker compose pull db
 
-    - name: Lint
-      run: docker-compose run web bundle exec rubocop
+      - name: Lint
+        run: docker compose run web bundle exec rubocop
 
   test:
     runs-on: ubuntu-latest
@@ -67,22 +67,22 @@ jobs:
       DOCKER_STAGE_TARGET: deps
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Docker Buildx to be able to use caching
-      uses: docker/setup-buildx-action@v2
+      - name: Set up Docker Buildx to be able to use caching
+        uses: docker/setup-buildx-action@v2
 
-    - name: Build image
-      uses: docker/build-push-action@v3
-      with:
-        load: true
-        target: deps
-        tags: ${{ needs.build-docker-image.outputs.docker-tag }}
-        cache-from: type=gha
-        cache-to: type=gha
+      - name: Build image
+        uses: docker/build-push-action@v3
+        with:
+          load: true
+          target: deps
+          tags: ${{ needs.build-docker-image.outputs.docker-tag }}
+          cache-from: type=gha
+          cache-to: type=gha
 
-    - name: Pull images
-      run: docker-compose pull db
+      - name: Pull images
+        run: docker compose pull db
 
-    - name: Test
-      run: docker-compose run web bundle exec rspec
+      - name: Test
+        run: docker compose run web bundle exec rspec
