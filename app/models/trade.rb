@@ -4,6 +4,7 @@ class Trade < ApplicationRecord
   belongs_to :from, class_name: 'Asset'
   belongs_to :to, class_name: 'Asset'
   belongs_to :asset_holder
+  belongs_to :user, optional: true
 
   has_many :prices, as: :priceable, class_name: 'Price', dependent: :destroy, inverse_of: :priceable
   has_one :tax_base_price, lambda {

@@ -5,6 +5,8 @@ require 'rails_helper'
 RSpec.describe Admin::AssetTypesController, type: :controller do
   render_views
 
+  before { sign_in(create(:user)) }
+
   let!(:asset_type) { create(:asset_type) }
 
   it 'shows asset type' do

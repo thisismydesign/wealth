@@ -5,6 +5,7 @@ class Income < ApplicationRecord
   belongs_to :asset
   belongs_to :source, class_name: 'Asset', optional: true
   belongs_to :asset_holder
+  belongs_to :user, optional: true
 
   has_many :prices, as: :priceable, class_name: 'Price', dependent: :destroy, inverse_of: :priceable
   has_one :tax_base_price, lambda {

@@ -5,6 +5,8 @@ require 'rails_helper'
 RSpec.describe Admin::DashboardController, type: :controller do
   render_views
 
+  before { sign_in(create(:user)) }
+
   it 'shows balance' do
     get :index
 

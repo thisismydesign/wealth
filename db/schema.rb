@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_28_095644) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_03_203626) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,8 +58,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_28_095644) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "asset_holder_id", null: false
+    t.bigint "user_id"
     t.index ["asset_holder_id"], name: "index_fundings_on_asset_holder_id"
     t.index ["asset_id"], name: "index_fundings_on_asset_id"
+    t.index ["user_id"], name: "index_fundings_on_user_id"
   end
 
   create_table "good_job_batches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -165,10 +167,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_28_095644) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "asset_holder_id", null: false
+    t.bigint "user_id"
     t.index ["asset_holder_id"], name: "index_incomes_on_asset_holder_id"
     t.index ["asset_id"], name: "index_incomes_on_asset_id"
     t.index ["income_type_id"], name: "index_incomes_on_income_type_id"
     t.index ["source_id"], name: "index_incomes_on_source_id"
+    t.index ["user_id"], name: "index_incomes_on_user_id"
   end
 
   create_table "prices", force: :cascade do |t|
@@ -201,9 +205,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_28_095644) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "asset_holder_id", null: false
+    t.bigint "user_id"
     t.index ["asset_holder_id"], name: "index_trades_on_asset_holder_id"
     t.index ["from_id"], name: "index_trades_on_from_id"
     t.index ["to_id"], name: "index_trades_on_to_id"
+    t.index ["user_id"], name: "index_trades_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "assets", "asset_types"
@@ -211,14 +229,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_28_095644) do
   add_foreign_key "exchange_rates", "assets", column: "to_id"
   add_foreign_key "fundings", "asset_holders"
   add_foreign_key "fundings", "assets"
+  add_foreign_key "fundings", "users"
   add_foreign_key "incomes", "asset_holders"
   add_foreign_key "incomes", "assets"
   add_foreign_key "incomes", "assets", column: "source_id"
   add_foreign_key "incomes", "income_types"
+  add_foreign_key "incomes", "users"
   add_foreign_key "prices", "assets"
   add_foreign_key "trade_pairs", "trades", column: "close_trade_id"
   add_foreign_key "trade_pairs", "trades", column: "open_trade_id"
   add_foreign_key "trades", "asset_holders"
   add_foreign_key "trades", "assets", column: "from_id"
   add_foreign_key "trades", "assets", column: "to_id"
+  add_foreign_key "trades", "users"
 end

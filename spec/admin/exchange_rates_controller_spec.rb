@@ -5,7 +5,10 @@ require 'rails_helper'
 RSpec.describe Admin::ExchangeRatesController, type: :controller do
   render_views
 
-  before { create(:exchange_rate, rate: 10_000) }
+  before do
+    sign_in(create(:user))
+    create(:exchange_rate, rate: 10_000)
+  end
 
   it 'shows exchange rate' do
     get :index
