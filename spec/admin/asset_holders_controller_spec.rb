@@ -5,6 +5,8 @@ require 'rails_helper'
 RSpec.describe Admin::AssetHoldersController, type: :controller do
   render_views
 
+  before { sign_in(create(:user)) }
+
   let!(:asset_holder) { create(:asset_holder) }
 
   it 'shows asset holder' do

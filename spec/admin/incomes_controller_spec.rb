@@ -5,7 +5,10 @@ require 'rails_helper'
 RSpec.describe Admin::IncomesController, type: :controller do
   render_views
 
-  before { create(:income, amount: 10_000) }
+  before do
+    sign_in(create(:user))
+    create(:income, amount: 10_000)
+  end
 
   it 'shows income' do
     get :index
