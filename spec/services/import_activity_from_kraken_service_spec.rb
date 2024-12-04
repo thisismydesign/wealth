@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe ImportActivityFromKrakenService do
-  subject(:call) { described_class.call(csv_file:) }
+  subject(:call) { described_class.call(csv_file:, user:) }
+
+  let(:user) { create(:user) }
 
   context 'when export contains a spend & receive pair' do
     let(:csv_file) { fixture_file_upload(Rails.root.join('spec/fixtures/kraken_spend_receive_pair.csv'), 'text/csv') }
@@ -21,7 +23,8 @@ RSpec.describe ImportActivityFromKrakenService do
         from: Asset.find_by(ticker: 'EUR'),
         to_amount: BigDecimal('64.64'),
         to: Asset.find_by(ticker: 'DOGE'),
-        date: Time.zone.parse('2023-02-13 15:30:45')
+        date: Time.zone.parse('2023-02-13 15:30:45'),
+        user:
       )
     end
     # rubocop:enable RSpec/ExampleLength
@@ -43,7 +46,8 @@ RSpec.describe ImportActivityFromKrakenService do
         from: Asset.find_by(ticker: 'EUR'),
         to_amount: BigDecimal('0.04683841'),
         to: Asset.find_by(ticker: 'BTC'),
-        date: Time.zone.parse('2023-02-08 20:29:08')
+        date: Time.zone.parse('2023-02-08 20:29:08'),
+        user:
       )
     end
     # rubocop:enable RSpec/ExampleLength
@@ -65,7 +69,8 @@ RSpec.describe ImportActivityFromKrakenService do
         asset: Asset.find_by(ticker: 'ETH'),
         date: Time.zone.parse('2023-11-15 23:47:05'),
         income_type: IncomeType.staking,
-        source: Asset.find_by(ticker: 'ETH')
+        source: Asset.find_by(ticker: 'ETH'),
+        user:
       )
     end
     # rubocop:enable RSpec/ExampleLength
@@ -95,7 +100,8 @@ RSpec.describe ImportActivityFromKrakenService do
       expect(Funding.last).to have_attributes(
         amount: BigDecimal('10000'),
         asset: Asset.find_by(ticker: 'EUR'),
-        date: Time.zone.parse('2023-06-20 08:49:10')
+        date: Time.zone.parse('2023-06-20 08:49:10'),
+        user:
       )
     end
     # rubocop:enable RSpec/ExampleLength

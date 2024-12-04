@@ -20,7 +20,7 @@ class ImportsController < ApplicationController
   end
 
   def activity_from_kraken
-    ImportActivityFromKrakenService.call(csv_file: params[:csv_file])
+    ImportActivityFromKrakenService.call(csv_file: params[:csv_file], user: current_user)
 
     redirect_back(fallback_location: root_path)
   end
