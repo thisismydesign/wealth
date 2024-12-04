@@ -39,12 +39,13 @@ ActiveAdmin.register Income do
     end
   end
 
-  permit_params :amount, :date, :income_type_id, :asset_id, :source_id
+  permit_params :amount, :date, :income_type_id, :asset_id, :source_id, :asset_holder_id
 
   form do |f|
     inputs do
       f.input :income_type
       f.input :asset
+      f.input :asset_holder
       f.input :amount
       f.input :source
       f.input :date, as: :date_time_picker
