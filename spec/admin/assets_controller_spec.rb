@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Admin::AssetsController, type: :controller do
   render_views
 
-  before { sign_in(create(:user)) }
+  before { sign_in(create(:user, role: :admin)) }
 
   let!(:asset) { create(:asset) }
 

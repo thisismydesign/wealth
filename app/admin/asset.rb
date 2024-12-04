@@ -12,15 +12,24 @@ ActiveAdmin.register Asset do
     actions
   end
 
+  filter :name
+  filter :ticker
+  filter :description
+
+  show do
+    attributes_table do
+      row :name
+      row :ticker
+      row :description
+      row :asset_type
+    end
+  end
+
   controller do
     def scoped_collection
       super.includes(:asset_type)
     end
   end
-
-  filter :name
-  filter :ticker
-  filter :description
 
   permit_params :name, :ticker, :description, :asset_type_id
 end

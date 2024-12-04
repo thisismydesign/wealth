@@ -6,7 +6,7 @@ RSpec.describe Admin::TaxController, type: :controller do
   render_views
 
   before do
-    sign_in(create(:user))
+    sign_in(create(:user, role: :admin))
     base = Asset.tax_base
     btc = create(:asset, ticker: 'BTC', asset_type: AssetType.crypto)
     open_trade = create(:trade, from_amount: 40_000, from: base, to_amount: 1, to: btc, date: 1.day.ago)

@@ -13,5 +13,11 @@ ActiveAdmin.register AssetType do
 
   filter :name
 
+  show do
+    attributes_table do
+      row :name
+    end
+  end
+
   permit_params :name
 end

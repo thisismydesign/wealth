@@ -28,11 +28,12 @@ ActiveAdmin.register Funding do
   filter :amount
   filter :asset_holder
 
-  permit_params :date, :amount, :asset_id
+  permit_params :date, :amount, :asset_id, :asset_holder_id
 
   form do |f|
     inputs do
       f.input :asset
+      f.input :asset_holder
       f.input :amount
       f.input :date, as: :date_time_picker
     end

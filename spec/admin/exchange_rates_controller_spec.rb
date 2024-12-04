@@ -6,7 +6,7 @@ RSpec.describe Admin::ExchangeRatesController, type: :controller do
   render_views
 
   before do
-    sign_in(create(:user))
+    sign_in(create(:user, role: :admin))
     create(:exchange_rate, rate: 10_000)
   end
 
