@@ -4,7 +4,7 @@ class Trade < ApplicationRecord
   belongs_to :from, class_name: 'Asset'
   belongs_to :to, class_name: 'Asset'
   belongs_to :asset_holder
-  belongs_to :user, optional: true
+  belongs_to :user
 
   has_many :prices, as: :priceable, class_name: 'Price', dependent: :destroy, inverse_of: :priceable
   has_one :tax_base_price, lambda {
@@ -37,6 +37,8 @@ class Trade < ApplicationRecord
 
   scope :year_eq, ->(year) { where('extract(year from date) = ?', year) }
   scope :type_eq, ->(type) { public_send(type) }
+
+  validates :date, :from_amount, :to_amount, presence: true
 
   after_save :create_prices
   after_save :assign_trade_pairs
