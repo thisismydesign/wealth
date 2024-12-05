@@ -8,12 +8,21 @@ RSpec.describe Trade do
   let(:from) { build(:asset, name: 'Euro', ticker: 'EUR') }
   let(:to) { build(:asset, name: 'Bitcoin', ticker: 'BTC') }
 
-  it { is_expected.to belong_to(:asset_holder) }
-  it { is_expected.to belong_to(:from).class_name('Asset') }
-  it { is_expected.to belong_to(:to).class_name('Asset') }
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:date) }
+    it { is_expected.to validate_presence_of(:from_amount) }
+    it { is_expected.to validate_presence_of(:to_amount) }
+  end
 
-  it { is_expected.to have_one(:trade_base_price).dependent(:destroy) }
-  it { is_expected.to have_one(:tax_base_price).dependent(:destroy) }
+  describe 'associations' do
+    it { is_expected.to belong_to(:asset_holder) }
+    it { is_expected.to belong_to(:from).class_name('Asset') }
+    it { is_expected.to belong_to(:to).class_name('Asset') }
+    it { is_expected.to belong_to(:user) }
+
+    it { is_expected.to have_one(:trade_base_price).dependent(:destroy) }
+    it { is_expected.to have_one(:tax_base_price).dependent(:destroy) }
+  end
 
   describe '#humanized' do
     it 'returns a humanized version of the trade' do

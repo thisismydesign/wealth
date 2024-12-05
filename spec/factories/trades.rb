@@ -8,5 +8,6 @@ FactoryBot.define do
     from_amount { Faker::Number.decimal }
     to_amount { Faker::Number.decimal }
     asset_holder
+    user
   end
 end

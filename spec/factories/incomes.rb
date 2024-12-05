@@ -8,5 +8,6 @@ FactoryBot.define do
     asset
     asset_holder
     source { association(:asset) }
+    user
   end
 end

@@ -2,7 +2,7 @@
 
 # rubocop:disable Metrics/ClassLength
 class ImportActivityFromIbkrService < ApplicationService
-  attr_accessor :csv_file, :custom_asset_holder
+  attr_accessor :csv_file, :custom_asset_holder, :user
 
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
@@ -50,10 +50,10 @@ class ImportActivityFromIbkrService < ApplicationService
 
     if to_amount.positive?
       # Buy non-native currency
-      { from:, to:, date: row[6], to_amount:, from_amount: from_amount.abs, asset_holder: }
+      { from:, to:, date: row[6], to_amount:, from_amount: from_amount.abs, asset_holder:, user: }
     else
       # Sell non-native currency
-      { from: to, to: from, date: row[6], to_amount: from_amount, from_amount: to_amount.abs, asset_holder: }
+      { from: to, to: from, date: row[6], to_amount: from_amount, from_amount: to_amount.abs, asset_holder:, user: }
     end
   end
 
@@ -76,10 +76,10 @@ class ImportActivityFromIbkrService < ApplicationService
 
     if to_amount.positive?
       # Buy stock
-      { from:, to:, date: row[6], to_amount:, from_amount: from_amount.abs, asset_holder: }
+      { from:, to:, date: row[6], to_amount:, from_amount: from_amount.abs, asset_holder:, user: }
     else
       # Sell stock
-      { from: to, to: from, date: row[6], to_amount: from_amount, from_amount: to_amount.abs, asset_holder: }
+      { from: to, to: from, date: row[6], to_amount: from_amount, from_amount: to_amount.abs, asset_holder:, user: }
     end
   end
 
@@ -96,7 +96,8 @@ class ImportActivityFromIbkrService < ApplicationService
       asset:,
       asset_holder:,
       date: row[3],
-      amount: to_big_decimal(row[5])
+      amount: to_big_decimal(row[5]),
+      user:
     ).first_or_create!
   end
 
@@ -134,7 +135,7 @@ class ImportActivityFromIbkrService < ApplicationService
   def create_income(row, asset, source, type)
     Income.where(
       asset:, date: row[3], amount: to_big_decimal(row[5]), income_type: type,
-      source:, asset_holder:
+      source:, asset_holder:, user:
     ).first_or_create!
   end
 
@@ -147,7 +148,7 @@ class ImportActivityFromIbkrService < ApplicationService
 
     Trade.where({
                   from: asset, to: asset, date: row[4],
-                  to_amount: 0, from_amount: to_big_decimal(row[6]).abs, asset_holder:
+                  to_amount: 0, from_amount: to_big_decimal(row[6]).abs, asset_holder:, user:
                 }).first_or_create!
   end
 
