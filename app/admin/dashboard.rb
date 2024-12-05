@@ -10,7 +10,7 @@ ActiveAdmin.register_page 'Dashboard' do
   content title: proc { I18n.t('active_admin.dashboard') } do
     columns do
       column do
-        asset_balances = TotalBalancesService.call
+        asset_balances = TotalBalancesService.call(user: current_user)
 
         panel 'Balance' do
           balances = asset_balances.filter { |balance| !balance[:balance].zero? }

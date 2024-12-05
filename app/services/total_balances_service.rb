@@ -1,14 +1,16 @@
 # frozen_string_literal: true
 
 class TotalBalancesService < ApplicationService
+  attr_accessor :user
+
   def call
     asset_and_asset_holder_pairs.map do |asset_id, asset_holder_id|
       asset = Asset.includes(:sell_trades, :buy_trades, :fundings, :asset_type).find(asset_id)
       asset_holder = AssetHolder.find(asset_holder_id)
 
-      balance = BalanceService.call(asset:, asset_holder:)
+      balance = BalanceService.call(asset:, asset_holder:, user:)
       value = ValueService.call(amount: balance, asset:)
-      funding = ValueService.call(amount: FundingService.call(asset:, asset_holder:), asset:)
+      funding = ValueService.call(amount: FundingService.call(asset:, asset_holder:, user:), asset:)
 
       { asset_holder:, asset:, balance:, value:, funding: }
     end

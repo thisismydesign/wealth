@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class BalanceService < ApplicationService
-  attr_accessor :asset, :year, :asset_holder
+  attr_accessor :asset, :year, :asset_holder, :user
 
   def call
-    balance = FundingService.call(asset:, year:, asset_holder:)
+    balance = FundingService.call(asset:, year:, asset_holder:, user:)
 
     balance -= total_from_trades
     balance += total_to_trades
@@ -16,7 +16,7 @@ class BalanceService < ApplicationService
   private
 
   def total_from_trades
-    scope = Trade.where(from: asset)
+    scope = Trade.where(from: asset, user:)
     scope = scope.where('extract(year from date) <= ?', year) if year.present?
     scope = scope.where(asset_holder:) if asset_holder.present?
 
@@ -24,7 +24,7 @@ class BalanceService < ApplicationService
   end
 
   def total_to_trades
-    scope = Trade.where(to: asset)
+    scope = Trade.where(to: asset, user:)
     scope = scope.where('extract(year from date) <= ?', year) if year.present?
     scope = scope.where(asset_holder:) if asset_holder.present?
 
@@ -32,7 +32,7 @@ class BalanceService < ApplicationService
   end
 
   def total_incomes
-    scope = Income.where(asset:)
+    scope = Income.where(asset:, user:)
     scope = scope.where('extract(year from date) <= ?', year) if year.present?
     scope = scope.where(asset_holder:) if asset_holder.present?
 
