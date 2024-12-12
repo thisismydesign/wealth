@@ -25,7 +25,7 @@ services:
       - db
 
   css:
-    image: ${DOCKER_IMAGE:-web:local}
+    image: ${DOCKER_IMAGE:-wealth:local}
     command: yarn build:app:css --watch
     tty: true
     volumes:
@@ -33,7 +33,7 @@ services:
       - bundle_cache:/usr/local/bundle
 
   admin_css:
-    image: ${DOCKER_IMAGE:-web:local}
+    image: ${DOCKER_IMAGE:-wealth:local}
     command: yarn build:admin:css --watch
     tty: true
     volumes:
