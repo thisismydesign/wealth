@@ -2,10 +2,10 @@
 
 module Tax
   class ClosedPositionsService < ApplicationService
-    attr_accessor :year, :from_asset_type
+    attr_accessor :user, :year, :from_asset_type
 
     def call
-      scope = Trade.close_trades
+      scope = trade_scope.close_trades
 
       scope = scope.where('extract(year from date) = ?', year) if year.present?
       scope = scope.where(from_asset_types: { name: from_asset_type.name }) if from_asset_type.present?
@@ -16,6 +16,12 @@ module Tax
         from: :asset_type,
         open_trade_pairs: { open_trade: :tax_base_price }
       )
+    end
+
+    private
+
+    def trade_scope
+      TradePolicy::Scope.new(user, Trade).resolve
     end
   end
 end

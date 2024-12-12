@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ImportActivityFromKrakenService < ApplicationService
-  attr_accessor :csv_file
+  attr_accessor :csv_file, :user
 
   ASSET_MAPPING = {
     'EUR' => { ticker: 'EUR', asset_type: AssetType.currency },
@@ -45,7 +45,7 @@ class ImportActivityFromKrakenService < ApplicationService
     return if row['txid'].empty?
 
     Funding.where(
-      asset: asset(row['asset']), date: row['time'], amount: row['amount'].to_d, asset_holder:
+      asset: asset(row['asset']), date: row['time'], amount: row['amount'].to_d, asset_holder:, user:
     ).first_or_create!
   end
 
@@ -60,7 +60,7 @@ class ImportActivityFromKrakenService < ApplicationService
       amount: row['amount'].to_d - row['fee'].to_d,
       income_type: IncomeType.staking,
       source: asset(row['asset']),
-      asset_holder:
+      asset_holder:, user:
     ).first_or_create!
   end
 
@@ -114,7 +114,7 @@ class ImportActivityFromKrakenService < ApplicationService
   def new_from_trade(row)
     total_cost = -row['amount'].to_d + row['fee'].to_d
     Trade.where(from_amount: total_cost, from: asset(row['asset']), date: row['time'],
-                asset_holder:).first_or_initialize
+                asset_holder:, user:).first_or_initialize
   end
 
   def add_to_portion(trade, row)

@@ -4,8 +4,8 @@ tax_base = Asset.tax_base
 
 div do
   panel 'Regulated transactions' do
-    close_trades = Tax::ClosedPositionsService.call(year:, from_asset_type: AssetType.etf)
-    open_positions = Tax::OpenPositionsService.call(year:, accept_previous_years: true,
+    close_trades = Tax::ClosedPositionsService.call(user: current_user, year:, from_asset_type: AssetType.etf)
+    open_positions = Tax::OpenPositionsService.call(user: current_user, year:, accept_previous_years: true,
                                                     to_asset_type: AssetType.etf)
     total_close = close_trades.sum { |trade| trade.tax_base_price&.amount || 0 }
     profits = TotalProfitsService.call(close_trades:)
@@ -33,8 +33,8 @@ div do
   end
 
   panel 'Crypto transactions' do
-    close_trades = Tax::ClosedPositionsService.call(year:, from_asset_type: AssetType.crypto)
-    open_positions = Tax::OpenPositionsService.call(year:, accept_previous_years: false,
+    close_trades = Tax::ClosedPositionsService.call(user: current_user, year:, from_asset_type: AssetType.crypto)
+    open_positions = Tax::OpenPositionsService.call(user: current_user, year:, accept_previous_years: false,
                                                     to_asset_type: AssetType.crypto)
     total_close = close_trades.sum { |trade| trade.tax_base_price&.amount || 0 }
     total_open = open_positions.sum { |trade| trade.tax_base_price&.amount || 0 }
@@ -61,7 +61,7 @@ div do
   end
 
   panel 'Dividends' do
-    income = Tax::TotalIncomeService.call(year:, income_type: IncomeType.dividend)
+    income = Tax::TotalIncomeService.call(user: current_user, year:, income_type: IncomeType.dividend)
     tax = income * Rails.application.config.x.tax_rate.to_d
 
     h4 do
@@ -76,7 +76,7 @@ div do
   end
 
   panel 'Interest' do
-    income = Tax::TotalIncomeService.call(year:, income_type: IncomeType.interest)
+    income = Tax::TotalIncomeService.call(user: current_user, year:, income_type: IncomeType.interest)
     tax = income * Rails.application.config.x.tax_rate.to_d
     social_tax = income * Rails.application.config.x.social_tax_rate.to_d
 

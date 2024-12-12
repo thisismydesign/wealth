@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ImportActivityFromWiseService < ApplicationService
-  attr_accessor :csv_file
+  attr_accessor :csv_file, :user
 
   def call
     CSV.foreach(csv_file.path, headers: true) do |row|
@@ -27,7 +27,7 @@ class ImportActivityFromWiseService < ApplicationService
   def create_income(row, asset, source, type)
     Income.where(
       asset:, date: row['Date'], amount: row['Amount'].to_d, income_type: type,
-      source:, asset_holder:
+      source:, asset_holder:, user:
     ).first_or_create!
   end
 

@@ -3,7 +3,10 @@
 class Funding < ApplicationRecord
   belongs_to :asset
   belongs_to :asset_holder
-  belongs_to :user, optional: true
+  belongs_to :user
+
+  validates :amount, presence: true
+  validates :date, presence: true
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[amount asset_holder_id]

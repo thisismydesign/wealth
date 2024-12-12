@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe Tax::TotalIncomeService do
-  subject(:call) { described_class.call }
+  subject(:call) { described_class.call(user:) }
+
+  let(:user) { create(:user) }
 
   it 'returns 0' do
     expect(call).to eq(0)
@@ -11,7 +13,7 @@ RSpec.describe Tax::TotalIncomeService do
 
   context 'when there are incomes' do
     before do
-      create_list(:income, 2, amount: 1, income_type: IncomeType.dividend).each do |income|
+      create_list(:income, 2, amount: 1, income_type: IncomeType.dividend, user:).each do |income|
         create(:price, priceable: income, amount: 1, asset: Asset.tax_base)
       end
     end

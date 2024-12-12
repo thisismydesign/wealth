@@ -6,5 +6,6 @@ FactoryBot.define do
     amount { Faker::Number.decimal }
     asset
     asset_holder
+    user
   end
 end
