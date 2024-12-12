@@ -1,3 +1,3 @@
 en:
-  exchange_rate:
-    uniqueness: "must be unique per asset pair"
+  brand:
+    name: "thisismydesign/wealth"
