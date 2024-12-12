@@ -10,10 +10,14 @@ gem 'pg', '~> 1.1'
 gem 'puma', '>= 5.0'
 gem 'rails', '~> 7.1.2'
 gem 'tzinfo-data', platforms: %i[windows jruby]
+gem 'importmap-rails' # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
+gem 'sprockets-rails' # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
+gem 'stimulus-rails' # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
+gem 'turbo-rails' # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 
 # Gems used by the app
-gem 'activeadmin'
-gem 'activeadmin_addons'
+gem 'activeadmin', '4.0.0.beta13'
+gem 'cssbundling-rails', '~> 1.4' # Required by ActiveAdmin, alternative to tailwindcss-rails (do not mix!)
 gem 'chartkick' # Charts
 gem 'devise' # Authentication
 gem 'faraday' # HTTP client
@@ -21,8 +25,6 @@ gem 'good_job' # ActiveJob backend
 gem 'nokogiri' # Parse MNB exchange rates from HTML
 gem 'pundit' # Authorization
 gem 'rollbar' # Monitoring
-gem 'sass-rails' # Needed for ActiveAdmin
-gem 'sprockets' # Needed for ActiveAdmin
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

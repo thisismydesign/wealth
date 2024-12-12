@@ -24,6 +24,22 @@ services:
     depends_on:
       - db
 
+  css:
+    image: ${DOCKER_IMAGE:-web:local}
+    command: yarn build:app:css --watch
+    tty: true
+    volumes:
+      - .:/app
+      - bundle_cache:/usr/local/bundle
+
+  admin_css:
+    image: ${DOCKER_IMAGE:-web:local}
+    command: yarn build:admin:css --watch
+    tty: true
+    volumes:
+      - .:/app
+      - bundle_cache:/usr/local/bundle
+
   rubocop:
     image: ${DOCKER_IMAGE:-wealth:local}
     entrypoint: bin/docker-rubocop-entrypoint.sh

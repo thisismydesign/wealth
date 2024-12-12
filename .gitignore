@@ -33,3 +33,5 @@ coverage
 /db/seeds/personal.rb
 /db/seeds/fixtures/*
 !/db/seeds/fixtures/.keep
+
+/node_modules
