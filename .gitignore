@@ -35,3 +35,6 @@ coverage
 !/db/seeds/fixtures/.keep
 
 /node_modules
+
+/app/assets/builds/*
+!/app/assets/builds/.keep
