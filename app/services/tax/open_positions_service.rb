@@ -2,7 +2,7 @@
 
 module Tax
   class OpenPositionsService < ApplicationService
-    attr_accessor :year, :accept_previous_years, :to_asset_type
+    attr_accessor :user, :year, :accept_previous_years, :to_asset_type
 
     def call
       scope.group_by(&:to).map do |to_asset, trades_by_to|
@@ -15,7 +15,7 @@ module Tax
     private
 
     def scope
-      scope = Trade.open_trades
+      scope = Trade.where(user:).open_trades
 
       scope = scope_timeframe(scope)
       scope = scope.where(asset_types: { name: to_asset_type.name }) if to_asset_type.present?
