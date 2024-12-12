@@ -61,7 +61,7 @@ div do
   end
 
   panel 'Dividends' do
-    income = Tax::TotalIncomeService.call(year:, income_type: IncomeType.dividend)
+    income = Tax::TotalIncomeService.call(user: current_user, year:, income_type: IncomeType.dividend)
     tax = income * Rails.application.config.x.tax_rate.to_d
 
     h4 do
@@ -76,7 +76,7 @@ div do
   end
 
   panel 'Interest' do
-    income = Tax::TotalIncomeService.call(year:, income_type: IncomeType.interest)
+    income = Tax::TotalIncomeService.call(user: current_user, year:, income_type: IncomeType.interest)
     tax = income * Rails.application.config.x.tax_rate.to_d
     social_tax = income * Rails.application.config.x.social_tax_rate.to_d
 
