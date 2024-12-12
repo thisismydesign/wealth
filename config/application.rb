@@ -57,5 +57,8 @@ module App
     config.x.tax_base_currency = 'HUF'
     config.x.tax_rate = 0.15
     config.x.social_tax_rate = 0.13
+
+    # https://github.com/activeadmin/activeadmin/discussions/8346#discussioncomment-10131266
+    config.importmap.paths << ActiveAdmin::Engine.root.join('config', 'importmap.rb')
   end
 end
