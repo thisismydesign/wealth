@@ -10,7 +10,7 @@ gem 'importmap-rails' # Use JavaScript with ESM import maps [https://github.com/
 gem 'pg', '~> 1.1'
 gem 'propshaft' # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem 'puma', '>= 5.0'
-gem 'rails', '~> 7.1.2'
+gem 'rails', '~> 8.0.0'
 gem 'stimulus-rails' # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem 'turbo-rails' # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem 'tzinfo-data', platforms: %i[windows jruby]
