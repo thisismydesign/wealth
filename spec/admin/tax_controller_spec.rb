@@ -2,11 +2,9 @@
 
 require 'rails_helper'
 
-RSpec.describe Admin::TaxController, type: :controller do
-  render_views
-
+RSpec.describe 'Admin::TaxController', type: :request do
   before do
-    sign_in(create(:user, role: :admin))
+    sign_in(create(:user, role: :admin), scope: :user)
     base = Asset.tax_base
     btc = create(:asset, ticker: 'BTC', asset_type: AssetType.crypto)
     open_trade = create(:trade, from_amount: 40_000, from: base, to_amount: 1, to: btc, date: 1.day.ago)
@@ -19,7 +17,7 @@ RSpec.describe Admin::TaxController, type: :controller do
   end
 
   it 'shows trade' do
-    get :index
+    get admin_tax_path
 
     expect(response.body).to include('General Tax Overview')
   end
