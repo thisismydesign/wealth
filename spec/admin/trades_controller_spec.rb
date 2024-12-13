@@ -2,15 +2,13 @@
 
 require 'rails_helper'
 
-RSpec.describe Admin::TradesController, type: :controller do
-  render_views
-
-  before { sign_in(create(:user, role: :admin)) }
+RSpec.describe 'Admin::TradesController', type: :request do
+  before { sign_in(create(:user, role: :admin), scope: :user) }
 
   let!(:trade) { create(:trade) }
 
   it 'shows trade' do
-    get :index
+    get admin_trades_path
 
     expect(response.body).to include(CGI.escapeHTML(trade.humanized))
   end
