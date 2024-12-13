@@ -10,3 +10,5 @@ pin_all_from 'app/javascript/controllers', under: 'controllers'
 
 pin 'chartkick', to: 'chartkick.js'
 pin 'Chart.bundle', to: 'Chart.bundle.js'
+
+pin 'flowbite', to: 'https://cdn.jsdelivr.net/npm/flowbite@2.3.0/dist/flowbite.turbo.min.js'
