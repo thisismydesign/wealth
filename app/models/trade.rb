@@ -41,15 +41,15 @@ class Trade < ApplicationRecord
   validates :date, :from_amount, :to_amount, presence: true
 
   after_save :create_prices
-  after_save :assign_trade_pairs
+  # after_save :assign_trade_pairs
 
   def create_prices
     CreateTradePricesJob.perform_later(id)
   end
 
-  def assign_trade_pairs
-    AssignTradePairsJob.perform_later(id)
-  end
+  # def assign_trade_pairs
+  #   AssignTradePairsJob.perform_later(id)
+  # end
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[date from_amount to_amount from_id to_id asset_holder_id]

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register_page 'Tax' do
-  menu priority: 4
+  menu priority: 12
 
   content title: 'Tax' do
     panel 'General Tax Overview' do
@@ -10,12 +10,13 @@ ActiveAdmin.register_page 'Tax' do
       h4 "Social tax rate: #{Rails.application.config.x.social_tax_rate * 100}%"
     end
 
-    tabs do
-      (Rails.application.config.x.start_year..Time.zone.today.year).reverse_each do |year|
-        tab year.to_s do
-          render partial: 'admin/tax/tax', locals: { year: }
-        end
-      end
-    end
+    render partial: 'admin/tax/tax', locals: { year: 2024 }
+    # tabs do
+    #   (Rails.application.config.x.start_year..Time.zone.today.year).reverse_each do |year|
+    #     tab year.to_s do
+    #       render partial: 'admin/tax/tax', locals: { year: }
+    #     end
+    #   end
+    # end
   end
 end

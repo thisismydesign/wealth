@@ -1,4 +1,12 @@
+FROM node:20.9.0-alpine AS node
 FROM ruby:3.2.2-alpine AS base
+
+COPY --from=node /usr/lib /usr/lib
+COPY --from=node /usr/local/share /usr/local/share
+COPY --from=node /usr/local/lib /usr/local/lib
+COPY --from=node /usr/local/include /usr/local/include
+COPY --from=node /usr/local/bin /usr/local/bin
+COPY --from=node /opt /opt
 
 WORKDIR /app
 

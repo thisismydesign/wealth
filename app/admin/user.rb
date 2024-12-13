@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register User do
-  permit_params :email, :password, :password_confirmation, :role
+  menu label: '[Admin] Users', priority: 93
+
+  permit_params do
+    permitted = %i[email password password_confirmation]
+    permitted << :role if current_user.admin?
+    permitted
+  end
 
   filter :email
 
@@ -20,9 +26,17 @@ ActiveAdmin.register User do
       f.input :email
       f.input :password
       f.input :password_confirmation
-      f.input :role, as: :select, collection: User.roles.keys, include_blank: false
+      f.input :role, as: :select, collection: User.roles.keys, include_blank: false if current_user.admin?
     end
     f.actions
+  end
+
+  show do
+    attributes_table do
+      row :email
+      row :created_at if current_user.admin?
+      row :role if current_user.admin?
+    end
   end
 
   controller do

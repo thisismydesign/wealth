@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Price do
-  menu parent: 'Trades'
+  menu label: '[Admin] Prices', priority: 91
 
   index do
     selectable_column
