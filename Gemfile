@@ -8,9 +8,9 @@ ruby '3.2.2'
 gem 'bootsnap', require: false
 gem 'importmap-rails' # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem 'pg', '~> 1.1'
+gem 'propshaft' # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem 'puma', '>= 5.0'
 gem 'rails', '~> 7.1.2'
-gem 'sprockets-rails' # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'stimulus-rails' # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem 'turbo-rails' # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem 'tzinfo-data', platforms: %i[windows jruby]
