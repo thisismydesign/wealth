@@ -21,20 +21,15 @@ ActiveAdmin.register Trade do
       resource.date.strftime('%Y.%m.%d')
     end
 
-    rouned_value :from_amount
-    asset_link :from
-
-    rouned_value :to_amount
-    asset_link :to
     column :asset_holder
 
     column :type do |resource|
       status_tag(resource.type)
     end
-    column :open_status do |resource|
-      status = resource.open_trade_status
-      status_tag(status) if status.present?
-    end
+    # column :open_status do |resource|
+    #   status = resource.open_trade_status
+    #   status_tag(status) if status.present?
+    # end
   end
 
   config.sort_order = 'date_desc'
