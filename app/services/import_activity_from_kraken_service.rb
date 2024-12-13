@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'csv'
+
 class ImportActivityFromKrakenService < ApplicationService
   attr_accessor :csv_file, :user
 
