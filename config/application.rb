@@ -41,13 +41,7 @@ module App
     # Don't generate system test files.
     config.generators.system_tests = nil
 
-    # Needed for ActiveAdmin
-    config.middleware.use ActionDispatch::Flash
-    config.middleware.use Rack::MethodOverride
     config.active_job.queue_adapter = :good_job
-    config.session_store :cookie_store, key: '_interslice_session'
-    config.middleware.use ActionDispatch::Cookies
-    config.middleware.use config.session_store, config.session_options
 
     # Custom config
     config.x.start_year = 2022
