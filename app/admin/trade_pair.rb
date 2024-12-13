@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register TradePair do
-  menu parent: 'Trades'
+  menu label: '[Admin] Trade pairs', priority: 92
 
   index do
     selectable_column

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register IncomeType do
-  menu parent: 'Incomes'
+  menu label: '[Admin] Income types', priority: 95
 
   index do
     column :name do |resource|

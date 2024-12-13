@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register ExchangeRate do
-  menu parent: 'Assets'
+  menu label: '[Admin] Exchange rates', priority: 94
 
   index do
     column :date do |exchange_rate|

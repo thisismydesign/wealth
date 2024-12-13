@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Trade do
-  menu priority: 2
+  menu priority: 21
 
   config.per_page = [30, 50, 100, 1000]
 

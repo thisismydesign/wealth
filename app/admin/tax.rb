@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register_page 'Tax' do
-  menu priority: 4
+  menu priority: 12
 
   content title: 'Tax' do
     panel 'General Tax Overview' do

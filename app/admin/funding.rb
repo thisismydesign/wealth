@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Funding do
-  menu priority: 5
+  menu priority: 23
 
   index do
     selectable_column

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register AssetHolder do
-  menu parent: 'Assets'
+  menu priority: 32
 
   index do
     column :name do |resource|

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Asset do
+  menu priority: 31
+
   index do
     column :ticker do |resource|
       link_to(resource.ticker, admin_asset_path(resource))

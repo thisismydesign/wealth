@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register User do
+  menu label: '[Admin] Users', priority: 93
+
   permit_params :email, :password, :password_confirmation, :role
 
   filter :email
