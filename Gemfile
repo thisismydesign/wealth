@@ -12,6 +12,7 @@ gem 'propshaft' # The modern asset pipeline for Rails [https://github.com/rails/
 gem 'puma', '>= 5.0'
 gem 'rails', '~> 8.0.0'
 gem 'stimulus-rails' # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
+gem 'thruster', require: false # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
 gem 'turbo-rails' # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem 'tzinfo-data', platforms: %i[windows jruby]
 
