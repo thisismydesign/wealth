@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'csv'
+
 # rubocop:disable Metrics/ClassLength
 class ImportActivityFromIbkrService < ApplicationService
   attr_accessor :csv_file, :custom_asset_holder, :user

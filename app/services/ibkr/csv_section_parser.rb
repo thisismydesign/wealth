@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'csv'
+
 module Ibkr
   class CsvSectionParser < ApplicationService
     attr_accessor :csv_file, :section

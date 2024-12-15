@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'csv'
+
 class ImportRatesFromGooglefinanceService < ApplicationService
   def call
     asset_pairs.each do |rate|
