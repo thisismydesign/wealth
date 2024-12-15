@@ -35,7 +35,7 @@ ActiveAdmin.register Funding do
       f.input :asset
       f.input :asset_holder
       f.input :amount
-      f.input :date, as: :date_time_picker
+      f.input :date, as: :datetime_picker
     end
 
     actions

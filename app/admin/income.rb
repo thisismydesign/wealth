@@ -48,7 +48,7 @@ ActiveAdmin.register Income do
       f.input :asset_holder
       f.input :amount
       f.input :source
-      f.input :date, as: :date_time_picker
+      f.input :date, as: :datetime_picker
     end
 
     actions
