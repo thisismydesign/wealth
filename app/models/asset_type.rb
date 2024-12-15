@@ -17,10 +17,6 @@ class AssetType < ApplicationRecord
     where(name: 'Crypto').first_or_create!
   end
 
-  def self.real_estate
-    where(name: 'Real estate').first_or_create!
-  end
-
   def self.etf
     where(name: 'ETF').first_or_create!
   end

@@ -14,26 +14,26 @@ ActiveAdmin.register_page 'Dashboard' do
     balances = balances.group_by { |balance| balance[:asset_holder] }
 
     total = asset_balances.sum { |asset_balance| asset_balance[:value] }
-    real_estate_value = asset_balances.sum do |balance|
-      balance[:asset].asset_type == AssetType.real_estate ? balance[:value] : 0
-    end
+    # real_estate_value = asset_balances.sum do |balance|
+    #   balance[:asset].asset_type == AssetType.real_estate ? balance[:value] : 0
+    # end
 
     total_balances = [{
       name: 'Total',
       value: total
     }]
 
-    if real_estate_value.positive?
-      total_balances << {
-        name: 'Total liquid',
-        value: total - real_estate_value
-      }
+    # if real_estate_value.positive?
+    #   total_balances << {
+    #     name: 'Total liquid',
+    #     value: total - real_estate_value
+    #   }
 
-      total_balances << {
-        name: 'Total real estate',
-        value: real_estate_value
-      }
-    end
+    #   total_balances << {
+    #     name: 'Total real estate',
+    #     value: real_estate_value
+    #   }
+    # end
 
     panel 'Total Balance' do
       table_for total_balances do
