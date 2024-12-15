@@ -27,6 +27,16 @@ ActiveAdmin.register Asset do
     end
   end
 
+  form do |f|
+    f.inputs do
+      f.input :ticker
+      f.input :name
+      f.input :description
+      f.input :asset_type, include_blank: false
+    end
+    f.actions
+  end
+
   controller do
     def scoped_collection
       super.includes(:asset_type)
