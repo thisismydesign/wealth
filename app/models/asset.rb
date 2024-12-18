@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Asset < ApplicationRecord
+  belongs_to :user, optional: true
   has_many :sell_trades, inverse_of: :from, foreign_key: 'from_id', class_name: 'Trade',
                          dependent: :restrict_with_exception
 

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class AssetHolder < ApplicationRecord
+  belongs_to :user, optional: true
   has_many :trades, dependent: :restrict_with_exception
   has_many :fundings, dependent: :restrict_with_exception
   has_many :incomes, dependent: :restrict_with_exception

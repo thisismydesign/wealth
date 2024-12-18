@@ -5,9 +5,15 @@ require 'rails_helper'
 RSpec.describe Asset do
   subject(:asset) { build(:asset) }
 
-  it { is_expected.to belong_to(:asset_type) }
-  it { is_expected.to validate_presence_of(:ticker) }
-  it { is_expected.to validate_uniqueness_of(:ticker).case_insensitive }
+  describe 'associations' do
+    it { is_expected.to belong_to(:asset_type) }
+    it { is_expected.to belong_to(:user).optional }
+  end
+
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:ticker) }
+    it { is_expected.to validate_uniqueness_of(:ticker).case_insensitive }
+  end
 
   describe '.tax_base' do
     it 'returns tax base asset' do

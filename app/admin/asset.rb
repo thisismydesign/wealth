@@ -10,6 +10,7 @@ ActiveAdmin.register Asset do
     column :name
     column :description
     column :asset_type
+    column :user if current_user.admin?
 
     actions
   end
@@ -41,7 +42,12 @@ ActiveAdmin.register Asset do
     def scoped_collection
       super.includes(:asset_type)
     end
+
+    def create
+      params[:asset][:user_id] = current_user.id
+      super
+    end
   end
 
-  permit_params :name, :ticker, :description, :asset_type_id
+  permit_params :name, :ticker, :description, :asset_type_id, :user_id
 end

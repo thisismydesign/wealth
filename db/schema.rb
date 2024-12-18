@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_04_183119) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_18_182011) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -18,7 +18,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_04_183119) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["name"], name: "index_asset_holders_on_name", unique: true
+    t.index ["user_id"], name: "index_asset_holders_on_user_id"
   end
 
   create_table "asset_types", force: :cascade do |t|
@@ -35,8 +37,10 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_04_183119) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "asset_type_id", null: false
+    t.bigint "user_id"
     t.index ["asset_type_id"], name: "index_assets_on_asset_type_id"
     t.index ["ticker"], name: "index_assets_on_ticker", unique: true
+    t.index ["user_id"], name: "index_assets_on_user_id"
   end
 
   create_table "exchange_rates", force: :cascade do |t|
@@ -225,7 +229,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_04_183119) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "asset_holders", "users"
   add_foreign_key "assets", "asset_types"
+  add_foreign_key "assets", "users"
   add_foreign_key "exchange_rates", "assets", column: "from_id"
   add_foreign_key "exchange_rates", "assets", column: "to_id"
   add_foreign_key "fundings", "asset_holders"
