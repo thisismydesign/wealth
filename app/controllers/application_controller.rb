@@ -15,7 +15,8 @@ class ApplicationController < ActionController::Base
 
   def build_access_denied_message(exception)
     # rubocop:disable Layout/LineLength
-    "Access denied on #{exception.action} #{exception.subject.class}##{exception.subject&.id} for User##{exception.user.id} from #{controller_path}/#{action_name}"
+    subject_id = exception.subject.is_a?(Class) ? '(Class)' : exception.subject&.id
+    "Access denied on #{exception.action} #{exception.subject.class}##{subject_id} for User##{exception.user.id} from #{controller_path}/#{action_name}"
     # rubocop:enable Layout/LineLength
   end
 end
