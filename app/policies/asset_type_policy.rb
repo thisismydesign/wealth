@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
-class AssetTypePolicy < PublicPolicy
+class AssetTypePolicy < AdminPolicy
 end
