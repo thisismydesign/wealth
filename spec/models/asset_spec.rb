@@ -12,6 +12,7 @@ RSpec.describe Asset do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:ticker) }
+    it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_uniqueness_of(:ticker).case_insensitive.scoped_to(:user_id) }
 
     context 'when global asset is present' do

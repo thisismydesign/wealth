@@ -39,6 +39,6 @@ crypto = AssetType.find_by(name: 'Crypto')
   { ticker: 'DOGE', name: 'Dogecoin', asset_type: crypto }
 ].each do |asset|
   Asset.find_or_create_by!(
-    ticker: asset[:ticker], asset_type: asset[:asset_type]
-  ).update!(asset.except(:ticker, :asset_type))
+    ticker: asset[:ticker], asset_type: asset[:asset_type], name: asset[:name]
+  )
 end
