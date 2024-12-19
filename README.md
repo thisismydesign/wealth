@@ -8,7 +8,7 @@ Supports:
 - Import exchange rates from MNB
 - Manually adding assets, trades, income
 - Import activity (trades, staking) from Kraken
-- Tax calculation for crypto using the "back box" method
+- Tax calculation for crypto using the "black box" method
 - Store asset prices in different currencies, such as tax base and trade base currencies
 
 ### Usage
