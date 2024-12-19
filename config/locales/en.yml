@@ -4,3 +4,19 @@ en:
   tax:
     opened_positions: "Positions opened in %{year}"
     closed_positions: "Positions closed in %{year}"
+  about:
+    description: "This application helps you manage assets and calculate taxes for cryptocurrency transactions."
+    disclaimer:
+      title: "Disclaimer"
+      text: "Nothing on this website constitutes financial advice. All information is for general informational purposes only. Please consult with qualified financial and tax professionals regarding your specific situation."
+    source_code:
+      title: "Source Code"
+      text: "This project is open source. View the code on GitHub: "
+      link: "github.com/thisismydesign/wealth"
+    support:
+      title: "Support the Project"
+      text: "If you find this tool useful, consider supporting its development:"
+      btc:
+        title: "Bitcoin (BTC)"
+      eth:
+        title: "Ethereum (ETH)"

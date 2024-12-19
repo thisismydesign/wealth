@@ -266,10 +266,11 @@ ActiveAdmin.setup do |config|
   config.namespace :admin do |admin|
     admin.build_menu do |menu|
       menu.add label: '&nbsp;'.html_safe, id: 'menu-divider-dashboard-section', priority: 20
-      menu.add label: '&nbsp;'.html_safe, id: 'menu-divider-contents-section', priority: 30
-      menu.add label: '&nbsp;'.html_safe, id: 'menu-divider-customers-section', priority: 90, if: proc {
-                                                                                                    current_user.admin?
-                                                                                                  }
+      menu.add label: '&nbsp;'.html_safe, id: 'menu-divider-trade-section', priority: 30
+      menu.add label: '&nbsp;'.html_safe, id: 'menu-divider-about-section', priority: 40
+      menu.add label: '&nbsp;'.html_safe, id: 'menu-divider-admin-section', priority: 90, if: proc {
+                                                                                                current_user.admin?
+                                                                                              }
     end
   end
 

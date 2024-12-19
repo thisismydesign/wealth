@@ -4,7 +4,7 @@ module ActiveAdmin
   class PagePolicy < ApplicationPolicy
     def show?
       case record.name
-      when 'Tax', 'Import'
+      when 'Tax', 'Import', 'About'
         true
       when 'Dashboard', 'Background jobs'
         user.admin?

@@ -1,3 +1,8 @@
 <div class="text-sm text-center mt-16 mx-8 pt-9 pb-12 text-gray-500 border-t dark:border-gray-800">
-  <div class="text-gray-500 dark:text-gray-500"><%= I18n.t('brand.name') %> © <%= Time.current.year %>. All rights reserved.</div>
+  <div class="text-gray-500 dark:text-gray-500 mb-2">
+    <a href="https://github.com/thisismydesign/wealth" target="_blank"><%= I18n.t('brand.name') %></a> © <%= Time.current.year %>.
+    Free and open source.
+  </div>
+  <div>ETH <%= ConfigService.call(key: [:eth_address]) %></div>
+  <div>BTC <%= ConfigService.call(key: [:btc_address]) %></div>
 </div>

@@ -14,14 +14,14 @@ Supports:
 ### Usage
 
 ```sh
-docker-compose up
+docker compose up
 ```
 
 Tools:
 
 ```sh
-docker-compose exec web bin/rails credentials:decrypt
-docker-compose exec web bin/rails credentials:encrypt
+docker compose exec web bin/rails credentials:decrypt
+docker compose exec web bin/rails credentials:encrypt
 ```
 
 #### Caveats
