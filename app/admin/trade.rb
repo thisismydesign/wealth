@@ -49,9 +49,9 @@ ActiveAdmin.register Trade do
   filter :date
   filter :from_amount
   filter :to_amount
-  filter :to
-  filter :from
-  filter :asset_holder
+  filter :to, collection: -> { AssetPolicy::Scope.new(controller.current_user, Asset).resolve }
+  filter :from, collection: -> { AssetPolicy::Scope.new(controller.current_user, Asset).resolve }
+  filter :asset_holder, collection: -> { AssetHolderPolicy::Scope.new(controller.current_user, AssetHolder).resolve }
   filter :type, as: :select, collection: [
     %i[close close_trades],
     %i[open open_trades]
@@ -102,12 +102,12 @@ ActiveAdmin.register Trade do
 
   form do |f|
     inputs do
-      f.input :from
-      f.input :to
+      f.input :from, collection: AssetPolicy::Scope.new(controller.current_user, Asset).resolve
+      f.input :to, collection: AssetPolicy::Scope.new(controller.current_user, Asset).resolve
       f.input :from_amount
       f.input :to_amount
       f.input :date, as: :datetime_picker
-      f.input :asset_holder
+      f.input :asset_holder, collection: AssetHolderPolicy::Scope.new(controller.current_user, AssetHolder).resolve
     end
 
     actions

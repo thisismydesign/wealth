@@ -26,14 +26,14 @@ ActiveAdmin.register Funding do
   end
 
   filter :amount
-  filter :asset_holder
+  filter :asset_holder, collection: -> { AssetHolderPolicy::Scope.new(controller.current_user, AssetHolder).resolve }
 
   permit_params :date, :amount, :asset_id, :asset_holder_id
 
   form do |f|
     inputs do
-      f.input :asset
-      f.input :asset_holder
+      f.input :asset, collection: AssetPolicy::Scope.new(controller.current_user, Asset).resolve
+      f.input :asset_holder, collection: AssetHolderPolicy::Scope.new(controller.current_user, AssetHolder).resolve
       f.input :amount
       f.input :date, as: :datetime_picker
     end

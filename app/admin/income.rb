@@ -29,9 +29,9 @@ ActiveAdmin.register Income do
   }
   filter :date
   filter :amount
-  filter :source
+  filter :source, collection: -> { AssetPolicy::Scope.new(controller.current_user, Asset).resolve }
   filter :income_type
-  filter :asset_holder
+  filter :asset_holder, collection: -> { AssetHolderPolicy::Scope.new(controller.current_user, AssetHolder).resolve }
 
   controller do
     def scoped_collection
@@ -44,10 +44,10 @@ ActiveAdmin.register Income do
   form do |f|
     inputs do
       f.input :income_type
-      f.input :asset
-      f.input :asset_holder
+      f.input :asset, collection: AssetPolicy::Scope.new(controller.current_user, Asset).resolve
+      f.input :asset_holder, collection: AssetHolderPolicy::Scope.new(controller.current_user, AssetHolder).resolve
       f.input :amount
-      f.input :source
+      f.input :source, collection: AssetPolicy::Scope.new(controller.current_user, Asset).resolve
       f.input :date, as: :datetime_picker
     end
 
