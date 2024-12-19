@@ -17,6 +17,8 @@ class ImportActivityFromKrakenService < ApplicationService
 
   # rubocop:disable Metrics/MethodLength
   def call
+    return if csv_file.blank?
+
     CSV.foreach(csv_file.path, headers: true) do |row|
       if spend_or_receive?(row)
         import_spend_and_receive(row)
