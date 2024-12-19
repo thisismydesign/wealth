@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Tax::OpenPositionsService do
+RSpec.describe Tax::AggregatedOpenPositionsService do
   subject(:call) do
     described_class.call(user:, year: Time.zone.today.year, accept_previous_years: true,
                          to_asset_type: AssetType.crypto)

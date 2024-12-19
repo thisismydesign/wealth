@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Tax
-  class OpenPositionsService < ApplicationService
+  class AggregatedOpenPositionsService < ApplicationService
     attr_accessor :user, :year, :accept_previous_years, :to_asset_type
 
     def call

@@ -5,7 +5,7 @@ tax_base = Asset.tax_base
 div do
   # panel 'Regulated transactions' do
   #   close_trades = Tax::ClosedPositionsService.call(user: current_user, year:, from_asset_type: AssetType.etf)
-  #   open_positions = Tax::OpenPositionsService.call(user: current_user, year:, accept_previous_years: true,
+  #   open_positions = Tax::AggregatedOpenPositionsService.call(user: current_user, year:, accept_previous_years: true,
   #                                                   to_asset_type: AssetType.etf)
   #   total_close = close_trades.sum { |trade| trade.tax_base_price&.amount || 0 }
   #   profits = TotalProfitsService.call(close_trades:)
@@ -34,8 +34,8 @@ div do
 
   panel 'Crypto transactions' do
     close_trades = Tax::ClosedPositionsService.call(user: current_user, year:, from_asset_type: AssetType.crypto)
-    open_positions = Tax::OpenPositionsService.call(user: current_user, year:, accept_previous_years: false,
-                                                    to_asset_type: AssetType.crypto)
+    open_positions = Tax::AggregatedOpenPositionsService.call(user: current_user, year:, accept_previous_years: false,
+                                                              to_asset_type: AssetType.crypto)
     total_close = close_trades.sum { |trade| trade.tax_base_price&.amount || 0 }
     total_open = open_positions.sum { |trade| trade.tax_base_price&.amount || 0 }
 
