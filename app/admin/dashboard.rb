@@ -35,6 +35,20 @@ ActiveAdmin.register_page 'Dashboard' do
     #   }
     # end
 
+    panel 'Actions' do
+      panel 'Import activity from Kraken' do
+        render 'admin/shared/csv_import_form', path: imports_activity_from_kraken_path
+      end
+
+      # panel 'Import activity from IBKR' do
+      #   render 'admin/shared/csv_import_form', path: imports_activity_from_ibkr_path
+      # end
+
+      # panel 'Import activity from Wise' do
+      #   render 'admin/shared/csv_import_form', path: imports_activity_from_wise_path
+      # end
+    end
+
     panel 'Total Balance' do
       table_for total_balances do
         column :name
@@ -104,20 +118,6 @@ ActiveAdmin.register_page 'Dashboard' do
       end
 
       render 'admin/shared/pie_chart', data: pie_chart_data
-    end
-
-    panel 'Actions' do
-      panel 'Import activity from Kraken' do
-        render 'admin/shared/csv_import_form', path: imports_activity_from_kraken_path
-      end
-
-      # panel 'Import activity from IBKR' do
-      #   render 'admin/shared/csv_import_form', path: imports_activity_from_ibkr_path
-      # end
-
-      # panel 'Import activity from Wise' do
-      #   render 'admin/shared/csv_import_form', path: imports_activity_from_wise_path
-      # end
     end
   end
 end
