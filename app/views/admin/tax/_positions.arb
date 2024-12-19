@@ -2,10 +2,10 @@
 
 tax_base = Asset.tax_base
 
-return if close_trades.none?
+return if trades.none?
 
-panel "Positions closed in #{year}" do
-  table_for close_trades do
+panel label do
+  table_for trades do
     column :name do |trade|
       humanized_trade trade
     end
@@ -13,7 +13,7 @@ panel "Positions closed in #{year}" do
     column :asset_holder
 
     column :date do |trade|
-      trade.date.strftime('%Y.%m.%d')
+      trade.date&.strftime('%Y.%m.%d')
     end
 
     rouned_value :from_amount
@@ -26,7 +26,7 @@ panel "Positions closed in #{year}" do
     #   optional_currency CalculateOpenPriceService.call(close_trade: trade), tax_base
     # end
 
-    column :close_price do |trade|
+    column :price do |trade|
       optional_currency trade.tax_base_price&.amount, tax_base
     end
 

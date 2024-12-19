@@ -33,11 +33,12 @@ div do
   # end
 
   panel 'Crypto transactions' do
-    close_trades = Tax::ClosedPositionsService.call(user: current_user, year:, from_asset_type: AssetType.crypto)
-    open_positions = Tax::AggregatedOpenPositionsService.call(user: current_user, year:, accept_previous_years: false,
-                                                              to_asset_type: AssetType.crypto)
-    total_close = close_trades.sum { |trade| trade.tax_base_price&.amount || 0 }
-    total_open = open_positions.sum { |trade| trade.tax_base_price&.amount || 0 }
+    closed_positions = Tax::ClosedPositionsService.call(user: current_user, year:, from_asset_type: AssetType.crypto)
+    opened_positions = Tax::OpenedPositionsService.call(user: current_user, year:, to_asset_type: AssetType.crypto)
+    total_close = closed_positions.sum { |trade| trade.tax_base_price&.amount || 0 }
+    total_open = opened_positions.sum { |trade| trade.tax_base_price&.amount || 0 }
+    profit = total_close - total_open
+    tax = profit * Rails.application.config.x.tax_rate.to_d
 
     h4 do
       span 'Total open: '
@@ -51,13 +52,18 @@ div do
 
     h4 do
       span 'Total profit: '
-      optional_currency total_close - total_open, tax_base
+      optional_currency profit, tax_base
     end
 
-    render partial: 'admin/tax/closed_positions', locals: { close_trades:, year: }
+    h4 do
+      span 'Total tax: '
+      optional_currency tax, tax_base
+    end
 
-    open_positions_label = "Positions opened in #{year}"
-    render partial: 'admin/tax/open_positions', locals: { label: open_positions_label, open_positions: }
+    render partial: 'admin/tax/positions',
+           locals: { label: I18n.t('tax.closed_positions', year:), trades: closed_positions }
+    render partial: 'admin/tax/positions',
+           locals: { label: I18n.t('tax.opened_positions', year:), trades: opened_positions }
   end
 
   # panel 'Dividends' do
