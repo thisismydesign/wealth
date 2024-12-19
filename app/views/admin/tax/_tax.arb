@@ -40,26 +40,27 @@ div do
     profit = total_close - total_open
     tax = profit * Rails.application.config.x.tax_rate.to_d
 
-    h4 do
-      span 'Total open: '
+    div do
+      span 'Total open: ', class: 'text-lg font-semibold'
       optional_currency total_open, tax_base
     end
 
-    h4 do
-      span 'Total close: '
+    div do
+      span 'Total close: ', class: 'text-lg font-semibold'
       optional_currency total_close, tax_base
     end
 
-    h4 do
-      span 'Total profit: '
+    div do
+      span 'Total profit: ', class: 'text-lg font-semibold'
       optional_currency profit, tax_base
     end
 
-    h4 do
-      span 'Total tax: '
+    div do
+      span 'Total tax: ', class: 'text-lg font-semibold'
       optional_currency tax, tax_base
     end
 
+    br
     render partial: 'admin/tax/positions',
            locals: { label: I18n.t('tax.closed_positions', year:), trades: closed_positions }
     render partial: 'admin/tax/positions',
