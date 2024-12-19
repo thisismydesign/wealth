@@ -14,7 +14,8 @@ class Asset < ApplicationRecord
                                  inverse_of: :from
   has_many :exchange_rates_to, class_name: 'ExchangeRate', foreign_key: 'to_id', dependent: :destroy, inverse_of: :to
 
-  validates :ticker, presence: true, uniqueness: { case_sensitive: false }
+  validates :ticker, presence: true, uniqueness: { case_sensitive: false, scope: :user_id }
+  validate :prevent_personal_duplicate_of_global
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[name ticker description]
@@ -38,5 +39,15 @@ class Asset < ApplicationRecord
 
   def currency?
     asset_type.name == 'Currency'
+  end
+
+  private
+
+  def prevent_personal_duplicate_of_global
+    return if user_id.blank?
+
+    return unless Asset.exists?(ticker:, user_id: nil)
+
+    errors.add(:ticker, 'already exists as a global asset.')
   end
 end

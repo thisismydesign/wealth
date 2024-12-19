@@ -18,7 +18,7 @@ class ImportActivityFromWiseService < ApplicationService
   end
 
   def import_interest(row)
-    asset = EnsureAssetService.call(ticker: row['Currency'], asset_type: AssetType.currency)
+    asset = EnsureAssetService.call(ticker: row['Currency'], asset_type: AssetType.currency, user:)
     source = asset
 
     return unless asset

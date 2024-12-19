@@ -38,8 +38,8 @@ class ImportActivityFromIbkrService < ApplicationService
 
   def import_currency_trade(row)
     to_ticker, from_ticker = row[5].split('.')
-    from = EnsureAssetService.call(ticker: from_ticker, asset_type: AssetType.currency)
-    to = EnsureAssetService.call(ticker: to_ticker, asset_type: AssetType.currency)
+    from = EnsureAssetService.call(ticker: from_ticker, asset_type: AssetType.currency, user:)
+    to = EnsureAssetService.call(ticker: to_ticker, asset_type: AssetType.currency, user:)
 
     return unless from && to
 
@@ -64,8 +64,8 @@ class ImportActivityFromIbkrService < ApplicationService
   end
 
   def import_stock_trade(row, ticker_mapping)
-    from = EnsureAssetService.call(ticker: row[4], asset_type: AssetType.currency)
-    to = EnsureAssetService.call(ticker: ticker_mapping[row[5]], asset_type: AssetType.etf)
+    from = EnsureAssetService.call(ticker: row[4], asset_type: AssetType.currency, user:)
+    to = EnsureAssetService.call(ticker: ticker_mapping[row[5]], asset_type: AssetType.etf, user:)
 
     return unless from && to
 
@@ -90,7 +90,7 @@ class ImportActivityFromIbkrService < ApplicationService
   end
 
   def import_funding(row)
-    asset = EnsureAssetService.call(ticker: row[2], asset_type: AssetType.currency)
+    asset = EnsureAssetService.call(ticker: row[2], asset_type: AssetType.currency, user:)
 
     return unless asset
 
@@ -113,8 +113,8 @@ class ImportActivityFromIbkrService < ApplicationService
 
   def import_dividend(row, ticker_mapping)
     source_ticker = ticker_mapping[row[4].split('(').first.strip]
-    asset = EnsureAssetService.call(ticker: row[2], asset_type: AssetType.currency)
-    source = EnsureAssetService.call(ticker: source_ticker, asset_type: AssetType.etf)
+    asset = EnsureAssetService.call(ticker: row[2], asset_type: AssetType.currency, user:)
+    source = EnsureAssetService.call(ticker: source_ticker, asset_type: AssetType.etf, user:)
 
     return if !asset || !source
 
@@ -126,7 +126,7 @@ class ImportActivityFromIbkrService < ApplicationService
   end
 
   def import_interest(row)
-    asset = EnsureAssetService.call(ticker: row[2], asset_type: AssetType.currency)
+    asset = EnsureAssetService.call(ticker: row[2], asset_type: AssetType.currency, user:)
     source = row[4].include?('Credit Interest') ? asset : nil
 
     return unless asset
@@ -146,7 +146,7 @@ class ImportActivityFromIbkrService < ApplicationService
   end
 
   def import_fee(row)
-    asset = EnsureAssetService.call(ticker: row[3], asset_type: AssetType.currency)
+    asset = EnsureAssetService.call(ticker: row[3], asset_type: AssetType.currency, user:)
 
     Trade.where({
                   from: asset, to: asset, date: row[4],

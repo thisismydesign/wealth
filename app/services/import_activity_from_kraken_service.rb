@@ -126,10 +126,8 @@ class ImportActivityFromKrakenService < ApplicationService
 
   def asset(asset_name)
     ticker = ASSET_MAPPING.dig(asset_name, :ticker) || asset_name
+    asset_type = ASSET_MAPPING.dig(asset_name, :asset_type) || AssetType.crypto
 
-    Asset.where(
-      ticker:,
-      asset_type: ASSET_MAPPING.dig(asset_name, :asset_type) || AssetType.crypto
-    ).first_or_create!(name: ticker)
+    EnsureAssetService.call(ticker:, asset_type:, user:)
   end
 end

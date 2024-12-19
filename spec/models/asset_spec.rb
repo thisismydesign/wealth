@@ -12,7 +12,15 @@ RSpec.describe Asset do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:ticker) }
-    it { is_expected.to validate_uniqueness_of(:ticker).case_insensitive }
+    it { is_expected.to validate_uniqueness_of(:ticker).case_insensitive.scoped_to(:user_id) }
+
+    context 'when global asset is present' do
+      before { create(:asset, ticker: 'USD', user: nil) }
+
+      it 'cannot create personal asset with same ticker' do
+        expect(build(:asset, ticker: 'USD', user: create(:user))).not_to be_valid
+      end
+    end
   end
 
   describe '.tax_base' do
