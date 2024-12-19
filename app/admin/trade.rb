@@ -24,7 +24,8 @@ ActiveAdmin.register Trade do
     column :asset_holder
 
     column :type do |resource|
-      status_tag(resource.type)
+      class_name = resource.type == :open ? 'bg-green-500 dark:bg-green-900' : 'bg-sky-500 dark:bg-sky-900'
+      status_tag(resource.type, class: class_name)
     end
     # column :open_status do |resource|
     #   status = resource.open_trade_status
