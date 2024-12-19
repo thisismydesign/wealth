@@ -3,6 +3,6 @@
 class ImportJob < ApplicationJob
   def perform
     ImportExchangeRatesFromMnbService.call
-    ImportRatesFromGooglefinanceService.call
+    # ImportRatesFromGooglefinanceService.call
   end
 end
