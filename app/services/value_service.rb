@@ -20,7 +20,7 @@ class ValueService < ApplicationService
       CurrencyConverterService.call(
         from: trade.from, to: Asset.trade_base, date: date || Time.zone.today,
         amount: trade.from_amount, fallback_to_past_rate: true
-      )
+      ) || 0
     end
   end
 end
