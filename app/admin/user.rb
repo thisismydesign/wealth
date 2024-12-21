@@ -19,6 +19,9 @@ ActiveAdmin.register User do
     column :created_at do |user|
       user.created_at.strftime('%Y.%m.%d')
     end
+    column :trades do |user|
+      link_to(user.trades.count, admin_trades_path(q: { user_id_eq: user.id }))
+    end
   end
 
   form do |f|
