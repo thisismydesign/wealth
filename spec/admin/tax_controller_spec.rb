@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'Admin::TaxController', type: :request do
   before do
-    sign_in(create(:user, role: :admin), scope: :user)
+    sign_in(create(:user, role: :user), scope: :user)
     base = Asset.tax_base
     btc = create(:asset, ticker: 'BTC', asset_type: AssetType.crypto)
     open_trade = create(:trade, from_amount: 40_000, from: base, to_amount: 1, to: btc, date: 1.day.ago)
