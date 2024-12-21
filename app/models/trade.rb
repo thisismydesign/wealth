@@ -52,7 +52,7 @@ class Trade < ApplicationRecord
   # end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[date from_amount to_amount from_id to_id asset_holder_id]
+    %w[date from_amount to_amount from_id to_id asset_holder_id user_id]
   end
 
   def self.ransackable_associations(_auth_object = nil)

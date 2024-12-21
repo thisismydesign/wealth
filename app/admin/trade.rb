@@ -27,6 +27,9 @@ ActiveAdmin.register Trade do
       class_name = resource.type == :open ? 'bg-green-500 dark:bg-green-900' : 'bg-sky-500 dark:bg-sky-900'
       status_tag(resource.type, class: class_name)
     end
+
+    column :user if controller.current_user.admin?
+
     # column :open_status do |resource|
     #   status = resource.open_trade_status
     #   status_tag(status) if status.present?
@@ -57,6 +60,9 @@ ActiveAdmin.register Trade do
     %i[close close_trades],
     %i[open open_trades]
   ]
+  filter :user,
+         collection: -> { UserPolicy::Scope.new(controller.current_user, User).resolve.map { |u| [u.email, u.id] } },
+         if: proc { controller.current_user.admin? }
 
   permit_params :date, :from_amount, :from_id, :to_amount, :to_id, :asset_holder_id
 
