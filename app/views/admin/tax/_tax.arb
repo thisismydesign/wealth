@@ -38,7 +38,7 @@ div do
     total_close = closed_positions.sum { |trade| trade.tax_base_price&.amount || 0 }
     total_open = opened_positions.sum { |trade| trade.tax_base_price&.amount || 0 }
     profit = total_close - total_open
-    tax = profit * Rails.application.config.x.tax_rate.to_d
+    tax = [profit, 0].max * Rails.application.config.x.tax_rate.to_d
 
     div do
       span 'Total open: ', class: 'text-lg font-semibold'
