@@ -10,11 +10,11 @@ panel label do
       humanized_trade trade
     end
 
-    column :asset_holder
-
     column :date do |trade|
       trade.date&.strftime('%Y.%m.%d')
     end
+
+    column :asset_holder
 
     rouned_value :from_amount
     asset_link :from
@@ -28,6 +28,15 @@ panel label do
 
     column :price do |trade|
       optional_currency trade.tax_base_price&.amount, tax_base
+    end
+
+    column :current_value do |trade|
+      if trade.type == :open
+        optional_currency ValueService.call(asset: trade.to, amount: trade.to_amount),
+                          Asset.trade_base
+      else
+        I18n.t('general.no_data')
+      end
     end
 
     # column :profit do |trade|
