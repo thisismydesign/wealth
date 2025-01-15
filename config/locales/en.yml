@@ -1,8 +1,6 @@
 en:
   brand:
     name: "thisismydesign/wealth"
-  general:
-    no_data: "N/A"
   tax:
     opened_positions: "Positions opened in %{year}"
     closed_positions: "Positions closed in %{year}"

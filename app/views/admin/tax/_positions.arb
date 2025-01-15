@@ -30,15 +30,6 @@ panel label do
       optional_currency trade.tax_base_price&.amount, tax_base
     end
 
-    column :current_value do |trade|
-      if trade.type == :open
-        optional_currency ValueService.call(asset: trade.to, amount: trade.to_amount),
-                          Asset.trade_base
-      else
-        I18n.t('general.no_data')
-      end
-    end
-
     # column :profit do |trade|
     #   open_price = CalculateOpenPriceService.call(close_trade: trade)
     #   profit = CalculateProfitService.call(close_trade: trade)
