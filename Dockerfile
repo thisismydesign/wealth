@@ -17,6 +17,7 @@ RUN apk --update add --no-cache \
   tzdata \
   # Required for SQLite
   sqlite \
+  sqlite-dev \
   # Required by the app
   nodejs \
   # Required for Apple Silicon
