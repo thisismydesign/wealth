@@ -17,7 +17,6 @@ RUN apk --update add --no-cache \
   tzdata \
   # Required for SQLite
   sqlite \
-  sqlite-dev \
   # Required by the app
   nodejs \
   # Required for Apple Silicon
@@ -37,8 +36,7 @@ COPY . .
 
 FROM dev AS deps
 
-RUN bundle config set --local force_ruby_platform true
-RUN bundle install --no-cache
+RUN bundle install --no-platform --no-cache
 
 
 FROM base AS app
