@@ -52,9 +52,6 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha
 
-      - name: Pull images
-        run: docker compose pull db
-
       - name: Lint
         run: docker compose run web bundle exec rubocop
 
@@ -84,9 +81,6 @@ jobs:
           tags: ${{ needs.build-docker-image.outputs.docker-tag }}
           cache-from: type=gha
           cache-to: type=gha
-
-      - name: Pull images
-        run: docker compose pull db
 
       - name: Test
         run: docker compose run web bundle exec rspec
