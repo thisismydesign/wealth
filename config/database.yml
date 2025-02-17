@@ -25,5 +25,10 @@ test:
   database: wealth_test
 
 production:
-  <<: *default
-  database: wealth_production
+  primary:
+    <<: *default
+    database: wealth_production
+  queue:
+    <<: *default
+    database: wealth_production_queue
+    migrations_paths: db/queue_migrate
