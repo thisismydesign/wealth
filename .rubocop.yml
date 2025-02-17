@@ -7,8 +7,9 @@ AllCops:
   TargetRubyVersion: 3.2
   NewCops: enable
   Exclude:
-    - 'bin/*'
-    - 'db/schema.rb'
+    - "bin/*"
+    - "db/schema.rb"
+    - "db/queue_schema.rb"
 
 # Documentation not enforced
 Style/Documentation:
@@ -16,14 +17,14 @@ Style/Documentation:
 
 Lint/EmptyBlock:
   Exclude:
-    - 'app/admin/**/*.rb'
+    - "app/admin/**/*.rb"
 
 Metrics/BlockLength:
   Exclude:
-    - 'app/admin/**/*.rb'
-    - 'app/views/**/*.arb'
+    - "app/admin/**/*.rb"
+    - "app/views/**/*.arb"
 
 # Allow rescue shorthand in specs
 Style/RescueModifier:
   Exclude:
-    - 'spec/**/*.rb'
+    - "spec/**/*.rb"

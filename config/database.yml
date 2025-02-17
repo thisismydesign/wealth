@@ -9,9 +9,15 @@ docker: &docker
   password: postgres
 
 development:
-  <<: *default
-  <<: *docker
-  database: wealth_development
+  primary:
+    <<: *default
+    <<: *docker
+    database: wealth_development
+  queue:
+    <<: *default
+    <<: *docker
+    database: wealth_development_queue
+    migrations_paths: db/queue_migrate
 
 test:
   <<: *default

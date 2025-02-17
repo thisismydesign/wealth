@@ -22,10 +22,11 @@ gem 'chartkick' # Charts
 gem 'cssbundling-rails', '~> 1.4' # Required by ActiveAdmin, alternative to tailwindcss-rails (do not mix!)
 gem 'devise' # Authentication
 gem 'faraday' # HTTP client
-gem 'good_job' # ActiveJob backend
 gem 'nokogiri' # Parse MNB exchange rates from HTML
 gem 'pundit' # Authorization
 gem 'rollbar' # Monitoring
+gem 'solid_queue', '1.1.3' # ActiveJob backend
+gem 'solid_queue_dashboard', '~> 0.2.0'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

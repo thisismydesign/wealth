@@ -1,0 +1,4 @@
+import:
+  class: ImportJob
+  args: []
+  schedule: every day at 6am
