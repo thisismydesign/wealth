@@ -5,7 +5,7 @@ class FundingService < ApplicationService
 
   def call
     scope = funding_scope.where(asset:)
-    scope = scope.where('extract(year from date) = ?', year) if year.present?
+    scope = scope.where("strftime('%Y', date) = ?", year.to_s) if year.present?
     scope = scope.where(asset_holder:) if asset_holder.present?
 
     scope.sum(:amount)

@@ -17,7 +17,7 @@ class BalanceService < ApplicationService
 
   def total_from_trades
     scope = trade_scope.where(from: asset)
-    scope = scope.where('extract(year from date) <= ?', year) if year.present?
+    scope = scope.where("strftime('%Y', date) = ?", year.to_s) if year.present?
     scope = scope.where(asset_holder:) if asset_holder.present?
 
     scope.sum(:from_amount)
@@ -25,7 +25,7 @@ class BalanceService < ApplicationService
 
   def total_to_trades
     scope = trade_scope.where(to: asset, user:)
-    scope = scope.where('extract(year from date) <= ?', year) if year.present?
+    scope = scope.where("strftime('%Y', date) = ?", year.to_s) if year.present?
     scope = scope.where(asset_holder:) if asset_holder.present?
 
     scope.sum(:to_amount)
@@ -33,7 +33,7 @@ class BalanceService < ApplicationService
 
   def total_incomes
     scope = income_scope.where(asset:)
-    scope = scope.where('extract(year from date) <= ?', year) if year.present?
+    scope = scope.where("strftime('%Y', date) = ?", year.to_s) if year.present?
     scope = scope.where(asset_holder:) if asset_holder.present?
 
     scope.sum(:amount)
