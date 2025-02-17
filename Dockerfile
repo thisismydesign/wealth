@@ -37,6 +37,7 @@ COPY . .
 
 FROM dev AS deps
 
+RUN bundle config set --local force_ruby_platform true
 RUN bundle install --no-cache
 
 
