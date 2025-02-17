@@ -7,10 +7,10 @@ ruby '3.2.2'
 # Defaults
 gem 'bootsnap', require: false
 gem 'importmap-rails' # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-gem 'pg', '~> 1.1'
 gem 'propshaft' # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem 'puma', '>= 5.0'
 gem 'rails', '~> 8.0.0'
+gem 'sqlite3'
 gem 'stimulus-rails' # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem 'thruster', require: false # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
 gem 'turbo-rails' # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
