@@ -36,7 +36,7 @@ COPY . .
 
 FROM dev AS deps
 
-RUN bundle install --no-platform --no-cache
+RUN bundle install --no-cache
 
 
 FROM base AS app
