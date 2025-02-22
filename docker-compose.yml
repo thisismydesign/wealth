@@ -2,6 +2,7 @@ services:
   web:
     build:
       context: .
+      dockerfile: Dockerfile.dev
       target: ${DOCKER_STAGE_TARGET:-dev}
     image: ${DOCKER_IMAGE:-wealth:local}
     command: bin/rails server --binding 0.0.0.0
