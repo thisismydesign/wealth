@@ -8,8 +8,6 @@ services:
     entrypoint: bin/docker-web-entrypoint.sh
     ports:
       - 3000:3000
-    depends_on:
-      - db
     volumes:
       - .:/app
       - bundle_cache:/usr/local/bundle
@@ -37,11 +35,6 @@ services:
     volumes:
       - bundle_cache:/usr/local/bundle
       - .:/app
-
-  db:
-    image: postgres:16.1-alpine
-    environment:
-      POSTGRES_PASSWORD: postgres
 
 volumes:
   bundle_cache:

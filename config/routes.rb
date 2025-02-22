@@ -13,6 +13,6 @@ Rails.application.routes.draw do
   post 'imports/activity_from_kraken', to: 'imports#activity_from_kraken'
 
   authenticate :user, ->(u) { u.admin? } do
-    mount GoodJob::Engine => 'good_job'
+    mount SolidQueueDashboard::Engine, at: '/solid-queue'
   end
 end

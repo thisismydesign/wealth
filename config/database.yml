@@ -1,23 +1,26 @@
 default: &default
-  adapter: postgresql
+  adapter: sqlite3
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
-docker: &docker
-  host: db
-  username: postgres
-  password: postgres
-
 development:
-  <<: *default
-  <<: *docker
-  database: wealth_development
+  primary:
+    <<: *default
+    database: db/development.sqlite3
+  queue:
+    <<: *default
+    database: db/development_queue.sqlite3
+    migrations_paths: db/queue_migrate
 
 test:
   <<: *default
-  <<: *docker
-  database: wealth_test
+  database: db/test.sqlite3
 
 production:
-  <<: *default
-  database: wealth_production
+  primary:
+    <<: *default
+    database: db/production.sqlite3
+  queue:
+    <<: *default
+    database: db/production_queue.sqlite3
+    migrations_paths: db/queue_migrate
