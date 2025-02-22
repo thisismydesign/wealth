@@ -24,6 +24,7 @@ jobs:
       - name: Build image
         uses: docker/build-push-action@v3
         with:
+          file: Dockerfile.dev
           target: deps
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
@@ -46,6 +47,7 @@ jobs:
       - name: Build image
         uses: docker/build-push-action@v3
         with:
+          file: Dockerfile.dev
           load: true
           target: deps
           tags: ${{ needs.build-docker-image.outputs.docker-tag }}
@@ -76,6 +78,7 @@ jobs:
       - name: Build image
         uses: docker/build-push-action@v3
         with:
+          file: Dockerfile.dev
           load: true
           target: deps
           tags: ${{ needs.build-docker-image.outputs.docker-tag }}
