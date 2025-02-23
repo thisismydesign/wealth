@@ -16,7 +16,7 @@ jobs:
           bundler-cache: true
 
       - name: Lint
-        run: docker compose run web bundle exec rspec
+        run: bundle exec rspec
 
   lint:
     runs-on: ubuntu-latest
@@ -31,7 +31,7 @@ jobs:
           bundler-cache: true
 
       - name: Lint
-        run: docker compose run web bundle exec rubocop
+        run: bundle exec rubocop
 
   deploy:
     runs-on: ubuntu-latest
