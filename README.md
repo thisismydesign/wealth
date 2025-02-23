@@ -24,6 +24,13 @@ docker compose exec web bin/rails credentials:decrypt
 docker compose exec web bin/rails credentials:encrypt
 ```
 
+Production:
+
+```sh
+ssh -i ~/.ssh/hetzner root@157.180.24.197
+docker exec -it $(docker ps | grep wealth | awk '{print $1}') /bin/bash
+```
+
 #### Caveats
 
 - Set config in `application.rb`
