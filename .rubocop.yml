@@ -10,6 +10,7 @@ AllCops:
     - "bin/*"
     - "db/schema.rb"
     - "db/queue_schema.rb"
+    - vendor/bundle/**/* # https://github.com/rubocop/rubocop/issues/9832#issuecomment-882111229
 
 # Documentation not enforced
 Style/Documentation:
