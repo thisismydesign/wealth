@@ -43,6 +43,7 @@ jobs:
     timeout-minutes: 10
     needs: [test, lint]
     if: github.ref == 'refs/heads/master'
+    concurrency: deploy
 
     env:
       DOCKER_BUILDKIT: 1
