@@ -87,3 +87,35 @@ jobs:
 
       - name: Test
         run: docker compose run web bundle exec rspec
+
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [test, lint]
+    if: github.ref == 'refs/heads/master'
+
+    env:
+      DOCKER_BUILDKIT: 1
+      RAILS_ENV: production
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.2
+          bundler-cache: true
+
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Run deploy command
+        run: bundle exec kamal setup
