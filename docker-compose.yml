@@ -6,7 +6,7 @@ services:
       target: ${DOCKER_STAGE_TARGET:-dev}
     image: ${DOCKER_IMAGE:-wealth:local}
     command: bin/rails server --binding 0.0.0.0
-    entrypoint: bin/docker-web-entrypoint.sh
+    entrypoint: bin/docker-entrypoint-dev
     ports:
       - 3000:3000
     volumes:
@@ -31,7 +31,7 @@ services:
 
   rubocop:
     image: ${DOCKER_IMAGE:-wealth:local}
-    entrypoint: bin/docker-rubocop-entrypoint.sh
+    entrypoint: bin/docker-entrypoint-dev-rubocop
     command: bundle exec rubocop --start-server --no-detach
     volumes:
       - bundle_cache:/usr/local/bundle

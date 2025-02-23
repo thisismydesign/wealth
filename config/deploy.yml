@@ -1,0 +1,23 @@
+service: wealth
+image: thisismydesign/wealth
+
+servers:
+  web:
+    - 157.180.24.197
+
+proxy:
+  ssl: true
+  host: wealth.mysoftware.services
+
+registry:
+  server: ghcr.io
+  username: thisismydesign
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+builder:
+  arch: amd64
+
+env:
+  secret:
+    - RAILS_MASTER_KEY
