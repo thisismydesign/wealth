@@ -6,6 +6,14 @@ if [ -z "${LD_PRELOAD+x}" ]; then
     export LD_PRELOAD
 fi
 
+# Ensure mounted storage directory has correct permissions
+if [ -w storage ]; then
+  echo "Setting permissions on storage directory..."
+  chown rails:rails storage
+else
+  echo "Warning: Cannot set permissions on storage (not writable)"
+fi
+
 # If running the rails server then create or migrate existing database
 if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
   ./bin/rails db:prepare
