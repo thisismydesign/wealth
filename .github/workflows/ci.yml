@@ -15,7 +15,10 @@ jobs:
           ruby-version: 3.2.2
           bundler-cache: true
 
-      - name: Lint
+      - name: Setup app
+        run: bin/rails db:prepare
+
+      - name: Test
         run: bundle exec rspec
 
   lint:
