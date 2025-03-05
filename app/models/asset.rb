@@ -17,6 +17,7 @@ class Asset < ApplicationRecord
   validates :ticker, presence: true, uniqueness: { case_sensitive: false, scope: :user_id }
   validates :name, presence: true
   validate :prevent_personal_duplicate_of_global
+  validate :ticker_uppercase
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[name ticker description]
@@ -49,6 +50,12 @@ class Asset < ApplicationRecord
 
     return unless Asset.exists?(ticker:, user_id: nil)
 
-    errors.add(:ticker, 'already exists as a global asset.')
+    errors.add(:ticker, I18n.t('asset.validation_errors.personal_duplicate_of_global'))
+  end
+
+  def ticker_uppercase
+    return if ticker == ticker&.upcase
+
+    errors.add(:ticker, I18n.t('asset.validation_errors.ticker_uppercase'))
   end
 end

@@ -4,6 +4,10 @@ en:
   tax:
     opened_positions: "Positions opened in %{year}"
     closed_positions: "Positions closed in %{year}"
+  asset:
+    validation_errors:
+      personal_duplicate_of_global: "already exists as a global asset"
+      ticker_uppercase: must be uppercase
   about:
     description: "This application helps you manage assets and calculate taxes for cryptocurrency transactions."
     disclaimer:

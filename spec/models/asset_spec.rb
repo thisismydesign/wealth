@@ -22,6 +22,12 @@ RSpec.describe Asset do
         expect(build(:asset, ticker: 'USD', user: create(:user))).not_to be_valid
       end
     end
+
+    context 'when ticker is lowercase' do
+      it 'is not valid' do
+        expect(build(:asset, ticker: 'bla')).not_to be_valid
+      end
+    end
   end
 
   describe '.tax_base' do
