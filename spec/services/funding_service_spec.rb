@@ -20,5 +20,15 @@ RSpec.describe FundingService do
         expect(call).to eq(100)
       end
     end
+
+    context 'when funding is not in the requested year' do
+      subject(:call) { described_class.call(asset:, user:, year: Date.current.year) }
+
+      before { create(:funding, asset:, user:, amount: 100, date: 1.year.ago) }
+
+      it 'returns zero' do
+        expect(call).to eq(0)
+      end
+    end
   end
 end

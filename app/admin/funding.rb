@@ -25,6 +25,13 @@ ActiveAdmin.register Funding do
     end
   end
 
+  filter :year, as: :select, collection: lambda {
+    first_year = Funding.order(:date).first&.date&.year || Time.zone.today.year
+    (first_year..Time.zone.today.year).map do |year|
+      [year, year]
+    end
+  }
+  filter :date
   filter :amount
   filter :asset_holder, collection: -> { AssetHolderPolicy::Scope.new(controller.current_user, AssetHolder).resolve }
 

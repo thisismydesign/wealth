@@ -7,7 +7,7 @@ module Tax
     def call
       scope = trade_scope.open_trades
 
-      scope = scope.where("strftime('%Y', date) = ?", year.to_s) if year.present?
+      scope = scope.year_eq(year) if year.present?
       scope = scope.where(asset_types: { name: to_asset_type.name }) if to_asset_type.present?
 
       scope.includes(

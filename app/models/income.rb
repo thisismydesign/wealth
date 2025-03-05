@@ -18,7 +18,10 @@ class Income < ApplicationRecord
   validates :amount, presence: true
   validates :date, presence: true
 
-  scope :year_eq, ->(year) { where("strftime('%Y', date) = ?", year.to_s) }
+  scope :year_eq, lambda { |year|
+                    where('date >= ?', DateTime.parse("#{year}.01.01").beginning_of_year)
+                      .where('date <= ?', DateTime.parse("#{year}.01.01").end_of_year)
+                  }
 
   after_save :create_prices
 

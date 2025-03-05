@@ -7,7 +7,7 @@ module Tax
     def call
       scope = income_scope.includes(:tax_base_price)
       scope = scope.where(income_type_id: income_type.id) if income_type.present?
-      scope = scope.where("strftime('%Y', date) = ?", year.to_s) if year.present?
+      scope = scope.year_eq(year) if year.present?
 
       scope.sum { |income| income.tax_base_price&.amount || 0 }
     end

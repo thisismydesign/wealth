@@ -35,7 +35,10 @@ class Trade < ApplicationRecord
       .where(from_asset_types: { name: 'Currency' })
   }
 
-  scope :year_eq, ->(year) { where("strftime('%Y', date) = ?", year.to_s) }
+  scope :year_eq, lambda { |year|
+                    where('date >= ?', DateTime.parse("#{year}.01.01").beginning_of_year)
+                      .where('date <= ?', DateTime.parse("#{year}.01.01").end_of_year)
+                  }
   scope :type_eq, ->(type) { public_send(type) }
 
   validates :date, :from_amount, :to_amount, presence: true

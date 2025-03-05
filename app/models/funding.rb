@@ -8,11 +8,20 @@ class Funding < ApplicationRecord
   validates :amount, presence: true
   validates :date, presence: true
 
+  scope :year_eq, lambda { |year|
+                    where('date >= ?', DateTime.parse("#{year}.01.01").beginning_of_year)
+                      .where('date <= ?', DateTime.parse("#{year}.01.01").end_of_year)
+                  }
+
   def self.ransackable_attributes(_auth_object = nil)
-    %w[amount asset_holder_id]
+    %w[amount date asset_holder_id]
   end
 
   def self.ransackable_associations(_auth_object = nil)
     %w[asset_holder]
+  end
+
+  def self.ransackable_scopes(_auth_object = nil)
+    %w[year_eq]
   end
 end

@@ -24,6 +24,26 @@ RSpec.describe Trade do
     it { is_expected.to have_one(:tax_base_price).dependent(:destroy) }
   end
 
+  describe '.year_eq' do
+    it 'returns entity in given year' do
+      entity = create(:trade, date: DateTime.now)
+
+      expect(described_class.year_eq(Date.current.year)).to include(entity)
+    end
+
+    it 'does not return entity from earlier year' do
+      entity = create(:trade, date: 1.year.ago)
+
+      expect(described_class.year_eq(Date.current.year)).not_to include(entity)
+    end
+
+    it 'does not return entity from next year' do
+      entity = create(:trade, date: 1.year.from_now)
+
+      expect(described_class.year_eq(Date.current.year)).not_to include(entity)
+    end
+  end
+
   describe '#humanized' do
     it 'returns a humanized version of the trade' do
       expect(trade.humanized).to eq('40000 EUR -> 1 BTC')
