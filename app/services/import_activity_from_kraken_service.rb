@@ -5,16 +5,6 @@ require 'csv'
 class ImportActivityFromKrakenService < ApplicationService
   attr_accessor :csv_file, :user
 
-  ASSET_MAPPING = {
-    'EUR' => { ticker: 'EUR', asset_type: AssetType.currency },
-    'ZEUR' => { ticker: 'EUR', asset_type: AssetType.currency },
-    'XXBT' => { ticker: 'BTC', asset_type: AssetType.crypto },
-    'XETH' => { ticker: 'ETH', asset_type: AssetType.crypto },
-    'XXDG' => { ticker: 'DOGE', asset_type: AssetType.crypto },
-    'XBT.M' => { ticker: 'BTC', asset_type: AssetType.crypto },
-    'SOL03.S' => { ticker: 'SOL', asset_type: AssetType.crypto }
-  }.freeze
-
   # rubocop:disable Metrics/MethodLength
   def call
     return if csv_file.blank?
@@ -127,9 +117,6 @@ class ImportActivityFromKrakenService < ApplicationService
   end
 
   def asset(asset_name)
-    ticker = ASSET_MAPPING.dig(asset_name, :ticker) || asset_name
-    asset_type = ASSET_MAPPING.dig(asset_name, :asset_type) || AssetType.crypto
-
-    EnsureAssetService.call(ticker:, asset_type:, user:)
+    EnsureAssetService.call(name: asset_name, type: AssetType.crypto, user:)
   end
 end
