@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get 'up' => 'rails/health#show', as: :rails_health_check
 
   post 'imports/activity_from_kraken', to: 'imports#activity_from_kraken'
+  post 'imports/activity_from_cointracking', to: 'imports#activity_from_cointracking'
 
   authenticate :user, ->(u) { u.admin? } do
     mount SolidQueueDashboard::Engine, at: '/solid-queue'

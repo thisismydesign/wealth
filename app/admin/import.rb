@@ -8,6 +8,10 @@ ActiveAdmin.register_page 'Import' do
       render 'admin/shared/csv_import_form', path: imports_activity_from_kraken_path
     end
 
+    panel 'Import CoinTracking CSV' do
+      render 'admin/shared/csv_import_form', path: imports_activity_from_cointracking_path
+    end
+
     # panel 'Import activity from IBKR' do
     #   render 'admin/shared/csv_import_form', path: imports_activity_from_ibkr_path
     # end
