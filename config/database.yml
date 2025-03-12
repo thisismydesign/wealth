@@ -4,7 +4,7 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 docker: &docker
-  host: db
+  host: <%= ENV.fetch("DB_HOST", "db") %>
   username: postgres
   password: postgres
 
@@ -20,15 +20,15 @@ development:
     migrations_paths: db/queue_migrate
 
 test:
-  # primary:
-  <<: *default
-  <<: *docker
-  database: wealth_test
-  # queue:
-  #   <<: *default
-  #   <<: *docker
-  #   database: wealth_test_queue
-  #   migrations_paths: db/queue_migrate
+  primary:
+    <<: *default
+    <<: *docker
+    database: wealth_test
+  queue:
+    <<: *default
+    <<: *docker
+    database: wealth_test_queue
+    migrations_paths: db/queue_migrate
 
 production:
   primary:
