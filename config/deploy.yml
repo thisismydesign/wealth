@@ -36,17 +36,17 @@ builder:
   arch: amd64
 
 accessories:
-  # db:
-  #   image: postgres:16.1-alpine
-  #   host: 157.180.24.197
-  #   port: "127.0.0.1:5432:5432"
-  #   env:
-  #     clear:
-  #       POSTGRES_USER: wealth
-  #     secret:
-  #       - POSTGRES_PASSWORD
-  #   directories:
-  #     - data:/var/lib/postgresql/data
+  db:
+    image: postgres:16.1-alpine
+    host: 157.180.24.197
+    port: "127.0.0.1:5432:5432"
+    env:
+      clear:
+        POSTGRES_USER: wealth
+      secret:
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data
 
   backup:
     image: eeshugerman/postgres-backup-s3:16
