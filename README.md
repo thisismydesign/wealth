@@ -28,7 +28,10 @@ Production:
 
 ```sh
 ssh -i ~/.ssh/hetzner root@157.180.24.197
-docker exec -it $(docker ps | grep wealth | awk '{print $1}') /bin/bash
+# Web console
+docker exec -it $(docker ps | grep wealth-web | awk '{print $1}') /bin/bash
+# Manual backup
+docker exec $(docker ps | grep wealth-backup | awk '{print $1}') sh backup.sh
 ```
 
 #### Caveats
