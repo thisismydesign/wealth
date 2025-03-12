@@ -20,4 +20,8 @@ class AssetType < ApplicationRecord
   def self.etf
     where(name: 'ETF').first_or_create!
   end
+
+  def self.stablecoin
+    where(name: 'Stablecoin').first_or_create!
+  end
 end

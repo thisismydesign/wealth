@@ -43,6 +43,14 @@ class Asset < ApplicationRecord
     asset_type.name == 'Currency'
   end
 
+  def stablecoin?
+    asset_type.name == 'Stablecoin'
+  end
+
+  def crypto?
+    asset_type.name == 'Crypto'
+  end
+
   private
 
   def prevent_personal_duplicate_of_global

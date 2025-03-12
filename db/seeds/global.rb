@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Initial real data
-%w[Crypto Currency].each do |asset_type|
+%w[Crypto Currency Stablecoin].each do |asset_type|
   AssetType.where(name: asset_type).first_or_create!
 end
 
@@ -17,6 +17,7 @@ end
 
 currency = AssetType.find_by(name: 'Currency')
 crypto = AssetType.find_by(name: 'Crypto')
+stablecoin = AssetType.find_by(name: 'Stablecoin')
 # etf = AssetType.find_by(name: 'ETF')
 
 [
@@ -36,7 +37,9 @@ crypto = AssetType.find_by(name: 'Crypto')
   { ticker: 'BTC', name: 'Bitcoin', asset_type: crypto },
   { ticker: 'ETH', name: 'Ethereum', asset_type: crypto },
   { ticker: 'SOL', name: 'Solana', asset_type: crypto },
-  { ticker: 'DOGE', name: 'Dogecoin', asset_type: crypto }
+  { ticker: 'DOGE', name: 'Dogecoin', asset_type: crypto },
+  { ticker: 'USDT', name: 'Tether', asset_type: stablecoin },
+  { ticker: 'USDC', name: 'USDC', asset_type: stablecoin }
 ].each do |asset|
   Asset.find_or_create_by!(
     ticker: asset[:ticker], asset_type: asset[:asset_type], name: asset[:name]
