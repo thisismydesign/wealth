@@ -53,7 +53,7 @@ accessories:
     host: 157.180.24.197
     env:
       clear:
-        SCHEDULE: "@every 1d"
+        SCHEDULE: "@daily"
         S3_REGION: "eu-central-1"
         S3_BUCKET: wealth-production
         S3_PREFIX: backups
