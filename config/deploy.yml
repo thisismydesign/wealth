@@ -23,6 +23,9 @@ registry:
 env:
   secret:
     - RAILS_MASTER_KEY
+    - POSTGRES_PASSWORD
+  clear:
+    - DB_HOST: wealth-db
 
 # Use a persistent storage volume for sqlite database files and local Active Storage files.
 volumes:
@@ -35,3 +38,16 @@ asset_path: /rails/public/assets
 
 builder:
   arch: amd64
+
+accessories:
+  db:
+    image: postgres:16.1-alpine
+    host: 157.180.24.197
+    port: "127.0.0.1:5432:5432"
+    env:
+      clear:
+        POSTGRES_USER: wealth
+      secret:
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data

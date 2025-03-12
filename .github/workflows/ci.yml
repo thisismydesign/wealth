@@ -8,14 +8,24 @@ jobs:
     timeout-minutes: 10
     env:
       RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      DB_HOST: localhost
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Pull images
+        run: docker compose pull db
+
+      - name: Start PostgreSQL with Docker Compose
+        run: docker compose up db -d
 
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.2.2
           bundler-cache: true
+
+      - name: Wait for PostgreSQL to be ready
+        run: timeout 30s bash -c 'until docker compose exec -T db pg_isready; do sleep 1; done'
 
       - name: Setup app
         run: bin/rails db:prepare
