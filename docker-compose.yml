@@ -6,17 +6,9 @@ services:
       target: ${DOCKER_STAGE_TARGET:-dev}
     image: ${DOCKER_IMAGE:-wealth:local}
     command: bin/rails server --binding 0.0.0.0
-    entrypoint: bin/docker-entrypoint-dev-web
+    entrypoint: bin/docker-entrypoint-dev
     ports:
       - 3000:3000
-    volumes:
-      - .:/app
-      - bundle_cache:/usr/local/bundle
-
-  worker:
-    image: ${DOCKER_IMAGE:-wealth:local}
-    command: bin/jobs
-    entrypoint: bin/docker-entrypoint-dev-worker
     volumes:
       - .:/app
       - bundle_cache:/usr/local/bundle
