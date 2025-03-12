@@ -9,6 +9,8 @@ services:
     entrypoint: bin/docker-entrypoint-dev-web
     ports:
       - 3000:3000
+    depends_on:
+      - db
     volumes:
       - .:/app
       - bundle_cache:/usr/local/bundle
@@ -17,9 +19,18 @@ services:
     image: ${DOCKER_IMAGE:-wealth:local}
     command: bin/jobs
     entrypoint: bin/docker-entrypoint-dev-worker
+    depends_on:
+      - db
     volumes:
       - .:/app
       - bundle_cache:/usr/local/bundle
+
+  db:
+    image: postgres:16.1-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
 
   css:
     image: ${DOCKER_IMAGE:-wealth:local}

@@ -15,8 +15,8 @@ RUN apk --update add --no-cache \
   netcat-openbsd \
   # Required by Rails
   tzdata \
-  # Required for SQLite
-  sqlite \
+  # Required for PostgreSQL
+  postgresql-client \
   # Required by the app
   nodejs \
   # Required for Apple Silicon
@@ -28,8 +28,8 @@ FROM base AS dev
 RUN apk --update add --no-cache \
   # Build tools for building gems with native extensions
   build-base \
-  # Required for SQLite
-  sqlite-dev
+  # Required for PostgreSQL
+  postgresql-dev
 
 COPY . .
 
