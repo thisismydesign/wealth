@@ -30,11 +30,18 @@ test:
     database: wealth_test_queue
     migrations_paths: db/queue_migrate
 
+production: &production
+  host: <%= ENV["DB_HOST"] %>
+  username: wealth
+  password: <%= ENV["POSTGRES_PASSWORD"] %>
+
 production:
   primary:
     <<: *default
-    database: storage/production.sqlite3
+    <<: *production
+    database: wealth_production
   queue:
     <<: *default
-    database: storage/production_queue.sqlite3
+    <<: *production
+    database: wealth_production_queue
     migrations_paths: db/queue_migrate
