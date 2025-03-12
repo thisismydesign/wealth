@@ -67,5 +67,5 @@ Rails.application.configure do
   # config.generators.apply_rubocop_autocorrect_after_generate!
 
   # https://github.com/rails/solid_queue?tab=readme-ov-file#usage-in-development-and-other-non-production-environments
-  config.solid_queue.logger = ActiveSupport::Logger.new(STDOUT)
+  config.solid_queue.logger = ActiveSupport::Logger.new($stdout)
 end
