@@ -46,6 +46,7 @@ accessories:
     port: "127.0.0.1:5432:5432"
     env:
       clear:
+        DB_HOST: wealth-db
         POSTGRES_USER: wealth
       secret:
         - POSTGRES_PASSWORD
