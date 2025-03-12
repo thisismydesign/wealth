@@ -47,3 +47,20 @@ accessories:
         - POSTGRES_PASSWORD
     directories:
       - data:/var/lib/postgresql/data
+
+  backup:
+    image: eeshugerman/postgres-backup-s3:16
+    host: 157.180.24.197
+    env:
+      clear:
+        SCHEDULE: "@every 1d"
+        S3_REGION: "eu-central-1"
+        S3_BUCKET: wealth-production
+        S3_PREFIX: backups
+        POSTGRES_HOST: wealth-db
+        POSTGRES_DATABASE: wealth_production
+        POSTGRES_USER: wealth
+      secret:
+        - POSTGRES_PASSWORD
+        - S3_ACCESS_KEY_ID
+        - S3_SECRET_ACCESS_KEY
