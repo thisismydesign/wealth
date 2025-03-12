@@ -4,6 +4,10 @@ image: thisismydesign/wealth
 servers:
   web:
     - 157.180.24.197
+  worker:
+    hosts:
+      - 157.180.24.197
+    cmd: bin/jobs
 
 proxy:
   ssl: true
@@ -19,9 +23,6 @@ registry:
 env:
   secret:
     - RAILS_MASTER_KEY
-  clear:
-    # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
-    SOLID_QUEUE_IN_PUMA: true
 
 # Use a persistent storage volume for sqlite database files and local Active Storage files.
 volumes:
