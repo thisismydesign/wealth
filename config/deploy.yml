@@ -51,5 +51,3 @@ accessories:
         - POSTGRES_PASSWORD
     directories:
       - data:/var/lib/postgresql/data
-    files:
-      - db/production_setup.sql:/docker-entrypoint-initdb.d/setup.sql
