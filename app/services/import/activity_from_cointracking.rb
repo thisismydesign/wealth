@@ -11,6 +11,7 @@ module Import
 
       CSV.foreach(csv_file.path, headers: true) do |row|
         import_trade(row) if trade?(row)
+        import_deposit(row) if deposit?(row)
       end
     end
 
@@ -20,11 +21,25 @@ module Import
       row['Type'] == 'Trade'
     end
 
+    def deposit?(row)
+      row['Type'] == 'Deposit'
+    end
+
     def import_trade(row)
       Trade.where(to_amount: row['Buy'].to_f, to: asset(row[2]),
                   from_amount: from_amount(row), from: asset(row[4]),
                   date: row['Date'], asset_holder: asset_holder(row['Exchange']),
                   user:).first_or_create!
+    end
+
+    def import_deposit(row)
+      Funding.where(
+        asset: asset(row[2]),
+        date: row['Date'],
+        amount: row['Buy'].to_f,
+        asset_holder: asset_holder(row['Exchange']),
+        user:
+      ).first_or_create!
     end
 
     def from_amount(row)
