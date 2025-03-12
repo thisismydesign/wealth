@@ -22,7 +22,7 @@ registry:
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
   clear:
-    DB_HOST: 157.180.24.197
+    DB_HOST: wealth-db
   secret:
     - RAILS_MASTER_KEY
     - POSTGRES_PASSWORD
@@ -43,7 +43,7 @@ accessories:
   db:
     image: postgres:16.1-alpine
     host: 157.180.24.197
-    port: 5432
+    port: "127.0.0.1:5432:5432"
     env:
       clear:
         POSTGRES_USER: wealth
