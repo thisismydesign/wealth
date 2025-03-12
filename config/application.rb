@@ -53,8 +53,5 @@ module App
 
     # https://github.com/activeadmin/activeadmin/discussions/8346#discussioncomment-10131266
     config.importmap.paths << ActiveAdmin::Engine.root.join('config', 'importmap.rb')
-
-    # Cleaner logs
-    config.solid_queue.silence_polling = true
   end
 end
