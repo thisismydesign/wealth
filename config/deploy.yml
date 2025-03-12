@@ -25,7 +25,7 @@ env:
     - RAILS_MASTER_KEY
     - POSTGRES_PASSWORD
   clear:
-    - DB_HOST: wealth-db
+    DB_HOST: wealth-db
 
 # Use a persistent storage volume for sqlite database files and local Active Storage files.
 volumes:
@@ -46,7 +46,7 @@ accessories:
     port: "127.0.0.1:5432:5432"
     env:
       clear:
-        - POSTGRES_USER: wealth
+        POSTGRES_USER: wealth
       secret:
         - POSTGRES_PASSWORD
     directories:
