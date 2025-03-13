@@ -4,7 +4,7 @@ class CreateTradePricesService < ApplicationService
   attr_accessor :trade
 
   def call
-    return if inter_trade?
+    return if trade.type_inter?
 
     CreatePricesService.call(priceable: trade, original_currency:, original_amount:)
   end
@@ -12,18 +12,10 @@ class CreateTradePricesService < ApplicationService
   private
 
   def original_currency
-    open_trade? ? trade.from : trade.to
+    trade.type_open? ? trade.from : trade.to
   end
 
   def original_amount
-    open_trade? ? trade.from_amount : trade.to_amount
-  end
-
-  def open_trade?
-    trade.type == :open
-  end
-
-  def inter_trade?
-    trade.type == :inter
+    trade.type_open? ? trade.from_amount : trade.to_amount
   end
 end

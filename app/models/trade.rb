@@ -19,6 +19,8 @@ class Trade < ApplicationRecord
   has_many :close_trade_pairs, class_name: 'TradePair', foreign_key: 'open_trade_id', dependent: :destroy,
                                inverse_of: :open_trade
 
+  enum :type, { fiat_open: 0, fiat_close: 1, crypto_open: 2, crypto_close: 3, inter: 4 }, prefix: true
+
   scope :close_trades, lambda {
     joins(to: :asset_type)
       .joins('LEFT JOIN assets from_assets ON from_assets.id = trades.from_id')
@@ -44,6 +46,7 @@ class Trade < ApplicationRecord
   validates :date, :from_amount, :to_amount, presence: true
 
   after_save :create_prices
+  before_validation :set_type
   # after_save :assign_trade_pairs
 
   def create_prices
@@ -78,24 +81,22 @@ class Trade < ApplicationRecord
     "#{RoundService.call(decimal: to_amount)} #{to.ticker}"
   end
 
-  def type
-    if to.currency? && !from.currency?
-      :close
-    elsif from.currency? && !to.currency?
-      :open
-    else
-      :inter
-    end
+  def type_open?
+    type_fiat_open? || type_crypto_open?
+  end
+
+  def type_close?
+    type_fiat_close? || type_crypto_close?
   end
 
   def open_trade_open_to_amount
-    return if type != :open
+    return unless type_open?
 
     to_amount - close_trade_pairs.sum(&:amount)
   end
 
   def open_trade_status
-    return if type != :open
+    return unless type_open?
 
     if open_trade_closed?
       :fully_closed
@@ -108,5 +109,11 @@ class Trade < ApplicationRecord
 
   def open_trade_closed?
     open_trade_open_to_amount <= 0
+  end
+
+  private
+
+  def set_type
+    self.type = Trades::GetTypeService.call(trade: self)
   end
 end

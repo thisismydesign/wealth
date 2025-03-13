@@ -51,12 +51,15 @@ RSpec.describe Trade do
   end
 
   describe '#type' do
+    # Trigger before_validation callback
+    before { trade.valid? }
+
     context 'when from is a currency and to is not' do
       let(:to) { build(:asset, asset_type: AssetType.crypto) }
       let(:from) { build(:asset, asset_type: AssetType.currency) }
 
-      it 'returns :open' do
-        expect(trade.type).to eq(:open)
+      it 'returns fiat_open' do
+        expect(trade).to be_type_fiat_open
       end
     end
 
@@ -64,8 +67,8 @@ RSpec.describe Trade do
       let(:to) { build(:asset, asset_type: AssetType.currency) }
       let(:from) { build(:asset, asset_type: AssetType.crypto) }
 
-      it 'returns :close' do
-        expect(trade.type).to eq(:close)
+      it 'returns fiat_close' do
+        expect(trade).to be_type_fiat_close
       end
     end
 
@@ -73,8 +76,8 @@ RSpec.describe Trade do
       let(:from) { build(:asset, asset_type: AssetType.crypto) }
       let(:to) { build(:asset, asset_type: AssetType.crypto) }
 
-      it 'returns :inter' do
-        expect(trade.type).to eq(:inter)
+      it 'returns inter' do
+        expect(trade).to be_type_inter
       end
     end
 
@@ -82,8 +85,97 @@ RSpec.describe Trade do
       let(:from) { build(:asset, asset_type: AssetType.currency) }
       let(:to) { build(:asset, asset_type: AssetType.currency) }
 
-      it 'returns :inter' do
-        expect(trade.type).to eq(:inter)
+      it 'returns inter' do
+        expect(trade).to be_type_inter
+      end
+    end
+
+    context 'when from is a stablecoin and to is a crypto' do
+      let(:from) { build(:asset, asset_type: AssetType.stablecoin) }
+      let(:to) { build(:asset, asset_type: AssetType.crypto) }
+
+      it 'returns crypto_open' do
+        expect(trade).to be_type_crypto_open
+      end
+    end
+
+    context 'when from is a crypto and to is a stablecoin' do
+      let(:from) { build(:asset, asset_type: AssetType.crypto) }
+      let(:to) { build(:asset, asset_type: AssetType.stablecoin) }
+
+      it 'returns crypto_close' do
+        expect(trade).to be_type_crypto_close
+      end
+    end
+
+    context 'when both from and to are stablecoins' do
+      let(:from) { build(:asset, asset_type: AssetType.stablecoin) }
+      let(:to) { build(:asset, asset_type: AssetType.stablecoin) }
+
+      it 'returns inter' do
+        expect(trade).to be_type_inter
+      end
+    end
+
+    context 'when from is a stablecoin and to is a currency' do
+      let(:from) { build(:asset, asset_type: AssetType.stablecoin) }
+      let(:to) { build(:asset, asset_type: AssetType.currency) }
+
+      it 'returns fiat_close' do
+        expect(trade).to be_type_fiat_close
+      end
+    end
+
+    context 'when from is a currency and to is a stablecoin' do
+      let(:from) { build(:asset, asset_type: AssetType.currency) }
+      let(:to) { build(:asset, asset_type: AssetType.stablecoin) }
+
+      it 'returns fiat_open' do
+        expect(trade).to be_type_fiat_open
+      end
+    end
+  end
+
+  describe '#type_open?' do
+    it 'returns false' do
+      expect(trade).not_to be_type_open
+    end
+
+    context 'when trade is a fiat_open' do
+      subject(:trade) { build(:trade, type: :fiat_open) }
+
+      it 'returns true' do
+        expect(trade).to be_type_open
+      end
+    end
+
+    context 'when trade is a crypto_open' do
+      subject(:trade) { build(:trade, type: :crypto_open) }
+
+      it 'returns true' do
+        expect(trade).to be_type_open
+      end
+    end
+  end
+
+  describe '#type_close?' do
+    it 'returns false' do
+      expect(trade).not_to be_type_close
+    end
+
+    context 'when trade is a fiat_close' do
+      subject(:trade) { build(:trade, type: :fiat_close) }
+
+      it 'returns true' do
+        expect(trade).to be_type_close
+      end
+    end
+
+    context 'when trade is a crypto_close' do
+      subject(:trade) { build(:trade, type: :crypto_close) }
+
+      it 'returns true' do
+        expect(trade).to be_type_close
       end
     end
   end
