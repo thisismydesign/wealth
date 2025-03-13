@@ -45,8 +45,8 @@ class Trade < ApplicationRecord
 
   validates :date, :from_amount, :to_amount, presence: true
 
-  after_save :create_prices
   before_validation :set_type
+  after_save :create_prices
   # after_save :assign_trade_pairs
 
   def create_prices
