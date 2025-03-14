@@ -2,7 +2,6 @@
 
 require 'csv'
 
-# rubocop:disable Metrics/ClassLength
 class ImportActivityFromIbkrService < ApplicationService
   attr_accessor :csv_file, :custom_asset_holder, :user
 
@@ -10,8 +9,8 @@ class ImportActivityFromIbkrService < ApplicationService
   def call
     ticker_mapping = Ibkr::TickerMapperService.call(csv_file:)
 
-    # Use CsvSectionParser for fundings
-    import_fundings_with_section_parser
+    # Use ImportFundingsService for fundings
+    Ibkr::ImportFundingsService.call(csv_file:, user:, custom_asset_holder:)
 
     CSV.foreach(csv_file.path, headers: false, liberal_parsing: true) do |row|
       if currency_trade?(row)
@@ -30,28 +29,6 @@ class ImportActivityFromIbkrService < ApplicationService
   # rubocop:enable Metrics/MethodLength
 
   private
-
-  def import_fundings_with_section_parser
-    funding_data = Ibkr::CsvSectionParser.call(csv_file:, section: 'Deposits & Withdrawals')
-
-    funding_data.each do |row|
-      import_funding_from_section_data(row)
-    end
-  end
-
-  def import_funding_from_section_data(row)
-    asset = EnsureAssetService.call(name: row['Currency'], type: AssetType.currency, user:)
-
-    return unless asset
-
-    Funding.where(
-      asset:,
-      asset_holder:,
-      date: row['Settle Date'],
-      amount: to_big_decimal(row['Amount']),
-      user:
-    ).first_or_create!
-  end
 
   def currency_trade?(row)
     row[0] == 'Trades' && row[1] == 'Data' && row[2] == 'Order' && row[3] == 'Forex'
@@ -104,25 +81,6 @@ class ImportActivityFromIbkrService < ApplicationService
       # Sell stock
       { from: to, to: from, date: row[6], to_amount: from_amount, from_amount: to_amount.abs, asset_holder:, user: }
     end
-  end
-
-  # Keep the old funding method for backward compatibility or in case the section parser fails
-  def funding?(row)
-    row[0] == 'Deposits & Withdrawals' && row[1] == 'Data' && row[3].present?
-  end
-
-  def import_funding(row)
-    asset = EnsureAssetService.call(name: row[2], type: AssetType.currency, user:)
-
-    return unless asset
-
-    Funding.where(
-      asset:,
-      asset_holder:,
-      date: row[3],
-      amount: to_big_decimal(row[5]),
-      user:
-    ).first_or_create!
   end
 
   def asset_holder
@@ -180,4 +138,3 @@ class ImportActivityFromIbkrService < ApplicationService
     amount.delete(',').to_d
   end
 end
-# rubocop:enable Metrics/ClassLength
