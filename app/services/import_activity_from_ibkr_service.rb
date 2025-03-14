@@ -2,7 +2,6 @@
 
 require 'csv'
 
-# rubocop:disable Metrics/ClassLength
 class ImportActivityFromIbkrService < ApplicationService
   attr_accessor :csv_file, :custom_asset_holder, :user
 
@@ -11,13 +10,13 @@ class ImportActivityFromIbkrService < ApplicationService
   def call
     ticker_mapping = Ibkr::TickerMapperService.call(csv_file:)
 
+    Ibkr::ImportFundingsService.call(csv_file:, user:, custom_asset_holder:)
+
     CSV.foreach(csv_file.path, headers: false, liberal_parsing: true) do |row|
       if currency_trade?(row)
         import_currency_trade(row)
       elsif stock_trade?(row)
         import_stock_trade(row, ticker_mapping)
-      elsif funding?(row)
-        import_funding(row)
       elsif dividend?(row)
         import_dividend(row, ticker_mapping)
       elsif interest?(row)
@@ -27,8 +26,8 @@ class ImportActivityFromIbkrService < ApplicationService
       end
     end
   end
-  # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   private
 
@@ -83,24 +82,6 @@ class ImportActivityFromIbkrService < ApplicationService
       # Sell stock
       { from: to, to: from, date: row[6], to_amount: from_amount, from_amount: to_amount.abs, asset_holder:, user: }
     end
-  end
-
-  def funding?(row)
-    row[0] == 'Deposits & Withdrawals' && row[1] == 'Data' && row[3].present?
-  end
-
-  def import_funding(row)
-    asset = EnsureAssetService.call(name: row[2], type: AssetType.currency, user:)
-
-    return unless asset
-
-    Funding.where(
-      asset:,
-      asset_holder:,
-      date: row[3],
-      amount: to_big_decimal(row[5]),
-      user:
-    ).first_or_create!
   end
 
   def asset_holder
@@ -158,4 +139,3 @@ class ImportActivityFromIbkrService < ApplicationService
     amount.delete(',').to_d
   end
 end
-# rubocop:enable Metrics/ClassLength
