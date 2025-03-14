@@ -1,57 +1,28 @@
 # syntax=docker/dockerfile:1
 # check=error=true
 
-# Stages:
-# base: base image for all stages, contains ruby, node, etc
-# dev: contains build tools (used for development)
-# build: contains installed dependencies
-# app: contains the built app (used for testing)
-
 ARG RUBY_VERSION=3.2.2
+FROM docker.io/library/ruby:$RUBY_VERSION-slim
+
+# Rails app lives here
+WORKDIR /rails
+
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y \
+    # Install base packages
+    curl libjemalloc2 postgresql-client \
+    # Install packages needed to build gems and node modules
+    build-essential git libpq-dev node-gyp pkg-config python-is-python3 && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Install JavaScript dependencies
 ARG NODE_VERSION=20.9.0
+ARG YARN_VERSION=latest
+ENV PATH=/usr/local/node/bin:$PATH
+RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
+    /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
+    npm install -g yarn@$YARN_VERSION && \
+    rm -rf /tmp/node-build-master
 
-FROM node:$NODE_VERSION-alpine AS node
-FROM ruby:$RUBY_VERSION-alpine AS base
-
-COPY --from=node /usr/lib /usr/lib
-COPY --from=node /usr/local/share /usr/local/share
-COPY --from=node /usr/local/lib /usr/local/lib
-COPY --from=node /usr/local/include /usr/local/include
-COPY --from=node /usr/local/bin /usr/local/bin
-COPY --from=node /opt /opt
-
-WORKDIR /app
-
-RUN apk --update add --no-cache \
-  # Required for Docker port scanning
-  netcat-openbsd \
-  # Required by Rails
-  tzdata \
-  # Required for PostgreSQL
-  postgresql-client \
-  # Required by the app
-  nodejs \
-  # Required for Apple Silicon
-  gcompat
-
-
-FROM base AS dev
-
-RUN apk --update add --no-cache \
-  # Build tools for building gems with native extensions
-  build-base \
-  # Required for PostgreSQL
-  postgresql-dev
-
+# Copy application code
 COPY . .
-
-
-FROM dev AS build
-
-RUN bundle install --no-cache
-
-
-FROM base AS app
-
-COPY --from=build /usr/local/bundle/ /usr/local/bundle/
-COPY --from=build /app /app

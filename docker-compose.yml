@@ -3,8 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-      target: ${DOCKER_STAGE_TARGET:-dev}
-    image: ${DOCKER_IMAGE:-wealth:local}
+    image: ticketinghub/api:local
     command: bin/rails server --binding 0.0.0.0
     entrypoint: bin/docker-entrypoint-dev-web
     ports:
@@ -16,7 +15,7 @@ services:
       - bundle_cache:/usr/local/bundle
 
   worker:
-    image: ${DOCKER_IMAGE:-wealth:local}
+    image: ticketinghub/api:local
     command: bin/jobs
     entrypoint: bin/docker-entrypoint-dev-worker
     depends_on:
@@ -33,7 +32,7 @@ services:
       - 5432:5432
 
   css:
-    image: ${DOCKER_IMAGE:-wealth:local}
+    image: ticketinghub/api:local
     command: yarn build:app:css --watch
     tty: true
     volumes:
@@ -41,7 +40,7 @@ services:
       - bundle_cache:/usr/local/bundle
 
   admin_css:
-    image: ${DOCKER_IMAGE:-wealth:local}
+    image: ticketinghub/api:local
     command: yarn build:admin:css --watch
     tty: true
     volumes:
@@ -49,7 +48,7 @@ services:
       - bundle_cache:/usr/local/bundle
 
   rubocop:
-    image: ${DOCKER_IMAGE:-wealth:local}
+    image: ticketinghub/api:local
     entrypoint: bin/docker-entrypoint-dev-rubocop
     command: bundle exec rubocop --start-server --no-detach
     volumes:
