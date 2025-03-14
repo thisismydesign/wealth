@@ -11,7 +11,7 @@ services:
     depends_on:
       - db
     volumes:
-      - .:/app
+      - .:/rails
       - bundle_cache:/usr/local/bundle
 
   worker:
@@ -21,7 +21,7 @@ services:
     depends_on:
       - db
     volumes:
-      - .:/app
+      - .:/rails
       - bundle_cache:/usr/local/bundle
 
   db:
