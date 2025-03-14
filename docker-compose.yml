@@ -36,7 +36,7 @@ services:
     command: yarn build:app:css --watch
     tty: true
     volumes:
-      - .:/app
+      - .:/rails
       - bundle_cache:/usr/local/bundle
 
   admin_css:
@@ -44,7 +44,7 @@ services:
     command: yarn build:admin:css --watch
     tty: true
     volumes:
-      - .:/app
+      - .:/rails
       - bundle_cache:/usr/local/bundle
 
   rubocop:
@@ -52,8 +52,8 @@ services:
     entrypoint: bin/docker-entrypoint-dev-rubocop
     command: bundle exec rubocop --start-server --no-detach
     volumes:
+      - .:/rails
       - bundle_cache:/usr/local/bundle
-      - .:/app
 
 volumes:
   bundle_cache:
