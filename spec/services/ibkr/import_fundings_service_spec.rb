@@ -12,15 +12,12 @@ RSpec.describe Ibkr::ImportFundingsService do
     expect { call }.to change(Funding, :count).by(2)
   end
 
-  # rubocop:disable RSpec/ExampleLength
   it 'creates deposit with correct attributes' do
     call
 
     expect(Funding.first).to have_attributes(
-      amount: BigDecimal('10000'),
-      asset: Asset.find_by(ticker: 'EUR'),
-      date: Time.zone.parse('2023-02-09'),
-      user:
+      amount: BigDecimal('10000'), user:, asset: Asset.find_by(ticker: 'EUR'),
+      date: Time.zone.parse('2023-02-09')
     )
   end
 
@@ -28,13 +25,10 @@ RSpec.describe Ibkr::ImportFundingsService do
     call
 
     expect(Funding.last).to have_attributes(
-      amount: BigDecimal('-45000'),
-      asset: Asset.find_by(ticker: 'EUR'),
-      date: Time.zone.parse('2023-12-29'),
-      user:
+      amount: BigDecimal('-45000'), user:, asset: Asset.find_by(ticker: 'EUR'),
+      date: Time.zone.parse('2023-12-29')
     )
   end
-  # rubocop:enable RSpec/ExampleLength
 
   context 'with custom asset holder' do
     subject(:call) { described_class.call(csv_file:, user:, custom_asset_holder:) }

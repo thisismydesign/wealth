@@ -6,10 +6,10 @@ class ImportActivityFromIbkrService < ApplicationService
   attr_accessor :csv_file, :custom_asset_holder, :user
 
   # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def call
     ticker_mapping = Ibkr::TickerMapperService.call(csv_file:)
 
-    # Use ImportFundingsService for fundings
     Ibkr::ImportFundingsService.call(csv_file:, user:, custom_asset_holder:)
 
     CSV.foreach(csv_file.path, headers: false, liberal_parsing: true) do |row|
@@ -27,6 +27,7 @@ class ImportActivityFromIbkrService < ApplicationService
     end
   end
   # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   private
 
