@@ -7,17 +7,17 @@ class ImportActivityFromIbkrService < ApplicationService
   attr_accessor :csv_file, :custom_asset_holder, :user
 
   # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/AbcSize
   def call
     ticker_mapping = Ibkr::TickerMapperService.call(csv_file:)
+
+    # Use CsvSectionParser for fundings
+    import_fundings_with_section_parser
 
     CSV.foreach(csv_file.path, headers: false, liberal_parsing: true) do |row|
       if currency_trade?(row)
         import_currency_trade(row)
       elsif stock_trade?(row)
         import_stock_trade(row, ticker_mapping)
-      elsif funding?(row)
-        import_funding(row)
       elsif dividend?(row)
         import_dividend(row, ticker_mapping)
       elsif interest?(row)
@@ -27,10 +27,31 @@ class ImportActivityFromIbkrService < ApplicationService
       end
     end
   end
-  # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/MethodLength
 
   private
+
+  def import_fundings_with_section_parser
+    funding_data = Ibkr::CsvSectionParser.call(csv_file:, section: 'Deposits & Withdrawals')
+
+    funding_data.each do |row|
+      import_funding_from_section_data(row)
+    end
+  end
+
+  def import_funding_from_section_data(row)
+    asset = EnsureAssetService.call(name: row['Currency'], type: AssetType.currency, user:)
+
+    return unless asset
+
+    Funding.where(
+      asset:,
+      asset_holder:,
+      date: row['Settle Date'],
+      amount: to_big_decimal(row['Amount']),
+      user:
+    ).first_or_create!
+  end
 
   def currency_trade?(row)
     row[0] == 'Trades' && row[1] == 'Data' && row[2] == 'Order' && row[3] == 'Forex'
@@ -85,6 +106,7 @@ class ImportActivityFromIbkrService < ApplicationService
     end
   end
 
+  # Keep the old funding method for backward compatibility or in case the section parser fails
   def funding?(row)
     row[0] == 'Deposits & Withdrawals' && row[1] == 'Data' && row[3].present?
   end
