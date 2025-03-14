@@ -1,0 +1,6 @@
+---
+description: Everything you need to know
+globs: 
+alwaysApply: true
+---
+Always check [CLAUDE.md](mdc:CLAUDE.md) for information about the project (commands, code style, architecture, etc).
