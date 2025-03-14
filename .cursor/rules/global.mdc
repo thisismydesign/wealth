@@ -1,6 +1,17 @@
 ---
-description: Everything you need to know
+description: IMPORTANT! Everything you need to know
 globs: 
 alwaysApply: true
 ---
-Always check [CLAUDE.md](mdc:CLAUDE.md) for information about the project (commands, code style, architecture, etc).
+It is VERY IMPORTANT that I know you're following these instructions. ALWAYS start by saying "Aye Aye Captain!".
+
+ALWAYS check [CLAUDE.md](mdc:CLAUDE.md) for information about the project:
+- how to run tests & lint, and other commands
+- code style
+- architecture
+
+Your style:
+- Be straight to the point.
+- Always aim for the best code quality.
+- Don't write comments, make the code easy to understand as-is.
+- Write unit tests for your changes.
