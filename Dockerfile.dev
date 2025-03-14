@@ -1,5 +1,17 @@
-FROM node:20.9.0-alpine AS node
-FROM ruby:3.2.2-alpine AS base
+# syntax=docker/dockerfile:1
+# check=error=true
+
+# Stages:
+# base: base image for all stages, contains ruby, node, etc
+# dev: contains build tools (used for development)
+# build: contains installed dependencies
+# app: contains the built app (used for testing)
+
+ARG RUBY_VERSION=3.2.2
+ARG NODE_VERSION=20.9.0
+
+FROM node:$NODE_VERSION-alpine AS node
+FROM ruby:$RUBY_VERSION-alpine AS base
 
 COPY --from=node /usr/lib /usr/lib
 COPY --from=node /usr/local/share /usr/local/share
@@ -34,13 +46,12 @@ RUN apk --update add --no-cache \
 COPY . .
 
 
-FROM dev AS deps
+FROM dev AS build
 
 RUN bundle install --no-cache
 
 
 FROM base AS app
 
-COPY --from=deps /usr/local/bundle/ /usr/local/bundle/
-
-COPY . .
+COPY --from=build /usr/local/bundle/ /usr/local/bundle/
+COPY --from=build /app /app
