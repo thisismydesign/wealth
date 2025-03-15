@@ -8,18 +8,15 @@
 
 ## Code Style
 - Ruby version: 3.2.2
-- Add `# frozen_string_literal: true` to all Ruby files
 - Follow RuboCop rules as defined in .rubocop.yml
-- Asset tickers must be uppercase
-- Model associations use `dependent: :restrict_with_exception` 
-- Use `belongs_to` with `optional: true` when needed
-- Database-agnostic queries (works with SQLite/PostgreSQL)
 - Clear and descriptive naming for methods and variables
 - Use service objects for business logic (inherit from ApplicationService)
 - Add validations for all model attributes
+- No comments, make the code easy to understand as-is
 
 ## Architecture
 - Rails 8 with ActiveAdmin v4 for admin interface
 - Authorization with Pundit policies
 - Follow resource-based routing
 - Use Tailwind CSS for styling
+- Solid Queue & ActiveJob for background jobs
