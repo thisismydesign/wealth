@@ -16,7 +16,7 @@ RSpec.describe CreateTradePricesService do
     end
   end
 
-  context 'when trade is :open' do
+  context 'when trade type is open' do
     let(:crypto) { create(:asset, asset_type: AssetType.crypto) }
     let(:trade) { create(:trade, from: currency, to: crypto, from_amount: amount) }
 
@@ -46,7 +46,9 @@ RSpec.describe CreateTradePricesService do
       let!(:price) { create(:price, priceable: trade, asset: currency, amount: 0.1) }
 
       it 'removes existing trade prices' do
+        # rubocop:disable Style/RescueModifier
         call rescue nil
+        # rubocop:enable Style/RescueModifier
 
         expect { price.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end

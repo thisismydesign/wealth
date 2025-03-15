@@ -24,7 +24,12 @@ ActiveAdmin.register Trade do
     column :asset_holder
 
     column :type do |resource|
-      class_name = resource.type == :open ? 'bg-green-500 dark:bg-green-900' : 'bg-sky-500 dark:bg-sky-900'
+      class_name = if %i[open
+                         crypto_open].include?(resource.type)
+                     'bg-green-500 dark:bg-green-900'
+                   else
+                     'bg-sky-500 dark:bg-sky-900'
+                   end
       status_tag(resource.type, class: class_name)
     end
 
