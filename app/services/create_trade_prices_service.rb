@@ -6,16 +6,16 @@ class CreateTradePricesService < ApplicationService
   def call
     return if inter_trade?
 
-    CreatePricesService.call(priceable: trade, original_currency:, original_amount:)
+    CreatePricesService.call(priceable: trade, currency: fiat_based_currency, amount: fiat_based_amount)
   end
 
   private
 
-  def original_currency
+  def fiat_based_currency
     open_trade? ? trade.from : trade.to
   end
 
-  def original_amount
+  def fiat_based_amount
     open_trade? ? trade.from_amount : trade.to_amount
   end
 

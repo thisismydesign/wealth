@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CreatePricesService < ApplicationService
-  attr_accessor :priceable, :original_currency, :original_amount
+  attr_accessor :priceable, :currency, :amount
 
   def call
     remove_prices
@@ -17,25 +17,25 @@ class CreatePricesService < ApplicationService
   end
 
   def create_tax_base_price
-    amount = convert(to: Asset.tax_base)
+    converted_amount = convert(to: Asset.tax_base)
 
-    priceable.prices.create(asset: Asset.tax_base, amount:)
+    priceable.prices.create(asset: Asset.tax_base, amount: converted_amount)
   end
 
   def create_trade_base_price
-    amount = convert(to: Asset.trade_base, fallback_to_past_rate: true)
+    converted_amount = convert(to: Asset.trade_base, fallback_to_past_rate: true)
 
-    priceable.prices.create(asset: Asset.trade_base, amount:)
+    priceable.prices.create(asset: Asset.trade_base, amount: converted_amount)
   end
 
   def convert(to:, fallback_to_past_rate: false)
-    amount = CurrencyConverterService.call(
-      from: original_currency, to:, date: priceable.date, amount: original_amount, fallback_to_past_rate:
+    converted_amount = CurrencyConverterService.call(
+      from: currency, to:, date: priceable.date, amount:, fallback_to_past_rate:
     )
-    return amount if amount.present?
+    return converted_amount if converted_amount.present?
 
     entity = "#{priceable.class.name}##{priceable.id}"
-    msg = "No conversion available from #{original_currency.ticker} to #{to.ticker} on #{entity}"
+    msg = "No conversion available from #{currency.ticker} to #{to.ticker} on #{entity}"
     raise ApplicationError, msg
   end
 end
