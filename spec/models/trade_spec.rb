@@ -59,7 +59,7 @@ RSpec.describe Trade do
       let(:from) { build(:asset, asset_type: AssetType.currency) }
 
       it 'returns fiat_open' do
-        expect(trade).to be_type_fiat_open
+        expect(trade).to be_trade_type_fiat_open
       end
     end
 
@@ -68,7 +68,7 @@ RSpec.describe Trade do
       let(:from) { build(:asset, asset_type: AssetType.crypto) }
 
       it 'returns fiat_close' do
-        expect(trade).to be_type_fiat_close
+        expect(trade).to be_trade_type_fiat_close
       end
     end
 
@@ -77,7 +77,7 @@ RSpec.describe Trade do
       let(:to) { build(:asset, asset_type: AssetType.crypto) }
 
       it 'returns inter' do
-        expect(trade).to be_type_inter
+        expect(trade).to be_trade_type_inter
       end
     end
 
@@ -86,7 +86,7 @@ RSpec.describe Trade do
       let(:to) { build(:asset, asset_type: AssetType.currency) }
 
       it 'returns inter' do
-        expect(trade).to be_type_inter
+        expect(trade).to be_trade_type_inter
       end
     end
 
@@ -95,7 +95,7 @@ RSpec.describe Trade do
       let(:to) { build(:asset, asset_type: AssetType.crypto) }
 
       it 'returns crypto_open' do
-        expect(trade).to be_type_crypto_open
+        expect(trade).to be_trade_type_crypto_open
       end
     end
 
@@ -104,7 +104,7 @@ RSpec.describe Trade do
       let(:to) { build(:asset, asset_type: AssetType.stablecoin) }
 
       it 'returns crypto_close' do
-        expect(trade).to be_type_crypto_close
+        expect(trade).to be_trade_type_crypto_close
       end
     end
 
@@ -113,7 +113,7 @@ RSpec.describe Trade do
       let(:to) { build(:asset, asset_type: AssetType.stablecoin) }
 
       it 'returns inter' do
-        expect(trade).to be_type_inter
+        expect(trade).to be_trade_type_inter
       end
     end
 
@@ -122,7 +122,7 @@ RSpec.describe Trade do
       let(:to) { build(:asset, asset_type: AssetType.currency) }
 
       it 'returns fiat_close' do
-        expect(trade).to be_type_fiat_close
+        expect(trade).to be_trade_type_fiat_close
       end
     end
 
@@ -131,51 +131,51 @@ RSpec.describe Trade do
       let(:to) { build(:asset, asset_type: AssetType.stablecoin) }
 
       it 'returns fiat_open' do
-        expect(trade).to be_type_fiat_open
+        expect(trade).to be_trade_type_fiat_open
       end
     end
   end
 
   describe '#type_open?' do
     it 'returns false' do
-      expect(trade).not_to be_type_open
+      expect(trade).not_to be_trade_type_open
     end
 
     context 'when trade is a fiat_open' do
-      subject(:trade) { build(:trade, type: :fiat_open) }
+      subject(:trade) { build(:trade, trade_type: :fiat_open) }
 
       it 'returns true' do
-        expect(trade).to be_type_open
+        expect(trade).to be_trade_type_open
       end
     end
 
     context 'when trade is a crypto_open' do
-      subject(:trade) { build(:trade, type: :crypto_open) }
+      subject(:trade) { build(:trade, trade_type: :crypto_open) }
 
       it 'returns true' do
-        expect(trade).to be_type_open
+        expect(trade).to be_trade_type_open
       end
     end
   end
 
   describe '#type_close?' do
     it 'returns false' do
-      expect(trade).not_to be_type_close
+      expect(trade).not_to be_trade_type_close
     end
 
     context 'when trade is a fiat_close' do
-      subject(:trade) { build(:trade, type: :fiat_close) }
+      subject(:trade) { build(:trade, trade_type: :fiat_close) }
 
       it 'returns true' do
-        expect(trade).to be_type_close
+        expect(trade).to be_trade_type_close
       end
     end
 
     context 'when trade is a crypto_close' do
-      subject(:trade) { build(:trade, type: :crypto_close) }
+      subject(:trade) { build(:trade, trade_type: :crypto_close) }
 
       it 'returns true' do
-        expect(trade).to be_type_close
+        expect(trade).to be_trade_type_close
       end
     end
   end

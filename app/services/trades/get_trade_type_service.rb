@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Trades
-  class GetTypeService < ApplicationService
+  class GetTradeTypeService < ApplicationService
     attr_accessor :trade
 
     # rubocop:disable Metrics/MethodLength

@@ -123,11 +123,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_12_232122) do
     t.datetime "updated_at", null: false
     t.bigint "asset_holder_id", null: false
     t.bigint "user_id", null: false
-    t.integer "type"
+    t.integer "trade_type"
     t.index ["asset_holder_id"], name: "index_trades_on_asset_holder_id"
     t.index ["from_id"], name: "index_trades_on_from_id"
     t.index ["to_id"], name: "index_trades_on_to_id"
-    t.index ["type"], name: "index_trades_on_type"
+    t.index ["trade_type"], name: "index_trades_on_trade_type"
     t.index ["user_id"], name: "index_trades_on_user_id"
   end
 

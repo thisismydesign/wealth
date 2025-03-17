@@ -4,7 +4,7 @@ class CalculateProfitService < ApplicationService
   attr_accessor :close_trade
 
   def call
-    return unless close_trade.type_close?
+    return unless close_trade.trade_type_close?
     return if open_trade_tax_base_prices.any?(&:nil?)
     return if close_trade.tax_base_price.nil?
 

@@ -23,14 +23,15 @@ ActiveAdmin.register Trade do
 
     column :asset_holder
 
-    column :type do |resource|
-      class_name = if %i[open
-                         crypto_open].include?(resource.type)
+    column :trade_type do |resource|
+      class_name = if resource.trade_type_open?
                      'bg-green-500 dark:bg-green-900'
-                   else
+                   elsif resource.trade_type_close?
                      'bg-sky-500 dark:bg-sky-900'
+                   else
+                     'bg-gray-500 dark:bg-gray-900'
                    end
-      status_tag(resource.type, class: class_name)
+      status_tag(resource.trade_type, class: class_name)
     end
 
     column :user if controller.current_user.admin?
@@ -61,7 +62,7 @@ ActiveAdmin.register Trade do
   filter :to, collection: -> { AssetPolicy::Scope.new(controller.current_user, Asset).resolve }
   filter :from, collection: -> { AssetPolicy::Scope.new(controller.current_user, Asset).resolve }
   filter :asset_holder, collection: -> { AssetHolderPolicy::Scope.new(controller.current_user, AssetHolder).resolve }
-  filter :type, as: :select, collection: [
+  filter :trade_type, as: :select, collection: [
     %i[close close_trades],
     %i[open open_trades]
   ]
