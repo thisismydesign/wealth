@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_17_132301) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_12_232122) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
+
   create_table "asset_holders", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -120,9 +123,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_17_132301) do
     t.datetime "updated_at", null: false
     t.bigint "asset_holder_id", null: false
     t.bigint "user_id", null: false
+    t.integer "trade_type"
     t.index ["asset_holder_id"], name: "index_trades_on_asset_holder_id"
     t.index ["from_id"], name: "index_trades_on_from_id"
     t.index ["to_id"], name: "index_trades_on_to_id"
+    t.index ["trade_type"], name: "index_trades_on_trade_type"
     t.index ["user_id"], name: "index_trades_on_user_id"
   end
 

@@ -4,7 +4,7 @@ class CalculateOpenPriceService < ApplicationService
   attr_accessor :close_trade
 
   def call
-    return if close_trade.type != :close
+    return unless close_trade.trade_type_close?
     return if open_trade_tax_base_prices.any?(&:nil?)
 
     open_amount

@@ -23,9 +23,8 @@ ActiveAdmin.register Trade do
 
     column :asset_holder
 
-    column :type do |resource|
-      class_name = resource.type == :open ? 'bg-green-500 dark:bg-green-900' : 'bg-sky-500 dark:bg-sky-900'
-      status_tag(resource.type, class: class_name)
+    column :trade_type do |resource|
+      status_tag(resource.trade_type, class: status_class(resource))
     end
 
     column :user if controller.current_user.admin?
@@ -42,6 +41,18 @@ ActiveAdmin.register Trade do
     def scoped_collection
       super.includes(:close_trade_pairs, :asset_holder, from: :asset_type, to: :asset_type)
     end
+
+    helper_method :status_class
+
+    def status_class(resource)
+      if resource.trade_type_open?
+        'bg-green-500 dark:bg-green-900'
+      elsif resource.trade_type_close?
+        'bg-sky-500 dark:bg-sky-900'
+      else
+        'bg-gray-500 dark:bg-gray-900'
+      end
+    end
   end
 
   filter :year, as: :select, collection: lambda {
@@ -56,7 +67,7 @@ ActiveAdmin.register Trade do
   filter :to, collection: -> { AssetPolicy::Scope.new(controller.current_user, Asset).resolve }
   filter :from, collection: -> { AssetPolicy::Scope.new(controller.current_user, Asset).resolve }
   filter :asset_holder, collection: -> { AssetHolderPolicy::Scope.new(controller.current_user, AssetHolder).resolve }
-  filter :type, as: :select, collection: [
+  filter :trade_type, as: :select, collection: [
     %i[close close_trades],
     %i[open open_trades]
   ]
@@ -74,6 +85,9 @@ ActiveAdmin.register Trade do
       row :from
       row :to_amount
       row :to
+      row :trade_type do |resource|
+        status_tag(resource.trade_type, class: status_class(resource))
+      end
       row :open_trades do |resource|
         resource.open_trade_pairs.map do |open_trade_pair|
           link_to(
