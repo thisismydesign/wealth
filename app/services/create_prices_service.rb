@@ -22,6 +22,7 @@ class CreatePricesService < ApplicationService
     priceable.prices.create(asset: Asset.tax_base, amount: converted_amount)
   end
 
+  # TODO: shouldn't tax base fall back to past rate?
   def create_trade_base_price
     converted_amount = convert(to: Asset.trade_base, fallback_to_past_rate: true)
 
