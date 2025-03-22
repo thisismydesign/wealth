@@ -2,7 +2,10 @@
 
 class ImportJob < ApplicationJob
   def perform
-    Import::ExchangeRatesFromMnbService.call
+    %w[EUR USD].each do |ticker|
+      asset = EnsureAssetService.call(name: ticker, type: AssetType.currency)
+      Import::ExchangeRateFromMnbService.call(asset:)
+    end
     # ImportRatesFromGooglefinanceService.call
   end
 end
