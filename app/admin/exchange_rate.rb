@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register ExchangeRate do
-  menu label: '[Admin] Exchange rates', priority: 94
+  menu priority: 33
 
   config.sort_order = 'date_desc'
 
@@ -21,6 +21,16 @@ ActiveAdmin.register ExchangeRate do
   controller do
     def scoped_collection
       super.includes(:from, :to)
+    end
+  end
+
+  show do
+    attributes_table do
+      row :date
+      row :from
+      row :to
+      row :rate
+      row :source
     end
   end
 end
