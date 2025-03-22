@@ -412,6 +412,7 @@ DEPENDENCIES
   rollbar
   rspec-rails (~> 6.1.0)
   rubocop
+  rubocop-factory_bot
   rubocop-performance
   rubocop-rails
   rubocop-rspec
