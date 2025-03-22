@@ -5,7 +5,7 @@ module Tax
     attr_accessor :user, :year, :trade_type
 
     def call
-      scope = trade_scope
+      scope = trade_scope.order(date: :desc)
       scope = scope.where(trade_type:) if trade_type.present?
       scope = scope.year_eq(year) if year.present?
 
