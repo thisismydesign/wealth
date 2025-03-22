@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Tax::ClosedPositionsService do
+RSpec.describe Tax::PositionsService do
   describe '#call' do
     subject(:call) { described_class.call(user:) }
 
@@ -12,14 +12,18 @@ RSpec.describe Tax::ClosedPositionsService do
       expect(call).to be_empty
     end
 
-    context 'when is a trade to currency' do
-      let(:close_trade) do
+    context 'when trade_type is passed' do
+      subject(:call) { described_class.call(user:, trade_type: :fiat_close) }
+
+      before do
         create(:trade, user:, to: create(:asset, asset_type: AssetType.currency),
                        from: create(:asset, asset_type: AssetType.crypto))
+        create(:trade, user:, from: create(:asset, asset_type: AssetType.currency),
+                       to: create(:asset, asset_type: AssetType.crypto))
       end
 
-      it 'returns trade' do
-        expect(call).to eq([close_trade])
+      it 'filters by trade_type' do
+        expect(call.size).to eq(1)
       end
     end
   end

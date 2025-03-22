@@ -33,8 +33,8 @@ div do
   # end
 
   panel 'Crypto transactions' do
-    closed_positions = Tax::ClosedPositionsService.call(user: current_user, year:, from_asset_type: AssetType.crypto)
-    opened_positions = Tax::OpenedPositionsService.call(user: current_user, year:, to_asset_type: AssetType.crypto)
+    closed_positions = Tax::PositionsService.call(user: current_user, year:, trade_type: :fiat_close)
+    opened_positions = Tax::PositionsService.call(user: current_user, year:, trade_type: :fiat_open)
     total_close = closed_positions.sum { |trade| trade.tax_base_price&.amount || 0 }
     total_open = opened_positions.sum { |trade| trade.tax_base_price&.amount || 0 }
     profit = total_close - total_open

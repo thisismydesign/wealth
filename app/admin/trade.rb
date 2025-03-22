@@ -5,10 +5,6 @@ ActiveAdmin.register Trade do
 
   config.per_page = [30, 50, 100, 1000]
 
-  scope(:all, default: true)
-  scope(:close_trades)
-  scope(:open_trades)
-
   index do
     selectable_column
     id_column
@@ -67,10 +63,9 @@ ActiveAdmin.register Trade do
   filter :to, collection: -> { AssetPolicy::Scope.new(controller.current_user, Asset).resolve }
   filter :from, collection: -> { AssetPolicy::Scope.new(controller.current_user, Asset).resolve }
   filter :asset_holder, collection: -> { AssetHolderPolicy::Scope.new(controller.current_user, AssetHolder).resolve }
-  filter :trade_type, as: :select, collection: [
-    %i[close close_trades],
-    %i[open open_trades]
-  ]
+  filter :trade_type, as: :select, collection: lambda {
+    Trade.trade_types.map { |k, v| [k.humanize, v] }
+  }
   filter :user,
          collection: -> { UserPolicy::Scope.new(controller.current_user, User).resolve.map { |u| [u.email, u.id] } },
          if: proc { controller.current_user.admin? }

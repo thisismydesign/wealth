@@ -21,29 +21,12 @@ class Trade < ApplicationRecord
 
   enum :trade_type, { fiat_open: 0, fiat_close: 1, crypto_open: 2, crypto_close: 3, inter: 4 }, prefix: true
 
-  scope :close_trades, lambda {
-    joins(to: :asset_type)
-      .joins('LEFT JOIN assets from_assets ON from_assets.id = trades.from_id')
-      .joins('LEFT JOIN asset_types from_asset_types ON from_asset_types.id = from_assets.asset_type_id')
-      .where(asset_types: { name: 'Currency' })
-      .where.not(from_asset_types: { name: 'Currency' })
-  }
-
-  scope :open_trades, lambda {
-    joins(to: :asset_type)
-      .joins('LEFT JOIN assets from_assets ON from_assets.id = trades.from_id')
-      .joins('LEFT JOIN asset_types from_asset_types ON from_asset_types.id = from_assets.asset_type_id')
-      .where.not(asset_types: { name: 'Currency' })
-      .where(from_asset_types: { name: 'Currency' })
-  }
-
   scope :year_eq, lambda { |year|
                     where('date >= ?', DateTime.parse("#{year}.01.01").beginning_of_year)
                       .where('date <= ?', DateTime.parse("#{year}.01.01").end_of_year)
                   }
-  scope :type_eq, ->(type) { public_send(type) }
 
-  validates :date, :from_amount, :to_amount, presence: true
+  validates :date, :from_amount, :to_amount, :trade_type, presence: true
 
   before_validation :set_trade_type
   after_save :create_prices
@@ -58,7 +41,7 @@ class Trade < ApplicationRecord
   # end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[date from_amount to_amount from_id to_id asset_holder_id user_id]
+    %w[date from_amount to_amount from_id to_id asset_holder_id user_id trade_type]
   end
 
   def self.ransackable_associations(_auth_object = nil)
@@ -66,7 +49,7 @@ class Trade < ApplicationRecord
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    %w[year_eq trade_type_eq]
+    %w[year_eq]
   end
 
   def humanized

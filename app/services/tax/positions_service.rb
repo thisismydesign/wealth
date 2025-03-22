@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
 module Tax
-  class OpenedPositionsService < ApplicationService
-    attr_accessor :user, :year, :to_asset_type
+  class PositionsService < ApplicationService
+    attr_accessor :user, :year, :trade_type
 
     def call
-      scope = trade_scope.open_trades
-
+      scope = trade_scope
+      scope = scope.where(trade_type:) if trade_type.present?
       scope = scope.year_eq(year) if year.present?
-      scope = scope.where(asset_types: { name: to_asset_type.name }) if to_asset_type.present?
 
       scope.includes(
         :tax_base_price,
