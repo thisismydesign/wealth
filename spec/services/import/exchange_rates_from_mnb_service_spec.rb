@@ -11,7 +11,7 @@ RSpec.describe Import::ExchangeRatesFromMnbService do
     end
 
     it 'creates exchange rates' do
-      expect { described_class.call }.to change(ExchangeRate, :count)
+      expect { described_class.call }.to change(ExchangeRate, :count).by(8)
     end
   end
 end
