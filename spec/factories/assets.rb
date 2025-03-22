@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :asset do
-    name { Faker::Currency.unique.name }
-    ticker { Faker::Currency.unique.code.upcase }
+    sequence(:name) { |n| "#{Faker::Currency.name} #{n}" }
+    sequence(:ticker) { |n| "#{Faker::Currency.code.upcase}#{n}" }
     asset_type
   end
 end
