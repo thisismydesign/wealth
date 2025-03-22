@@ -26,6 +26,6 @@ class EnsureAssetService < ApplicationService
   private
 
   def scope
-    AssetPolicy::Scope.new(user, Asset).resolve
+    user ? AssetPolicy::Scope.new(user, Asset).resolve : Asset.all
   end
 end

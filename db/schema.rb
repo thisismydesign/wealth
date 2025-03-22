@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_12_232122) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_22_151531) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -50,6 +50,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_12_232122) do
     t.date "date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "source"
     t.index ["from_id", "to_id", "date"], name: "index_exchange_rates_on_from_to_date", unique: true
     t.index ["from_id"], name: "index_exchange_rates_on_from_id"
     t.index ["to_id"], name: "index_exchange_rates_on_to_id"

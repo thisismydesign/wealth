@@ -85,4 +85,19 @@ RSpec.describe EnsureAssetService do
       expect(Asset.last).to have_attributes(ticker: 'SOL')
     end
   end
+
+  context 'when user is nil' do
+    let(:user) { nil }
+    let(:name) { 'usd' }
+
+    it 'creates asset' do
+      expect { call }.to change(Asset, :count).by(1)
+    end
+
+    it 'creates asset without user' do
+      call
+
+      expect(Asset.last).to have_attributes(user: nil)
+    end
+  end
 end
