@@ -30,3 +30,16 @@ Metrics/BlockLength:
 Style/RescueModifier:
   Exclude:
     - "spec/**/*.rb"
+
+# Allow policies to have repeated examples and descriptions
+RSpec/RepeatedDescription:
+  Exclude:
+    - "spec/policies/**/*_spec.rb"
+RSpec/RepeatedExample:
+  Exclude:
+    - "spec/policies/**/*_spec.rb"
+
+# Allow policies to have deep nesting
+RSpec/NestedGroups:
+  Exclude:
+    - "spec/policies/**/*_spec.rb"
