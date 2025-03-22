@@ -23,7 +23,7 @@ class OwnPolicy < AdminPolicy
 
   class Scope < AdminPolicy::Scope
     def resolve
-      super.presence || scope.where(user_id: user.id)
+      user.admin? ? scope.all : scope.where(user_id: user.id)
     end
   end
 end
